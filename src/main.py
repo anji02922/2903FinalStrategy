@@ -10,6 +10,7 @@ sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from src.utils.helpers import load_config
 from src.utils.logger import setup_logger
+from src.utils.notifier import TelegramNotifier
 from src.exchange.data_fetcher import DataFetcher
 from src.exchange.binance_client import BinanceClient
 from src.execution.order_manager import OrderManager
@@ -93,6 +94,9 @@ class LiveTrader:
         self.tracker = PositionTracker()
         self.trade_store = TradeStore()
 
+        # Telegram notifications
+        self.notifier = TelegramNotifier(config)
+
         # Strategy components — same as backtest engine
         self.mtf_strategy = MTFMomentumStrategy(config)
         self.regime_filter = RegimeFilter(config)
@@ -121,6 +125,7 @@ class LiveTrader:
         self.log.info(f"  Symbol: {self.client.symbol}")
         self.log.info(f"  Leverage: {self.leverage}x")
         self.log.info(f"  Demo mode: {self.client.is_demo}")
+        self.log.info(f"  Telegram: {'ON' if self.notifier.enabled else 'OFF'}")
         self.log.info("=" * 60)
 
         # Initial setup
@@ -131,14 +136,18 @@ class LiveTrader:
         self.risk_manager.current_capital = balance
         self.log.info(f"Account balance: ${balance:.2f}")
 
+        # Startup log only (no Telegram spam for non-trade events)
+
         # Sync with any existing exchange position
         self._sync_exchange_position()
 
-        # Main loop — poll every 10 seconds, act on 5m candle close
+        # Main loop — poll every 3 seconds, act on 5m candle close
         last_5m_ts = None
+        cycle_count = 0
         while True:
             try:
                 now = datetime.now(timezone.utc)
+                cycle_count += 1
 
                 # ---- Position monitoring (every cycle) ----
                 if self.tracker.has_position:
@@ -150,14 +159,25 @@ class LiveTrader:
                 current_5m = current_5m.replace(minute=(current_5m.minute // 5) * 5)
 
                 if last_5m_ts is None or current_5m > last_5m_ts:
-                    # Wait a few seconds after candle close for data to settle
-                    if now.second < 5:
-                        time.sleep(6)
+                    # Wait 3s after candle close for exchange data to finalize
+                    if now.second < 3:
+                        wait = 3 - now.second
+                        self.log.debug(f"Waiting {wait}s for candle data to settle")
+                        time.sleep(wait)
 
                     last_5m_ts = current_5m
+                    self.log.info(f"--- 5m candle close: {current_5m.strftime('%H:%M')} UTC ---")
+                    t0 = time.time()
                     self._on_candle_close(now)
+                    elapsed = time.time() - t0
+                    self.log.info(f"Candle processing took {elapsed:.1f}s")
 
-                time.sleep(10)
+                # Log heartbeat every ~60 cycles (~3 min)
+                if cycle_count % 60 == 0:
+                    pos_status = "IN POSITION" if self.tracker.has_position else "NO POSITION"
+                    self.log.debug(f"Heartbeat: cycle={cycle_count} | {pos_status}")
+
+                time.sleep(3)
 
             except KeyboardInterrupt:
                 self.log.info("Shutting down gracefully...")
@@ -313,6 +333,18 @@ class LiveTrader:
                 f"size={size_contracts:.3f} | SL={sl_price:.2f} TP={tp_price:.2f}"
             )
 
+            # Telegram notification — trade opened
+            self.notifier.notify_entry(
+                side=signal["side"],
+                price=fill_price,
+                size=size_contracts,
+                sl=sl_price,
+                tp=tp_price,
+                strategy=signal.get("strategy", "mtf_momentum"),
+                leverage=self.leverage,
+                balance=balance,
+            )
+
         except Exception as e:
             self.log.error(f"Entry execution failed: {e}")
             # Cancel any partial orders
@@ -447,6 +479,33 @@ class LiveTrader:
         })
         self.log.info(f"Trade recorded: net_pnl=${net_pnl:+.2f} | reason={trade['exit_reason']}")
 
+        # Telegram notification — trade closed
+        try:
+            current_balance = self.client.get_balance()
+        except Exception:
+            current_balance = self.risk_manager.current_capital + net_pnl
+        # Calculate duration
+        entry_ts = trade.get("entry_ts")
+        duration_min = 0.0
+        if entry_ts:
+            try:
+                from dateutil.parser import parse as dt_parse
+                entry_dt = dt_parse(entry_ts) if isinstance(entry_ts, str) else entry_ts
+                duration_min = (datetime.now(timezone.utc) - entry_dt).total_seconds() / 60
+            except Exception:
+                pass
+        self.notifier.notify_exit(
+            side=trade["side"],
+            entry_price=trade["entry_price"],
+            exit_price=trade["exit_price"],
+            pnl_pct=pnl_pct,
+            net_pnl=net_pnl,
+            reason=trade["exit_reason"],
+            size=trade.get("size_contracts", 0),
+            duration_min=duration_min,
+            balance=current_balance,
+        )
+
     # ---- Data Fetching ----
 
     def _fetch_candles(self, timeframe: str, count: int) -> pd.DataFrame:
@@ -480,6 +539,7 @@ class LiveTrader:
                     f"Found orphan exchange position: {side} {abs(float(p.get('contracts', 0)))} contracts. "
                     f"Tracker has no record — manual intervention may be needed."
                 )
+
             elif self.tracker.has_position and not positions:
                 self.log.warning(
                     "Tracker has position but exchange does not — position was closed while offline."

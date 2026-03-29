@@ -12133,3 +12133,15 @@ Net Profit:          $+137.52
 2026-03-29 22:30:08 | INFO     | __main__:_check_entry:229 - 5m candle: EMA_f=1996.05 EMA_s=1994.60 RSI=55.0 | cross_up=False cross_dn=False trend=up
 2026-03-29 22:35:10 | INFO     | __main__:_on_candle_close:196 - Regime: TRENDING
 2026-03-29 22:35:10 | INFO     | __main__:_check_entry:229 - 5m candle: EMA_f=1996.26 EMA_s=1994.80 RSI=57.8 | cross_up=False cross_dn=False trend=up
+2026-03-29 22:40:07 | INFO     | __main__:_check_entry:229 - 5m candle: EMA_f=1996.22 EMA_s=1994.88 RSI=53.3 | cross_up=False cross_dn=False trend=up
+2026-03-29 22:45:09 | INFO     | __main__:_check_entry:229 - 5m candle: EMA_f=1996.49 EMA_s=1995.11 RSI=58.2 | cross_up=False cross_dn=False trend=up
+2026-03-29 22:50:12 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRENDING -> TRANSITIONAL (ADX=24.7)
+2026-03-29 22:50:12 | INFO     | __main__:_on_candle_close:196 - Regime: TRANSITIONAL
+2026-03-29 22:50:12 | INFO     | __main__:_check_entry:229 - 5m candle: EMA_f=1995.98 EMA_s=1994.96 RSI=45.8 | cross_up=False cross_dn=False trend=None
+2026-03-29 22:55:09 | INFO     | __main__:_check_entry:229 - 5m candle: EMA_f=1995.40 EMA_s=1994.76 RSI=43.9 | cross_up=False cross_dn=False trend=None
+2026-03-29 23:00:10 | INFO     | __main__:_check_entry:229 - 5m candle: EMA_f=1994.43 EMA_s=1994.35 RSI=38.0 | cross_up=False cross_dn=False trend=None
+2026-03-29 23:03:21 | INFO     | src.exchange.binance_client:__init__:32 - Using Binance Futures DEMO API (demo-fapi.binance.com)
+2026-03-29 23:03:21 | INFO     | src.exchange.binance_client:__init__:37 - BinanceClient initialized for ETH/USDT | demo=True
+2026-03-29 23:05:08 | INFO     | __main__:_check_entry:229 - 5m candle: EMA_f=1993.23 EMA_s=1993.72 RSI=44.0 | cross_up=False cross_dn=False trend=down
+2026-03-29 23:08:41 | INFO     | src.exchange.binance_client:__init__:32 - Using Binance Futures DEMO API (demo-fapi.binance.com)
+2026-03-29 23:08:41 | INFO     | src.exchange.binance_client:__init__:37 - BinanceClient initialized for ETH/USDT | demo=True
