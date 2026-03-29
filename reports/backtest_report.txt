@@ -1,0 +1,44 @@
+============================================================
+           BACKTEST REPORT
+============================================================
+
+Period: 2022-05-05 to 2022-05-19
+Starting Capital: $1,000.00
+Ending Capital:   $2,012.63
+Leverage:         12x
+
+--- Returns ---
+Total Return:     +101.26%
+Net Profit:       $+1,012.63
+
+--- Trades ---
+Total Trades:        86
+Win Rate:            34.9%
+Avg Win:             $53.92
+Avg Loss:            $-10.80
+Largest Win:         $146.24
+Largest Loss:        $-81.31
+Profit Factor:       2.67
+Expectancy:          $11.77/trade
+
+--- Risk ---
+Max Drawdown:        -13.89%
+Max Consec Losses:   6
+Sharpe Ratio:        15.84
+Sortino Ratio:       0.00
+
+--- Strategy Breakdown ---
+  mtf_momentum: 86 trades, 34.9% WR, $+1012.63 PnL
+
+--- Exit Reasons ---
+  stop_loss: 11 trades, $-374.34
+  time_exit: 3 trades, $+40.87
+  take_profit: 7 trades, $+615.25
+  breakeven_stop: 44 trades, $-226.49
+  trailing_stop: 21 trades, $+957.35
+
+--- Fees ---
+Total Fees Paid:     $422.16
+Gross Profit:        $+1,434.79
+Net Profit:          $+1,012.63
+============================================================

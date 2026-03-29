@@ -1,0 +1,103 @@
+# Exchange
+exchange:
+  name: binance
+  api_key: ""
+  api_secret: ""
+  testnet: true
+  symbol: "ETH/USDT"
+  market_type: "future"
+
+# Trading
+trading:
+  leverage: 12
+  mode: "backtest"
+  trading_hours:
+    - start: 0
+      end: 24
+
+# Strategy #1: Multi-Timeframe Momentum (5m EMA Crossover)
+mtf_momentum:
+  enabled: true
+  higher_tf: "15m"
+  entry_tf: "5m"
+  ema_higher: 20
+  ema_fast: 12
+  ema_slow: 26
+  adx_period: 14
+  adx_threshold: 20
+  rsi_period: 14
+  rsi_long_min: 40
+  rsi_long_max: 70
+  rsi_short_min: 30
+  rsi_short_max: 60
+  volume_multiplier: 0.5
+  take_profit_pct: 1.0
+  stop_loss_pct: 0.4
+  atr_sl_multiplier: 1.5
+  atr_tp_multiplier: 5.0
+  trailing_stop_activation: 0.8
+  trailing_stop_distance: 0.35
+  max_trade_duration_minutes: 90
+
+# Strategy #2: Bollinger Band Scalp
+bollinger_scalp:
+  enabled: false
+  timeframe: "3m"
+  bb_period: 20
+  bb_std: 2.0
+  bb_width_sma: 50
+  rsi_period: 14
+  rsi_oversold: 42
+  rsi_overbought: 58
+  volume_multiplier: 0.3
+  tp1_pct: 50
+  tp2_target: "opposite_band"
+  stop_loss_beyond_band_pct: 0.3
+
+# Regime Filter
+regime:
+  check_interval_minutes: 15
+  adx_trending_threshold: 25
+  adx_ranging_threshold: 20
+  atr_high_vol_multiplier: 3.0
+  atr_dead_market_multiplier: 0.3
+  high_vol_pause_minutes: 15
+
+# Risk Management
+risk:
+  risk_per_trade_pct: 1.0
+  max_position_size_pct: 3.0
+  max_open_positions: 1
+  max_trades_per_hour: 10
+  max_trades_per_day: 40
+  max_daily_loss_pct: 4.0
+  max_consecutive_losses_pause: 8
+  consecutive_loss_pause_minutes: 15
+  max_weekly_loss_pct: 10.0
+  min_risk_reward_ratio: 0.8
+
+# Fees
+fees:
+  maker: 0.02
+  taker: 0.05
+  slippage: 0.005
+
+# Backtesting
+backtest:
+  start_date: "2025-08-10"
+  end_date: "2025-08-24"
+  initial_capital: 1000
+  data_directory: "data/"
+  report_directory: "reports/"
+
+# Notifications
+telegram:
+  enabled: false
+  bot_token: ""
+  chat_id: ""
+
+# Logging
+logging:
+  level: "INFO"
+  file: "logs/bot.log"
+  console: true
