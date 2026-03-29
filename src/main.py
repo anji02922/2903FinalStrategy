@@ -136,7 +136,8 @@ class LiveTrader:
         self.risk_manager.current_capital = balance
         self.log.info(f"Account balance: ${balance:.2f}")
 
-        # Startup log only (no Telegram spam for non-trade events)
+        # Startup notification
+        self.notifier.notify_startup(self.client.symbol, self.leverage, balance, self.client.is_demo)
 
         # Sync with any existing exchange position
         self._sync_exchange_position()
@@ -144,6 +145,8 @@ class LiveTrader:
         # Main loop — poll every 3 seconds, act on 5m candle close
         last_5m_ts = None
         cycle_count = 0
+        start_time = time.time()
+        status_sent = 0
         while True:
             try:
                 now = datetime.now(timezone.utc)
@@ -177,13 +180,21 @@ class LiveTrader:
                     pos_status = "IN POSITION" if self.tracker.has_position else "NO POSITION"
                     self.log.debug(f"Heartbeat: cycle={cycle_count} | {pos_status}")
 
+                # Send status notification every hour for 4 hours
+                uptime_min = int((time.time() - start_time) / 60)
+                if uptime_min // 60 > status_sent and uptime_min <= 480:
+                    self.notifier.notify_status(uptime_min)
+                    status_sent = uptime_min // 60
+
                 time.sleep(3)
 
             except KeyboardInterrupt:
                 self.log.info("Shutting down gracefully...")
+                self.notifier.notify_shutdown()
                 break
             except Exception as e:
                 self.log.error(f"Loop error: {e}")
+                self.notifier.notify_error(e)
                 time.sleep(30)
 
     # ---- On each 5-min candle close ----

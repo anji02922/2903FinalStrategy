@@ -12145,3 +12145,24 @@ Net Profit:          $+137.52
 2026-03-29 23:05:08 | INFO     | __main__:_check_entry:229 - 5m candle: EMA_f=1993.23 EMA_s=1993.72 RSI=44.0 | cross_up=False cross_dn=False trend=down
 2026-03-29 23:08:41 | INFO     | src.exchange.binance_client:__init__:32 - Using Binance Futures DEMO API (demo-fapi.binance.com)
 2026-03-29 23:08:41 | INFO     | src.exchange.binance_client:__init__:37 - BinanceClient initialized for ETH/USDT | demo=True
+2026-03-29 23:10:09 | INFO     | __main__:_on_candle_close:196 - Regime: TRANSITIONAL
+2026-03-29 23:10:09 | INFO     | __main__:_check_entry:229 - 5m candle: EMA_f=1993.23 EMA_s=1993.72 RSI=44.0 | cross_up=False cross_dn=False trend=down
+2026-03-29 23:15:10 | INFO     | __main__:_check_entry:229 - 5m candle: EMA_f=1993.05 EMA_s=1993.60 RSI=46.3 | cross_up=False cross_dn=False trend=down
+2026-03-29 23:15:24 | INFO     | __main__:run:163 - Shutting down gracefully...
+2026-03-29 23:15:50 | INFO     | src.exchange.binance_client:__init__:32 - Using Binance Futures DEMO API (demo-fapi.binance.com)
+2026-03-29 23:15:50 | INFO     | src.exchange.binance_client:__init__:37 - BinanceClient initialized for ETH/USDT | demo=True
+2026-03-29 23:15:50 | INFO     | __main__:run:123 - ============================================================
+2026-03-29 23:15:50 | INFO     | __main__:run:124 -   LIVE TRADER STARTING
+2026-03-29 23:15:50 | INFO     | __main__:run:125 -   Symbol: ETH/USDT
+2026-03-29 23:15:50 | INFO     | __main__:run:126 -   Leverage: 12x
+2026-03-29 23:15:50 | INFO     | __main__:run:127 -   Demo mode: True
+2026-03-29 23:15:50 | INFO     | __main__:run:128 -   Telegram: ON
+2026-03-29 23:15:50 | INFO     | __main__:run:129 - ============================================================
+2026-03-29 23:15:51 | INFO     | src.exchange.binance_client:set_margin_mode:62 - Margin mode set to cross for ETH/USDT
+2026-03-29 23:15:51 | INFO     | src.exchange.binance_client:set_leverage:55 - Leverage set to 12x for ETH/USDT
+2026-03-29 23:15:52 | INFO     | __main__:run:137 - Account balance: $4775.03
+2026-03-29 23:15:53 | INFO     | __main__:run:172 - --- 5m candle close: 17:45 UTC ---
+2026-03-29 23:15:53 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: UNKNOWN -> TRANSITIONAL (ADX=20.6)
+2026-03-29 23:15:53 | INFO     | __main__:_on_candle_close:227 - Regime: TRANSITIONAL
+2026-03-29 23:15:53 | INFO     | __main__:_check_entry:260 - 5m candle: EMA_f=1993.47 EMA_s=1993.77 RSI=54.5 | cross_up=False cross_dn=False trend=down
+2026-03-29 23:15:53 | INFO     | __main__:run:176 - Candle processing took 0.3s

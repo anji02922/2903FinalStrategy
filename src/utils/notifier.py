@@ -65,7 +65,40 @@ class TelegramNotifier:
         logger.error("Telegram notification failed after all retries")
         return False
 
-    # ---- Trade notifications only ----
+    # ---- Bot lifecycle and trade notifications ----
+
+    def notify_startup(self, symbol: str, leverage: int, balance: float, demo: bool):
+        mode = "DEMO" if demo else "LIVE"
+        text = (
+            f"🟢 <b>Bot Started ({mode})</b>\n"
+            f"Symbol: <code>{symbol}</code>\n"
+            f"Leverage: {leverage}x\n"
+            f"Balance: <code>${balance:.2f}</code>\n"
+            f"Time: {datetime.now(timezone.utc).strftime('%Y-%m-%d %H:%M:%S')} UTC"
+        )
+        return self._send(text)
+
+    def notify_shutdown(self):
+        text = f"🔴 <b>Bot Stopped</b>\nTime: {datetime.now(timezone.utc).strftime('%Y-%m-%d %H:%M:%S')} UTC"
+        return self._send(text)
+
+    def notify_error(self, error_msg: str):
+        text = (
+            f"⚠️ <b>Bot Error</b>\n"
+            f"<code>{str(error_msg)[:500]}</code>\n"
+            f"Time: {datetime.now(timezone.utc).strftime('%Y-%m-%d %H:%M:%S')} UTC"
+        )
+        return self._send(text)
+
+    def notify_status(self, uptime_min: int):
+        hours = uptime_min // 60
+        mins = uptime_min % 60
+        text = (
+            f"🟢 <b>Bot Running</b>\n"
+            f"Uptime: <code>{hours}h {mins}m</code>\n"
+            f"Time: {datetime.now(timezone.utc).strftime('%Y-%m-%d %H:%M:%S')} UTC"
+        )
+        return self._send(text)
 
     def notify_entry(self, side: str, price: float, size: float, sl: float,
                      tp: float, strategy: str, leverage: int, balance: float):
