@@ -1,3 +1,4 @@
+import time
 import ccxt
 from loguru import logger
 
@@ -7,37 +8,97 @@ class BinanceClient:
         exchange_cfg = config["exchange"]
         opts = {
             "enableRateLimit": True,
-            "options": {"defaultType": "future"},
+            "options": {"defaultType": "future", "fetchCurrencies": False},
         }
         if exchange_cfg.get("api_key"):
             opts["apiKey"] = exchange_cfg["api_key"]
             opts["secret"] = exchange_cfg["api_secret"]
-        if exchange_cfg.get("testnet"):
-            opts["sandbox"] = True
+
+        # Demo API uses demo-fapi.binance.com URLs (not testnet sandbox)
+        self.is_demo = exchange_cfg.get("testnet", False)
 
         self.exchange = ccxt.binanceusdm(opts)
+
+        if self.is_demo:
+            # Copy all demo URLs into api URLs
+            if "demo" in self.exchange.urls:
+                for key, url in self.exchange.urls["demo"].items():
+                    self.exchange.urls["api"][key] = url
+            # Also override sapi endpoints (used by fetch_balance internally)
+            self.exchange.urls["api"]["sapi"] = "https://demo-api.binance.com/sapi/v1"
+            self.exchange.urls["api"]["sapiV2"] = "https://demo-api.binance.com/sapi/v2"
+            self.exchange.urls["api"]["sapiV3"] = "https://demo-api.binance.com/sapi/v3"
+            self.exchange.urls["api"]["sapiV4"] = "https://demo-api.binance.com/sapi/v4"
+            logger.info("Using Binance Futures DEMO API (demo-fapi.binance.com)")
+
         self.symbol = exchange_cfg["symbol"]
         self.leverage = config["trading"]["leverage"]
-        logger.info(f"BinanceClient initialized for {self.symbol}")
+        self.max_retries = 3
+        logger.info(f"BinanceClient initialized for {self.symbol} | demo={self.is_demo}")
+
+    def _retry(self, func, *args, **kwargs):
+        for attempt in range(1, self.max_retries + 1):
+            try:
+                return func(*args, **kwargs)
+            except (ccxt.NetworkError, ccxt.ExchangeNotAvailable) as e:
+                logger.warning(f"Attempt {attempt}/{self.max_retries} failed: {e}")
+                if attempt == self.max_retries:
+                    raise
+                time.sleep(2 ** attempt)
+            except ccxt.ExchangeError as e:
+                logger.error(f"Exchange error: {e}")
+                raise
 
     def set_leverage(self):
         try:
-            self.exchange.set_leverage(self.leverage, self.symbol)
+            self._retry(self.exchange.set_leverage, self.leverage, self.symbol)
             logger.info(f"Leverage set to {self.leverage}x for {self.symbol}")
         except Exception as e:
             logger.warning(f"Could not set leverage: {e}")
 
+    def set_margin_mode(self, mode="cross"):
+        try:
+            self._retry(self.exchange.set_margin_mode, mode, self.symbol)
+            logger.info(f"Margin mode set to {mode} for {self.symbol}")
+        except Exception as e:
+            # Often fails if already set — not critical
+            logger.debug(f"Margin mode note: {e}")
+
     def fetch_ohlcv(self, timeframe="1m", since=None, limit=1500):
-        return self.exchange.fetch_ohlcv(self.symbol, timeframe=timeframe, since=since, limit=limit)
+        return self._retry(self.exchange.fetch_ohlcv, self.symbol, timeframe, since, limit)
 
     def fetch_ticker(self):
-        return self.exchange.fetch_ticker(self.symbol)
+        return self._retry(self.exchange.fetch_ticker, self.symbol)
 
     def create_order(self, side, amount, order_type="market", price=None, params=None):
         if params is None:
             params = {}
-        return self.exchange.create_order(self.symbol, order_type, side, amount, price, params)
+        return self._retry(
+            self.exchange.create_order, self.symbol, order_type, side, amount, price, params
+        )
+
+    def cancel_order(self, order_id):
+        return self._retry(self.exchange.cancel_order, order_id, self.symbol)
+
+    def cancel_all_orders(self):
+        try:
+            return self._retry(self.exchange.cancel_all_orders, self.symbol)
+        except Exception as e:
+            logger.warning(f"Cancel all orders: {e}")
+            return None
+
+    def fetch_open_orders(self):
+        return self._retry(self.exchange.fetch_open_orders, self.symbol)
+
+    def fetch_positions(self):
+        positions = self._retry(self.exchange.fetch_positions, [self.symbol])
+        # Return only positions with non-zero size
+        return [p for p in positions if abs(float(p.get("contracts", 0))) > 0]
 
     def get_balance(self):
-        balance = self.exchange.fetch_balance()
-        return balance.get("USDT", {}).get("free", 0)
+        balance = self._retry(self.exchange.fetch_balance)
+        return float(balance.get("USDT", {}).get("free", 0))
+
+    def get_total_balance(self):
+        balance = self._retry(self.exchange.fetch_balance)
+        return float(balance.get("USDT", {}).get("total", 0))

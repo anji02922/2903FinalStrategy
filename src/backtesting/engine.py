@@ -167,8 +167,6 @@ class BacktestEngine:
                             }
                             positions.append(pos)
                             self.risk_manager.open_positions = len(positions)
-                            self.risk_manager.trades_today += 1
-                            self.risk_manager.trades_this_hour += 1
                             last_entry_ts = ts
                             # Track BB entry index to avoid duplicates
                             if signal.get("strategy") == "bollinger_scalp":
