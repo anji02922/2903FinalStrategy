@@ -1,5 +1,4 @@
 import pandas as pd
-import numpy as np
 from loguru import logger
 from ..strategies.mtf_momentum import MTFMomentumStrategy
 from ..strategies.bollinger_scalp import BollingerScalpStrategy
@@ -33,10 +32,6 @@ class BacktestEngine:
         if self.mtf_enabled:
             df_5m = self.mtf_strategy.calculate_indicators(df_5m)  # MTF uses 5m
             df_15m = self.mtf_strategy.calculate_higher_tf_indicators(df_15m)
-        else:
-            import ta as ta_lib
-            df_15m = df_15m.copy()
-            df_15m["ema_higher"] = ta_lib.trend.ema_indicator(df_15m["close"], window=50)
         if self.bb_enabled:
             df_3m = self.bb_strategy.calculate_indicators(df_3m)
 

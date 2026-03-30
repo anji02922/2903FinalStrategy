@@ -175,16 +175,13 @@ class LiveTrader:
                     elapsed = time.time() - t0
                     self.log.info(f"Candle processing took {elapsed:.1f}s")
 
-                # Log heartbeat every ~60 cycles (~3 min)
-                if cycle_count % 60 == 0:
-                    pos_status = "IN POSITION" if self.tracker.has_position else "NO POSITION"
-                    self.log.debug(f"Heartbeat: cycle={cycle_count} | {pos_status}")
-
-                # Send status notification every hour for 4 hours
+                # Send status notification every 6 hours
                 uptime_min = int((time.time() - start_time) / 60)
-                if uptime_min // 60 > status_sent and uptime_min <= 480:
-                    self.notifier.notify_status(uptime_min)
-                    status_sent = uptime_min // 60
+                hours_elapsed = uptime_min // 360  # every 6 hours
+                if hours_elapsed > status_sent:
+                    balance = self.client.get_balance()
+                    self.notifier.notify_status(uptime_min, balance, self.tracker.has_position)
+                    status_sent = hours_elapsed
 
                 time.sleep(3)
 
@@ -194,7 +191,7 @@ class LiveTrader:
                 break
             except Exception as e:
                 self.log.error(f"Loop error: {e}")
-                self.notifier.notify_error(e)
+                self.notifier.notify_error(f"Loop error: {e}")
                 time.sleep(30)
 
     # ---- On each 5-min candle close ----
@@ -234,6 +231,7 @@ class LiveTrader:
 
         except Exception as e:
             self.log.error(f"Candle processing error: {e}")
+            self.notifier.notify_error(f"Candle processing: {e}")
 
     # ---- Entry Logic (mirrors backtest exactly) ----
 
@@ -378,12 +376,16 @@ class LiveTrader:
 
             # 1. Check breakeven — move SL to entry price at +0.3%
             if self.tracker.check_breakeven(current_price):
-                # Update SL on exchange to breakeven price
-                new_sl = self.order_mgr.update_stop_loss(
-                    pos["sl_order_id"], pos["side"], pos["size_contracts"], pos["entry_price"]
+                # Update SL on exchange to breakeven price (also re-places TP)
+                new_sl, new_tp = self.order_mgr.update_stop_loss(
+                    pos["sl_order_id"], pos["side"], pos["size_contracts"],
+                    pos["entry_price"], tp_price=pos["tp_price"]
                 )
-                self.tracker.position["sl_order_id"] = new_sl.get("id", "") if new_sl else ""
-                self.tracker.position["sl_price"] = pos["entry_price"]
+                if new_sl:
+                    self.tracker.position["sl_order_id"] = new_sl.get("id", "")
+                    self.tracker.position["sl_price"] = pos["entry_price"]
+                if new_tp:
+                    self.tracker.position["tp_order_id"] = new_tp.get("id", "")
                 self.tracker._save_state()
                 self.log.info(f"SL moved to breakeven: {pos['entry_price']:.2f}")
 
@@ -441,6 +443,7 @@ class LiveTrader:
 
         except Exception as e:
             self.log.error(f"Position monitor error: {e}")
+            self.notifier.notify_error(f"Position monitor: {e}")
 
     def _close_position_live(self, reason: str, current_price: float):
         """Close position: cancel all orders, market close, record trade."""
@@ -500,8 +503,12 @@ class LiveTrader:
         duration_min = 0.0
         if entry_ts:
             try:
-                from dateutil.parser import parse as dt_parse
-                entry_dt = dt_parse(entry_ts) if isinstance(entry_ts, str) else entry_ts
+                if isinstance(entry_ts, str):
+                    entry_dt = datetime.fromisoformat(entry_ts)
+                else:
+                    entry_dt = entry_ts
+                if entry_dt.tzinfo is None:
+                    entry_dt = entry_dt.replace(tzinfo=timezone.utc)
                 duration_min = (datetime.now(timezone.utc) - entry_dt).total_seconds() / 60
             except Exception:
                 pass

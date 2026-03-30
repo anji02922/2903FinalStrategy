@@ -102,6 +102,4 @@ class BinanceClient:
         balance = self._retry(self.exchange.fetch_balance)
         return float(balance.get("USDT", {}).get("free", 0))
 
-    def get_total_balance(self):
-        balance = self._retry(self.exchange.fetch_balance)
-        return float(balance.get("USDT", {}).get("total", 0))
+

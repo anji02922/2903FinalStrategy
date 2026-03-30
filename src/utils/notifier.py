@@ -65,63 +65,111 @@ class TelegramNotifier:
         logger.error("Telegram notification failed after all retries")
         return False
 
-    # ---- Bot lifecycle and trade notifications ----
+    def _ts(self):
+        return datetime.now(timezone.utc).strftime('%Y-%m-%d %H:%M UTC')
+
+    # ---- Bot lifecycle ----
 
     def notify_startup(self, symbol: str, leverage: int, balance: float, demo: bool):
-        mode = "DEMO" if demo else "LIVE"
+        mode = "🧪 DEMO" if demo else "🔥 LIVE"
+        bar = "🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩"
         text = (
-            f"🟢 <b>Bot Started ({mode})</b>\n"
-            f"Symbol: <code>{symbol}</code>\n"
-            f"Leverage: {leverage}x\n"
-            f"Balance: <code>${balance:.2f}</code>\n"
-            f"Time: {datetime.now(timezone.utc).strftime('%Y-%m-%d %H:%M:%S')} UTC"
+            f"{bar}\n"
+            f"⚡ <b>BOT STARTED</b> ⚡\n"
+            f"{bar}\n"
+            f"\n"
+            f"📌  Mode       │  <b>{mode}</b>\n"
+            f"💎  Symbol     │  <code>{symbol}</code>\n"
+            f"🔧  Leverage   │  <b>{leverage}x</b>\n"
+            f"💰  Balance    │  <code>${balance:,.2f}</code>\n"
+            f"\n"
+            f"<i>🕐  {self._ts()}</i>"
         )
         return self._send(text)
 
     def notify_shutdown(self):
-        text = f"🔴 <b>Bot Stopped</b>\nTime: {datetime.now(timezone.utc).strftime('%Y-%m-%d %H:%M:%S')} UTC"
+        bar = "🟥🟥🟥🟥🟥🟥🟥🟥🟥🟥"
+        text = (
+            f"{bar}\n"
+            f"🛑 <b>BOT STOPPED</b> 🛑\n"
+            f"{bar}\n"
+            f"\n"
+            f"<i>🕐  {self._ts()}</i>"
+        )
         return self._send(text)
 
     def notify_error(self, error_msg: str):
         text = (
-            f"⚠️ <b>Bot Error</b>\n"
-            f"<code>{str(error_msg)[:500]}</code>\n"
-            f"Time: {datetime.now(timezone.utc).strftime('%Y-%m-%d %H:%M:%S')} UTC"
+            f"🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨\n"
+            f"⚠️ <b>ERROR DETECTED</b> ⚠️\n"
+            f"🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨\n"
+            f"\n"
+            f"<code>{str(error_msg)[:400]}</code>\n"
+            f"\n"
+            f"<i>🕐  {self._ts()}</i>"
         )
         return self._send(text)
 
-    def notify_status(self, uptime_min: int):
-        hours = uptime_min // 60
+    def notify_status(self, uptime_min: int, balance: float = None, in_position: bool = False):
+        days = uptime_min // 1440
+        hours = (uptime_min % 1440) // 60
         mins = uptime_min % 60
+        uptime_str = ""
+        if days > 0:
+            uptime_str += f"{days}d "
+        uptime_str += f"{hours}h {mins}m"
+        pos_icon = "🟢 In Position" if in_position else "⏳ Idle"
+        bal_line = f"💰  Balance    │  <code>${balance:,.2f}</code>\n" if balance else ""
+        bar = "🟦🟦🟦🟦🟦🟦🟦🟦🟦🟦"
         text = (
-            f"🟢 <b>Bot Running</b>\n"
-            f"Uptime: <code>{hours}h {mins}m</code>\n"
-            f"Time: {datetime.now(timezone.utc).strftime('%Y-%m-%d %H:%M:%S')} UTC"
+            f"{bar}\n"
+            f"📡 <b>STATUS CHECK</b> 📡\n"
+            f"{bar}\n"
+            f"\n"
+            f"⏱  Uptime     │  <code>{uptime_str}</code>\n"
+            f"📊  State      │  {pos_icon}\n"
+            f"{bal_line}"
+            f"\n"
+            f"<i>🕐  {self._ts()}</i>"
         )
         return self._send(text)
+
+    # ---- Trade notifications ----
 
     def notify_entry(self, side: str, price: float, size: float, sl: float,
                      tp: float, strategy: str, leverage: int, balance: float):
-        arrow = "🟢" if side == "long" else "🔴"
-        direction = "LONG" if side == "long" else "SHORT"
+        if side == "long":
+            bar = "🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩"
+            direction = "⬆️ LONG"
+            sl_dist = f"{(price - sl) / price * 100:.2f}%"
+            tp_dist = f"{(tp - price) / price * 100:.2f}%"
+        else:
+            bar = "🟥🟥🟥🟥🟥🟥🟥🟥🟥🟥"
+            direction = "⬇️ SHORT"
+            sl_dist = f"{(sl - price) / price * 100:.2f}%"
+            tp_dist = f"{(price - tp) / price * 100:.2f}%"
         notional = size * price
         risk_dist = abs(price - sl)
         reward_dist = abs(tp - price)
         rr = reward_dist / risk_dist if risk_dist > 0 else 0
         text = (
-            f"{arrow} <b>Trade Opened — {direction}</b>\n"
-            f"━━━━━━━━━━━━━━━━━━\n"
-            f"Strategy: <code>{strategy}</code>\n"
-            f"Entry Price: <code>${price:.2f}</code>\n"
-            f"Size: <code>{size:.3f}</code> contracts\n"
-            f"Notional: <code>${notional:,.0f}</code> ({leverage}x)\n"
-            f"━━━━━━━━━━━━━━━━━━\n"
-            f"Stop Loss: <code>${sl:.2f}</code>\n"
-            f"Take Profit: <code>${tp:.2f}</code>\n"
-            f"Risk:Reward: <code>1:{rr:.1f}</code>\n"
-            f"Balance: <code>${balance:.2f}</code>\n"
-            f"━━━━━━━━━━━━━━━━━━\n"
-            f"Time: {datetime.now(timezone.utc).strftime('%Y-%m-%d %H:%M:%S')} UTC"
+            f"{bar}\n"
+            f"📈 <b>TRADE OPENED — {direction}</b>\n"
+            f"{bar}\n"
+            f"\n"
+            f"🎯  Strategy   │  <code>{strategy}</code>\n"
+            f"🏷  Entry      │  <code>${price:,.2f}</code>\n"
+            f"📦  Size       │  <code>{size:.3f}</code>  ×  {leverage}x\n"
+            f"💵  Notional   │  <code>${notional:,.0f}</code>\n"
+            f"\n"
+            f"{'─' * 28}\n"
+            f"🛑  Stop Loss  │  <code>${sl:,.2f}</code>  <i>({sl_dist})</i>\n"
+            f"🎯  Take Prof  │  <code>${tp:,.2f}</code>  <i>({tp_dist})</i>\n"
+            f"⚖️  R : R      │  <code>1 : {rr:.1f}</code>\n"
+            f"{'─' * 28}\n"
+            f"\n"
+            f"💰  Balance    │  <code>${balance:,.2f}</code>\n"
+            f"<i>🕐  {self._ts()}</i>"
         )
         return self._send(text)
 
@@ -130,29 +178,39 @@ class TelegramNotifier:
                     size: float, duration_min: float, balance: float):
         direction = "LONG" if side == "long" else "SHORT"
         if net_pnl >= 0:
-            emoji = "✅"
-            result = "PROFIT"
+            bar = "🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩"
+            result = "WIN ✅"
+            pnl_display = f"+${net_pnl:.2f}"
+            pnl_pct_display = f"+{pnl_pct:.2f}%"
         else:
-            emoji = "❌"
-            result = "LOSS"
+            bar = "🟥🟥🟥🟥🟥🟥🟥🟥🟥🟥"
+            result = "LOSS ❌"
+            pnl_display = f"-${abs(net_pnl):.2f}"
+            pnl_pct_display = f"{pnl_pct:.2f}%"
+        if duration_min >= 60:
+            dur_str = f"{int(duration_min // 60)}h {int(duration_min % 60)}m"
+        else:
+            dur_str = f"{int(duration_min)}m"
         text = (
-            f"{emoji} <b>Trade Closed — {result}</b>\n"
-            f"━━━━━━━━━━━━━━━━━━\n"
-            f"Side: {direction}\n"
-            f"Entry: <code>${entry_price:.2f}</code>\n"
-            f"Exit: <code>${exit_price:.2f}</code>\n"
-            f"Size: <code>{size:.3f}</code> contracts\n"
-            f"━━━━━━━━━━━━━━━━━━\n"
-            f"PnL: <code>{pnl_pct:+.2f}%</code>  |  <code>${net_pnl:+.2f}</code>\n"
-            f"Exit Reason: <code>{reason}</code>\n"
-            f"Duration: <code>{duration_min:.0f} min</code>\n"
-            f"Balance: <code>${balance:.2f}</code>\n"
-            f"━━━━━━━━━━━━━━━━━━\n"
-            f"Time: {datetime.now(timezone.utc).strftime('%Y-%m-%d %H:%M:%S')} UTC"
+            f"{bar}\n"
+            f"📊 <b>TRADE CLOSED — {result}</b>\n"
+            f"{bar}\n"
+            f"\n"
+            f"📌  Side       │  <b>{direction}</b>\n"
+            f"🏷  Entry      │  <code>${entry_price:,.2f}</code>\n"
+            f"🏷  Exit       │  <code>${exit_price:,.2f}</code>\n"
+            f"📦  Size       │  <code>{size:.3f}</code>\n"
+            f"\n"
+            f"{'─' * 28}\n"
+            f"💵  <b>PnL       │  {pnl_pct_display}  •  {pnl_display}</b>\n"
+            f"{'─' * 28}\n"
+            f"\n"
+            f"📋  Reason     │  <code>{reason}</code>\n"
+            f"⏱  Duration   │  <code>{dur_str}</code>\n"
+            f"💰  Balance    │  <code>${balance:,.2f}</code>\n"
+            f"\n"
+            f"<i>🕐  {self._ts()}</i>"
         )
         return self._send(text)
-        return self._send(text)
 
-    def send_message(self, text: str) -> bool:
-        """Send a raw text message (for testing/ad-hoc)."""
-        return self._send(text)
+

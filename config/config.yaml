@@ -11,9 +11,6 @@ exchange:
 trading:
   leverage: 12
   mode: "backtest"
-  trading_hours:
-    - start: 0
-      end: 24
 
 # Strategy #1: Multi-Timeframe Momentum (5m EMA Crossover)
 mtf_momentum:

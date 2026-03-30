@@ -1,8 +1,24 @@
+# Environment
 .env
 .venv/
+
+# Python
 __pycache__/
 *.pyc
-data/
+*.pyo
+
+# Data (auto-fetched on demand)
+data/*.csv
+data/*.db
+
+# Logs & reports (generated at runtime)
 logs/
-reports/
-*.db
+reports/*.txt
+reports/*.json
+reports/*.csv
+reports/*.png
+reports/*.log
+
+# IDE
+.vscode/
+.idea/
