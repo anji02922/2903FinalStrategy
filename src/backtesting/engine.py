@@ -304,8 +304,8 @@ class BacktestEngine:
         }
 
     def _calc_entry_fee(self, notional: float) -> float:
-        """Entry uses maker order (limit)."""
-        return notional * (self.fee_maker + self.slippage)
+        """Entry uses taker order (market) to match live execution."""
+        return notional * (self.fee_taker + self.slippage)
 
     def _calc_exit_fee(self, notional: float) -> float:
         """Exit uses taker order (market/trigger)."""

@@ -73,8 +73,11 @@ class BinanceClient:
     def create_order(self, side, amount, order_type="market", price=None, params=None):
         if params is None:
             params = {}
+        # Map 'long'/'short' to 'buy'/'sell' for ccxt
+        side_map = {"long": "buy", "short": "sell", "buy": "buy", "sell": "sell"}
+        ccxt_side = side_map.get(side.lower(), side.lower())
         return self._retry(
-            self.exchange.create_order, self.symbol, order_type, side, amount, price, params
+            self.exchange.create_order, self.symbol, order_type, ccxt_side, amount, price, params
         )
 
     def cancel_order(self, order_id):
