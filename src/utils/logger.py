@@ -10,5 +10,5 @@ def setup_logger(level="INFO", log_file="logs/bot.log", console=True):
         logger.add(sys.stderr, format=fmt, level=level, colorize=True)
     if log_file:
         os.makedirs(os.path.dirname(log_file), exist_ok=True)
-        logger.add(log_file, format=fmt, level=level, rotation="10 MB", retention="7 days")
+        logger.add(log_file, format=fmt, level=level, rotation="10 MB", retention="15 days")
     return logger

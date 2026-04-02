@@ -577,7 +577,8 @@ class LiveTrader:
 
 def main():
     parser = argparse.ArgumentParser(description="ETH/USDT Scalping Bot")
-    parser.add_argument("--mode", default="backtest", choices=["backtest", "paper", "live"])
+    parser.add_argument("--mode", default=os.getenv("BOT_MODE", "backtest"),
+                        choices=["backtest", "paper", "live"])
     parser.add_argument("--config", default="config/config.yaml")
     args = parser.parse_args()
 

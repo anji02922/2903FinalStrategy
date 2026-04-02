@@ -19,4 +19,8 @@ def load_config(path="config/config.yaml"):
     if tg_token:
         config["telegram"]["bot_token"] = tg_token
         config["telegram"]["chat_id"] = tg_chat
+    # Allow env override for testnet mode (TESTNET=false for production)
+    testnet_env = os.getenv("TESTNET")
+    if testnet_env is not None:
+        config["exchange"]["testnet"] = testnet_env.lower() in ("true", "1", "yes")
     return config
