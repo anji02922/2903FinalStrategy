@@ -33843,3 +33843,810 @@ Thank you very much!</p>
 2026-03-31 02:53:26 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRANSITIONAL -> RANGING (ADX=19.8)
 2026-03-31 02:53:47 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: RANGING -> TRANSITIONAL (ADX=20.6)
 2026-03-31 02:54:16 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRANSITIONAL -> RANGING (ADX=19.2)
+2026-04-04 15:47:02 | INFO     | __main__:run_backtest:37 - === STARTING BACKTEST ===
+2026-04-04 15:47:02 | INFO     | __main__:run_backtest:46 - Fetching 1m data from 2026-03-27 to 2026-04-03
+2026-04-04 15:47:02 | INFO     | src.exchange.data_fetcher:fetch_ohlcv:26 - Loading cached data from data/ETH_USDT_1m_2026-03-27_2026-04-03.csv
+2026-04-04 15:47:02 | INFO     | __main__:run_backtest:52 - Fetched 10081 1m candles
+2026-04-04 15:47:02 | INFO     | __main__:run_backtest:56 - Resampled: 3m=3361, 5m=2017, 15m=673
+2026-04-04 15:47:02 | INFO     | src.backtesting.engine:run:26 - Starting backtest: 10081 1m candles, capital=$1000
+2026-04-04 15:47:03 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: UNKNOWN -> RANGING (ADX=19.3)
+2026-04-04 15:47:03 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: RANGING -> TRANSITIONAL (ADX=20.8)
+2026-04-04 15:47:03 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRANSITIONAL -> TRENDING (ADX=26.5)
+2026-04-04 15:47:04 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRENDING -> TRANSITIONAL (ADX=24.9)
+2026-04-04 15:47:04 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRANSITIONAL -> RANGING (ADX=19.9)
+2026-04-04 15:47:04 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: RANGING -> TRANSITIONAL (ADX=21.2)
+2026-04-04 15:47:04 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRANSITIONAL -> TRENDING (ADX=26.1)
+2026-04-04 15:47:04 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRENDING -> TRANSITIONAL (ADX=23.8)
+2026-04-04 15:47:04 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRANSITIONAL -> RANGING (ADX=19.7)
+2026-04-04 15:47:04 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: RANGING -> TRANSITIONAL (ADX=21.7)
+2026-04-04 15:47:05 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRANSITIONAL -> TRENDING (ADX=26.8)
+2026-04-04 15:47:05 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRENDING -> TRANSITIONAL (ADX=24.9)
+2026-04-04 15:47:05 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRANSITIONAL -> TRENDING (ADX=26.2)
+2026-04-04 15:47:05 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRENDING -> TRANSITIONAL (ADX=24.1)
+2026-04-04 15:47:05 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRANSITIONAL -> RANGING (ADX=19.2)
+2026-04-04 15:47:06 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: RANGING -> TRANSITIONAL (ADX=20.9)
+2026-04-04 15:47:06 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRANSITIONAL -> RANGING (ADX=19.8)
+2026-04-04 15:47:06 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: RANGING -> TRANSITIONAL (ADX=21.1)
+2026-04-04 15:47:06 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRANSITIONAL -> TRENDING (ADX=25.6)
+2026-04-04 15:47:06 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRENDING -> TRANSITIONAL (ADX=24.6)
+2026-04-04 15:47:07 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRANSITIONAL -> TRENDING (ADX=26.0)
+2026-04-04 15:47:08 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRENDING -> TRANSITIONAL (ADX=24.3)
+2026-04-04 15:47:08 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRANSITIONAL -> RANGING (ADX=19.5)
+2026-04-04 15:47:08 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: RANGING -> TRANSITIONAL (ADX=20.3)
+2026-04-04 15:47:08 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRANSITIONAL -> TRENDING (ADX=25.5)
+2026-04-04 15:47:08 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRENDING -> TRANSITIONAL (ADX=25.0)
+2026-04-04 15:47:08 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRANSITIONAL -> RANGING (ADX=20.0)
+2026-04-04 15:47:08 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: RANGING -> TRANSITIONAL (ADX=20.8)
+2026-04-04 15:47:09 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRANSITIONAL -> TRENDING (ADX=26.9)
+2026-04-04 15:47:09 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRENDING -> TRANSITIONAL (ADX=24.7)
+2026-04-04 15:47:09 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRANSITIONAL -> TRENDING (ADX=26.5)
+2026-04-04 15:47:09 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRENDING -> TRANSITIONAL (ADX=25.0)
+2026-04-04 15:47:09 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRANSITIONAL -> RANGING (ADX=19.7)
+2026-04-04 15:47:09 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: RANGING -> TRANSITIONAL (ADX=21.2)
+2026-04-04 15:47:09 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRANSITIONAL -> TRENDING (ADX=25.2)
+2026-04-04 15:47:09 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRENDING -> TRANSITIONAL (ADX=24.8)
+2026-04-04 15:47:09 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRANSITIONAL -> RANGING (ADX=19.1)
+2026-04-04 15:47:10 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: RANGING -> TRANSITIONAL (ADX=20.2)
+2026-04-04 15:47:10 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRANSITIONAL -> TRENDING (ADX=26.1)
+2026-04-04 15:47:11 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRENDING -> TRANSITIONAL (ADX=24.6)
+2026-04-04 15:47:12 | INFO     | src.backtesting.engine:run:122 - No signal at candle 8000/10081, active_strat=transitional, positions=0
+2026-04-04 15:47:12 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRANSITIONAL -> RANGING (ADX=19.7)
+2026-04-04 15:47:12 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: RANGING -> TRANSITIONAL (ADX=20.0)
+2026-04-04 15:47:12 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRANSITIONAL -> RANGING (ADX=19.0)
+2026-04-04 15:47:13 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: RANGING -> TRANSITIONAL (ADX=22.1)
+2026-04-04 15:47:13 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRANSITIONAL -> TRENDING (ADX=26.6)
+2026-04-04 15:47:16 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRENDING -> TRANSITIONAL (ADX=23.9)
+2026-04-04 15:47:16 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRANSITIONAL -> RANGING (ADX=20.0)
+2026-04-04 15:47:16 | INFO     | src.backtesting.engine:run:122 - No signal at candle 10000/10081, active_strat=bollinger_scalp, positions=0
+2026-04-04 15:47:16 | INFO     | src.backtesting.report:generate:121 - 
+============================================================
+           BACKTEST REPORT
+============================================================
+
+Period: 2026-04-01 to 2026-04-03
+Starting Capital: $1,000.00
+Ending Capital:   $971.43
+Leverage:         12x
+
+--- Returns ---
+Total Return:     -2.86%
+Net Profit:       $-28.57
+
+--- Trades ---
+Total Trades:        8
+Win Rate:            25.0%
+Avg Win:             $20.47
+Avg Loss:            $-11.59
+Largest Win:         $25.79
+Largest Loss:        $-21.75
+Profit Factor:       0.59
+Expectancy:          $-3.57/trade
+
+--- Risk ---
+Max Drawdown:        -9.14%
+Max Consec Losses:   4
+Sharpe Ratio:        13.51
+Sortino Ratio:       0.00
+
+--- Strategy Breakdown ---
+  mtf_momentum: 8 trades, 25.0% WR, $-28.57 PnL
+
+--- Exit Reasons ---
+  time_exit: 3 trades, $+28.09
+  stop_loss: 2 trades, $-42.92
+  breakeven_stop: 3 trades, $-13.74
+
+--- Fees ---
+Total Fees Paid:     $36.76
+Gross Profit:        $+8.19
+Net Profit:          $-28.57
+============================================================
+2026-04-04 15:47:18 | INFO     | src.backtesting.report:_plot_equity:167 - Equity chart saved
+2026-04-04 15:47:18 | INFO     | __main__:run_backtest:63 - === BACKTEST COMPLETE ===
+2026-04-04 15:48:55 | INFO     | __main__:run_backtest:37 - === STARTING BACKTEST ===
+2026-04-04 15:48:55 | INFO     | __main__:run_backtest:46 - Fetching 1m data from 2026-02-24 to 2026-03-31
+2026-04-04 15:48:55 | INFO     | src.exchange.data_fetcher:fetch_ohlcv:30 - Downloading ETH/USDT 1m data from 2026-02-24 to 2026-03-31
+2026-04-04 15:49:13 | INFO     | src.exchange.data_fetcher:fetch_ohlcv:70 - Saved 50401 candles to data/ETH_USDT_1m_2026-02-24_2026-03-31.csv
+2026-04-04 15:49:13 | INFO     | __main__:run_backtest:52 - Fetched 50401 1m candles
+2026-04-04 15:49:13 | INFO     | __main__:run_backtest:56 - Resampled: 3m=16801, 5m=10081, 15m=3361
+2026-04-04 15:49:13 | INFO     | src.backtesting.engine:run:26 - Starting backtest: 50401 1m candles, capital=$1000
+2026-04-04 15:49:14 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: UNKNOWN -> TRENDING (ADX=57.3)
+2026-04-04 15:49:14 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRENDING -> TRANSITIONAL (ADX=24.7)
+2026-04-04 15:49:14 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRANSITIONAL -> RANGING (ADX=19.7)
+2026-04-04 15:49:14 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: RANGING -> TRANSITIONAL (ADX=21.2)
+2026-04-04 15:49:14 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRANSITIONAL -> TRENDING (ADX=27.8)
+2026-04-04 15:49:15 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRENDING -> TRANSITIONAL (ADX=23.9)
+2026-04-04 15:49:15 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRANSITIONAL -> RANGING (ADX=19.0)
+2026-04-04 15:49:15 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: RANGING -> TRANSITIONAL (ADX=20.0)
+2026-04-04 15:49:15 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRANSITIONAL -> TRENDING (ADX=25.1)
+2026-04-04 15:49:16 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRENDING -> TRANSITIONAL (ADX=24.1)
+2026-04-04 15:49:16 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRANSITIONAL -> RANGING (ADX=19.9)
+2026-04-04 15:49:16 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: RANGING -> TRANSITIONAL (ADX=20.8)
+2026-04-04 15:49:16 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRANSITIONAL -> RANGING (ADX=19.2)
+2026-04-04 15:49:17 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: RANGING -> TRANSITIONAL (ADX=20.8)
+2026-04-04 15:49:17 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRANSITIONAL -> TRENDING (ADX=25.7)
+2026-04-04 15:49:17 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRENDING -> TRANSITIONAL (ADX=24.4)
+2026-04-04 15:49:17 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRANSITIONAL -> RANGING (ADX=18.8)
+2026-04-04 15:49:17 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: RANGING -> TRANSITIONAL (ADX=20.1)
+2026-04-04 15:49:17 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRANSITIONAL -> RANGING (ADX=19.5)
+2026-04-04 15:49:18 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: RANGING -> TRANSITIONAL (ADX=20.1)
+2026-04-04 15:49:18 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRANSITIONAL -> RANGING (ADX=19.9)
+2026-04-04 15:49:18 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: RANGING -> TRANSITIONAL (ADX=20.3)
+2026-04-04 15:49:18 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRANSITIONAL -> TRENDING (ADX=27.2)
+2026-04-04 15:49:20 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRENDING -> TRANSITIONAL (ADX=24.7)
+2026-04-04 15:49:20 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRANSITIONAL -> TRENDING (ADX=25.7)
+2026-04-04 15:49:20 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRENDING -> TRANSITIONAL (ADX=24.5)
+2026-04-04 15:49:20 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRANSITIONAL -> TRENDING (ADX=25.4)
+2026-04-04 15:49:22 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRENDING -> TRANSITIONAL (ADX=24.7)
+2026-04-04 15:49:23 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRANSITIONAL -> TRENDING (ADX=25.6)
+2026-04-04 15:49:23 | INFO     | src.backtesting.engine:run:122 - No signal at candle 8000/50401, active_strat=mtf_momentum, positions=0
+2026-04-04 15:49:24 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRENDING -> TRANSITIONAL (ADX=24.3)
+2026-04-04 15:49:24 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRANSITIONAL -> TRENDING (ADX=25.7)
+2026-04-04 15:49:24 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRENDING -> TRANSITIONAL (ADX=24.5)
+2026-04-04 15:49:24 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRANSITIONAL -> TRENDING (ADX=25.0)
+2026-04-04 15:49:25 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRENDING -> TRANSITIONAL (ADX=24.5)
+2026-04-04 15:49:25 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRANSITIONAL -> TRENDING (ADX=26.3)
+2026-04-04 15:49:26 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRENDING -> TRANSITIONAL (ADX=24.9)
+2026-04-04 15:49:26 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRANSITIONAL -> TRENDING (ADX=25.0)
+2026-04-04 15:49:27 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRENDING -> TRANSITIONAL (ADX=24.8)
+2026-04-04 15:49:27 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRANSITIONAL -> TRENDING (ADX=25.6)
+2026-04-04 15:49:27 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRENDING -> TRANSITIONAL (ADX=23.4)
+2026-04-04 15:49:27 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRANSITIONAL -> RANGING (ADX=19.6)
+2026-04-04 15:49:28 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: RANGING -> TRANSITIONAL (ADX=20.8)
+2026-04-04 15:49:28 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRANSITIONAL -> TRENDING (ADX=25.9)
+2026-04-04 15:49:30 | INFO     | src.backtesting.engine:run:122 - No signal at candle 10000/50401, active_strat=mtf_momentum, positions=0
+2026-04-04 15:49:30 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRENDING -> TRANSITIONAL (ADX=23.9)
+2026-04-04 15:49:30 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRANSITIONAL -> RANGING (ADX=18.8)
+2026-04-04 15:49:31 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: RANGING -> TRANSITIONAL (ADX=20.7)
+2026-04-04 15:49:31 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRANSITIONAL -> RANGING (ADX=19.5)
+2026-04-04 15:49:31 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: RANGING -> TRANSITIONAL (ADX=20.3)
+2026-04-04 15:49:31 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRANSITIONAL -> RANGING (ADX=20.0)
+2026-04-04 15:49:32 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: RANGING -> TRANSITIONAL (ADX=21.3)
+2026-04-04 15:49:32 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRANSITIONAL -> TRENDING (ADX=25.4)
+2026-04-04 15:49:33 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRENDING -> TRANSITIONAL (ADX=24.9)
+2026-04-04 15:49:33 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRANSITIONAL -> RANGING (ADX=19.4)
+2026-04-04 15:49:33 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: RANGING -> TRANSITIONAL (ADX=20.5)
+2026-04-04 15:49:34 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRANSITIONAL -> RANGING (ADX=19.4)
+2026-04-04 15:49:37 | INFO     | src.backtesting.engine:run:122 - No signal at candle 12000/50401, active_strat=bollinger_scalp, positions=0
+2026-04-04 15:49:37 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: RANGING -> TRANSITIONAL (ADX=21.8)
+2026-04-04 15:49:37 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRANSITIONAL -> TRENDING (ADX=27.6)
+2026-04-04 15:49:40 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRENDING -> TRANSITIONAL (ADX=24.4)
+2026-04-04 15:49:41 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRANSITIONAL -> RANGING (ADX=19.7)
+2026-04-04 15:49:43 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: RANGING -> TRANSITIONAL (ADX=20.3)
+2026-04-04 15:49:43 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRANSITIONAL -> RANGING (ADX=19.9)
+2026-04-04 15:49:43 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: RANGING -> TRANSITIONAL (ADX=21.4)
+2026-04-04 15:49:44 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRANSITIONAL -> TRENDING (ADX=25.4)
+2026-04-04 15:49:44 | INFO     | src.backtesting.engine:run:122 - No signal at candle 14000/50401, active_strat=mtf_momentum, positions=0
+2026-04-04 15:49:44 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRENDING -> TRANSITIONAL (ADX=24.5)
+2026-04-04 15:49:45 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRANSITIONAL -> RANGING (ADX=18.8)
+2026-04-04 15:49:47 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: RANGING -> TRANSITIONAL (ADX=20.6)
+2026-04-04 15:49:47 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRANSITIONAL -> RANGING (ADX=19.4)
+2026-04-04 15:49:48 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: RANGING -> TRANSITIONAL (ADX=22.0)
+2026-04-04 15:49:48 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRANSITIONAL -> TRENDING (ADX=25.2)
+2026-04-04 15:49:51 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRENDING -> TRANSITIONAL (ADX=24.4)
+2026-04-04 15:49:51 | INFO     | src.backtesting.engine:run:122 - No signal at candle 16000/50401, active_strat=transitional, positions=0
+2026-04-04 15:49:52 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRANSITIONAL -> RANGING (ADX=19.7)
+2026-04-04 15:49:55 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: RANGING -> TRANSITIONAL (ADX=21.0)
+2026-04-04 15:49:56 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRANSITIONAL -> TRENDING (ADX=26.3)
+2026-04-04 15:49:57 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRENDING -> TRANSITIONAL (ADX=24.5)
+2026-04-04 15:49:58 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRANSITIONAL -> TRENDING (ADX=25.2)
+2026-04-04 15:50:02 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRENDING -> TRANSITIONAL (ADX=24.2)
+2026-04-04 15:50:02 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRANSITIONAL -> TRENDING (ADX=25.1)
+2026-04-04 15:50:03 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRENDING -> TRANSITIONAL (ADX=24.9)
+2026-04-04 15:50:03 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRANSITIONAL -> RANGING (ADX=19.5)
+2026-04-04 15:50:04 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: RANGING -> TRANSITIONAL (ADX=21.2)
+2026-04-04 15:50:04 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRANSITIONAL -> TRENDING (ADX=25.1)
+2026-04-04 15:50:05 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRENDING -> TRANSITIONAL (ADX=24.0)
+2026-04-04 15:50:06 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRANSITIONAL -> RANGING (ADX=19.7)
+2026-04-04 15:50:06 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: RANGING -> TRANSITIONAL (ADX=20.4)
+2026-04-04 15:50:07 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRANSITIONAL -> TRENDING (ADX=25.3)
+2026-04-04 15:50:07 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRENDING -> TRANSITIONAL (ADX=24.9)
+2026-04-04 15:50:08 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRANSITIONAL -> RANGING (ADX=19.3)
+2026-04-04 15:50:08 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: RANGING -> TRANSITIONAL (ADX=20.5)
+2026-04-04 15:50:08 | INFO     | src.backtesting.engine:run:122 - No signal at candle 20000/50401, active_strat=transitional, positions=0
+2026-04-04 15:50:09 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRANSITIONAL -> RANGING (ADX=19.3)
+2026-04-04 15:50:09 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: RANGING -> TRANSITIONAL (ADX=20.1)
+2026-04-04 15:50:09 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRANSITIONAL -> RANGING (ADX=19.6)
+2026-04-04 15:50:10 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: RANGING -> TRANSITIONAL (ADX=21.2)
+2026-04-04 15:50:11 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRANSITIONAL -> TRENDING (ADX=25.1)
+2026-04-04 15:50:13 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRENDING -> TRANSITIONAL (ADX=24.1)
+2026-04-04 15:50:13 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRANSITIONAL -> TRENDING (ADX=25.6)
+2026-04-04 15:50:14 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRENDING -> TRANSITIONAL (ADX=24.8)
+2026-04-04 15:50:15 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRANSITIONAL -> TRENDING (ADX=25.1)
+2026-04-04 15:50:15 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRENDING -> TRANSITIONAL (ADX=24.6)
+2026-04-04 15:50:15 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRANSITIONAL -> TRENDING (ADX=25.1)
+2026-04-04 15:50:16 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRENDING -> TRANSITIONAL (ADX=24.2)
+2026-04-04 15:50:16 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRANSITIONAL -> RANGING (ADX=19.8)
+2026-04-04 15:50:16 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: RANGING -> TRANSITIONAL (ADX=21.3)
+2026-04-04 15:50:17 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRANSITIONAL -> TRENDING (ADX=26.0)
+2026-04-04 15:50:17 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRENDING -> TRANSITIONAL (ADX=24.0)
+2026-04-04 15:50:18 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRANSITIONAL -> TRENDING (ADX=26.1)
+2026-04-04 15:50:18 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRENDING -> TRANSITIONAL (ADX=24.3)
+2026-04-04 15:50:18 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRANSITIONAL -> RANGING (ADX=19.9)
+2026-04-04 15:50:19 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: RANGING -> TRANSITIONAL (ADX=22.7)
+2026-04-04 15:50:19 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRANSITIONAL -> TRENDING (ADX=26.6)
+2026-04-04 15:50:21 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRENDING -> TRANSITIONAL (ADX=24.1)
+2026-04-04 15:50:22 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRANSITIONAL -> RANGING (ADX=19.4)
+2026-04-04 15:50:22 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: RANGING -> TRANSITIONAL (ADX=20.1)
+2026-04-04 15:50:22 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRANSITIONAL -> TRENDING (ADX=25.6)
+2026-04-04 15:50:26 | INFO     | src.backtesting.engine:run:122 - No signal at candle 24000/50401, active_strat=mtf_momentum, positions=0
+2026-04-04 15:50:26 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRENDING -> TRANSITIONAL (ADX=24.2)
+2026-04-04 15:50:27 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRANSITIONAL -> RANGING (ADX=19.5)
+2026-04-04 15:50:28 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: RANGING -> TRANSITIONAL (ADX=21.9)
+2026-04-04 15:50:28 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRANSITIONAL -> TRENDING (ADX=26.2)
+2026-04-04 15:50:29 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRENDING -> TRANSITIONAL (ADX=24.5)
+2026-04-04 15:50:29 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRANSITIONAL -> RANGING (ADX=19.4)
+2026-04-04 15:50:31 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: RANGING -> TRANSITIONAL (ADX=20.4)
+2026-04-04 15:50:31 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRANSITIONAL -> TRENDING (ADX=25.2)
+2026-04-04 15:50:35 | INFO     | src.backtesting.engine:run:122 - No signal at candle 26000/50401, active_strat=mtf_momentum, positions=0
+2026-04-04 15:50:36 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRENDING -> TRANSITIONAL (ADX=24.7)
+2026-04-04 15:50:37 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRANSITIONAL -> TRENDING (ADX=25.2)
+2026-04-04 15:50:39 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRENDING -> TRANSITIONAL (ADX=24.6)
+2026-04-04 15:50:40 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRANSITIONAL -> RANGING (ADX=19.2)
+2026-04-04 15:50:41 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: RANGING -> TRANSITIONAL (ADX=20.6)
+2026-04-04 15:50:41 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRANSITIONAL -> TRENDING (ADX=25.4)
+2026-04-04 15:50:41 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRENDING -> TRANSITIONAL (ADX=24.5)
+2026-04-04 15:50:41 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRANSITIONAL -> TRENDING (ADX=26.2)
+2026-04-04 15:50:42 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRENDING -> TRANSITIONAL (ADX=24.7)
+2026-04-04 15:50:42 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRANSITIONAL -> TRENDING (ADX=25.3)
+2026-04-04 15:50:45 | INFO     | src.backtesting.engine:run:122 - No signal at candle 28000/50401, active_strat=mtf_momentum, positions=0
+2026-04-04 15:50:47 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRENDING -> TRANSITIONAL (ADX=24.3)
+2026-04-04 15:50:48 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRANSITIONAL -> TRENDING (ADX=25.3)
+2026-04-04 15:50:54 | INFO     | src.backtesting.engine:run:122 - No signal at candle 30000/50401, active_strat=mtf_momentum, positions=0
+2026-04-04 15:50:57 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRENDING -> TRANSITIONAL (ADX=24.9)
+2026-04-04 15:50:58 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRANSITIONAL -> RANGING (ADX=19.5)
+2026-04-04 15:51:00 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: RANGING -> TRANSITIONAL (ADX=20.8)
+2026-04-04 15:51:00 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRANSITIONAL -> RANGING (ADX=19.7)
+2026-04-04 15:51:00 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: RANGING -> TRANSITIONAL (ADX=20.1)
+2026-04-04 15:51:01 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRANSITIONAL -> RANGING (ADX=18.9)
+2026-04-04 15:51:04 | INFO     | src.backtesting.engine:run:122 - No signal at candle 32000/50401, active_strat=bollinger_scalp, positions=0
+2026-04-04 15:51:06 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: RANGING -> TRANSITIONAL (ADX=22.4)
+2026-04-04 15:51:06 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRANSITIONAL -> TRENDING (ADX=25.5)
+2026-04-04 15:51:10 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRENDING -> TRANSITIONAL (ADX=24.8)
+2026-04-04 15:51:10 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRANSITIONAL -> RANGING (ADX=19.9)
+2026-04-04 15:51:12 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: RANGING -> TRANSITIONAL (ADX=20.8)
+2026-04-04 15:51:13 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRANSITIONAL -> TRENDING (ADX=25.2)
+2026-04-04 15:51:13 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRENDING -> TRANSITIONAL (ADX=23.9)
+2026-04-04 15:51:14 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRANSITIONAL -> RANGING (ADX=19.6)
+2026-04-04 15:51:15 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: RANGING -> TRANSITIONAL (ADX=20.4)
+2026-04-04 15:51:15 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRANSITIONAL -> TRENDING (ADX=25.7)
+2026-04-04 15:51:15 | INFO     | src.backtesting.engine:run:122 - No signal at candle 34000/50401, active_strat=mtf_momentum, positions=0
+2026-04-04 15:51:17 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRENDING -> TRANSITIONAL (ADX=24.6)
+2026-04-04 15:51:17 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRANSITIONAL -> TRENDING (ADX=25.6)
+2026-04-04 15:51:18 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRENDING -> TRANSITIONAL (ADX=24.4)
+2026-04-04 15:51:19 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRANSITIONAL -> RANGING (ADX=19.9)
+2026-04-04 15:51:19 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: RANGING -> TRANSITIONAL (ADX=20.3)
+2026-04-04 15:51:19 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRANSITIONAL -> RANGING (ADX=19.7)
+2026-04-04 15:51:25 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: RANGING -> TRANSITIONAL (ADX=20.5)
+2026-04-04 15:51:26 | INFO     | src.backtesting.engine:run:122 - No signal at candle 36000/50401, active_strat=transitional, positions=0
+2026-04-04 15:51:26 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRANSITIONAL -> TRENDING (ADX=25.3)
+2026-04-04 15:51:29 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRENDING -> TRANSITIONAL (ADX=24.7)
+2026-04-04 15:51:30 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRANSITIONAL -> RANGING (ADX=19.8)
+2026-04-04 15:51:31 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: RANGING -> TRANSITIONAL (ADX=20.6)
+2026-04-04 15:51:31 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRANSITIONAL -> TRENDING (ADX=26.5)
+2026-04-04 15:51:31 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRENDING -> TRANSITIONAL (ADX=24.3)
+2026-04-04 15:51:32 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRANSITIONAL -> RANGING (ADX=20.0)
+2026-04-04 15:51:32 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: RANGING -> TRANSITIONAL (ADX=20.4)
+2026-04-04 15:51:33 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRANSITIONAL -> RANGING (ADX=19.7)
+2026-04-04 15:51:34 | INFO     | src.strategies.regime_filter:calculate_indicators:61 - Volatility override: HIGH_VOLATILITY (ATR ratio=3.44)
+2026-04-04 15:51:34 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: RANGING -> TRANSITIONAL (ADX=25.0)
+2026-04-04 15:51:34 | INFO     | src.strategies.regime_filter:calculate_indicators:61 - Volatility override: HIGH_VOLATILITY (ATR ratio=4.19)
+2026-04-04 15:51:34 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRANSITIONAL -> TRENDING (ADX=29.5)
+2026-04-04 15:51:34 | INFO     | src.strategies.regime_filter:calculate_indicators:61 - Volatility override: HIGH_VOLATILITY (ATR ratio=3.49)
+2026-04-04 15:51:37 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRENDING -> TRANSITIONAL (ADX=24.2)
+2026-04-04 15:51:38 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRANSITIONAL -> TRENDING (ADX=26.9)
+2026-04-04 15:51:38 | INFO     | src.backtesting.engine:run:122 - No signal at candle 38000/50401, active_strat=mtf_momentum, positions=0
+2026-04-04 15:51:40 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRENDING -> TRANSITIONAL (ADX=24.2)
+2026-04-04 15:51:41 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRANSITIONAL -> RANGING (ADX=19.9)
+2026-04-04 15:51:41 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: RANGING -> TRANSITIONAL (ADX=20.2)
+2026-04-04 15:51:41 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRANSITIONAL -> TRENDING (ADX=25.5)
+2026-04-04 15:51:44 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRENDING -> TRANSITIONAL (ADX=25.0)
+2026-04-04 15:51:45 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRANSITIONAL -> RANGING (ADX=19.8)
+2026-04-04 15:51:46 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: RANGING -> TRANSITIONAL (ADX=21.6)
+2026-04-04 15:51:48 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRANSITIONAL -> TRENDING (ADX=28.0)
+2026-04-04 15:51:51 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRENDING -> TRANSITIONAL (ADX=24.0)
+2026-04-04 15:51:52 | INFO     | src.backtesting.engine:run:122 - No signal at candle 40000/50401, active_strat=transitional, positions=0
+2026-04-04 15:51:54 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRANSITIONAL -> RANGING (ADX=19.3)
+2026-04-04 15:51:56 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: RANGING -> TRANSITIONAL (ADX=20.3)
+2026-04-04 15:51:56 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRANSITIONAL -> RANGING (ADX=19.1)
+2026-04-04 15:52:00 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: RANGING -> TRANSITIONAL (ADX=20.3)
+2026-04-04 15:52:01 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRANSITIONAL -> TRENDING (ADX=26.0)
+2026-04-04 15:52:04 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRENDING -> TRANSITIONAL (ADX=24.9)
+2026-04-04 15:52:05 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRANSITIONAL -> RANGING (ADX=20.0)
+2026-04-04 15:52:05 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: RANGING -> TRANSITIONAL (ADX=20.4)
+2026-04-04 15:52:06 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRANSITIONAL -> RANGING (ADX=19.6)
+2026-04-04 15:52:07 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: RANGING -> TRANSITIONAL (ADX=20.2)
+2026-04-04 15:52:08 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRANSITIONAL -> TRENDING (ADX=25.6)
+2026-04-04 15:52:08 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRENDING -> TRANSITIONAL (ADX=24.6)
+2026-04-04 15:52:09 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRANSITIONAL -> RANGING (ADX=19.0)
+2026-04-04 15:52:10 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: RANGING -> TRANSITIONAL (ADX=20.5)
+2026-04-04 15:52:10 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRANSITIONAL -> RANGING (ADX=19.1)
+2026-04-04 15:52:15 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: RANGING -> TRANSITIONAL (ADX=20.1)
+2026-04-04 15:52:16 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRANSITIONAL -> TRENDING (ADX=26.4)
+2026-04-04 15:52:19 | INFO     | src.backtesting.engine:run:122 - No signal at candle 44000/50401, active_strat=mtf_momentum, positions=0
+2026-04-04 15:52:23 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRENDING -> TRANSITIONAL (ADX=24.8)
+2026-04-04 15:52:24 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRANSITIONAL -> RANGING (ADX=19.7)
+2026-04-04 15:52:26 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: RANGING -> TRANSITIONAL (ADX=20.2)
+2026-04-04 15:52:26 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRANSITIONAL -> RANGING (ADX=19.5)
+2026-04-04 15:52:28 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: RANGING -> TRANSITIONAL (ADX=21.6)
+2026-04-04 15:52:28 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRANSITIONAL -> TRENDING (ADX=25.2)
+2026-04-04 15:52:35 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRENDING -> TRANSITIONAL (ADX=24.6)
+2026-04-04 15:52:36 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRANSITIONAL -> RANGING (ADX=19.7)
+2026-04-04 15:52:37 | INFO     | src.backtesting.engine:run:122 - No signal at candle 46000/50401, active_strat=bollinger_scalp, positions=0
+2026-04-04 15:52:41 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: RANGING -> TRANSITIONAL (ADX=21.2)
+2026-04-04 15:52:41 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRANSITIONAL -> TRENDING (ADX=26.1)
+2026-04-04 15:52:42 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRENDING -> TRANSITIONAL (ADX=23.8)
+2026-04-04 15:52:42 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRANSITIONAL -> RANGING (ADX=19.7)
+2026-04-04 15:52:44 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: RANGING -> TRANSITIONAL (ADX=21.7)
+2026-04-04 15:52:44 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRANSITIONAL -> TRENDING (ADX=26.8)
+2026-04-04 15:52:47 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRENDING -> TRANSITIONAL (ADX=24.9)
+2026-04-04 15:52:48 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRANSITIONAL -> TRENDING (ADX=26.2)
+2026-04-04 15:52:50 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRENDING -> TRANSITIONAL (ADX=24.1)
+2026-04-04 15:52:50 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRANSITIONAL -> RANGING (ADX=19.2)
+2026-04-04 15:52:52 | INFO     | src.backtesting.engine:run:122 - No signal at candle 48000/50401, active_strat=bollinger_scalp, positions=0
+2026-04-04 15:52:54 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: RANGING -> TRANSITIONAL (ADX=20.9)
+2026-04-04 15:52:55 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRANSITIONAL -> RANGING (ADX=19.8)
+2026-04-04 15:52:58 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: RANGING -> TRANSITIONAL (ADX=21.1)
+2026-04-04 15:52:59 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRANSITIONAL -> TRENDING (ADX=25.6)
+2026-04-04 15:52:59 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRENDING -> TRANSITIONAL (ADX=24.6)
+2026-04-04 15:53:01 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRANSITIONAL -> TRENDING (ADX=26.0)
+2026-04-04 15:53:06 | INFO     | src.backtesting.engine:run:122 - No signal at candle 50000/50401, active_strat=mtf_momentum, positions=0
+2026-04-04 15:53:10 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRENDING -> TRANSITIONAL (ADX=24.3)
+2026-04-04 15:53:10 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRANSITIONAL -> RANGING (ADX=19.5)
+2026-04-04 15:53:10 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: RANGING -> TRANSITIONAL (ADX=20.3)
+2026-04-04 15:53:11 | INFO     | src.backtesting.report:generate:121 - 
+============================================================
+           BACKTEST REPORT
+============================================================
+
+Period: 2026-03-01 to 2026-03-31
+Starting Capital: $1,000.00
+Ending Capital:   $1,345.46
+Leverage:         12x
+
+--- Returns ---
+Total Return:     +34.55%
+Net Profit:       $+345.46
+
+--- Trades ---
+Total Trades:        141
+Win Rate:            33.3%
+Avg Win:             $33.38
+Avg Loss:            $-13.02
+Largest Win:         $98.78
+Largest Loss:        $-41.53
+Profit Factor:       1.28
+Expectancy:          $2.45/trade
+
+--- Risk ---
+Max Drawdown:        -21.27%
+Max Consec Losses:   7
+Sharpe Ratio:        3.55
+Sortino Ratio:       6.07
+
+--- Strategy Breakdown ---
+  mtf_momentum: 141 trades, 33.3% WR, $+345.46 PnL
+
+--- Exit Reasons ---
+  take_profit: 16 trades, $+833.87
+  stop_loss: 27 trades, $-803.72
+  breakeven_stop: 51 trades, $-294.20
+  trailing_stop: 17 trades, $+467.36
+  time_exit: 30 trades, $+142.15
+
+--- Fees ---
+Total Fees Paid:     $804.04
+Gross Profit:        $+1,149.50
+Net Profit:          $+345.46
+============================================================
+2026-04-04 15:53:13 | INFO     | src.backtesting.report:_plot_equity:167 - Equity chart saved
+2026-04-04 15:53:13 | INFO     | __main__:run_backtest:63 - === BACKTEST COMPLETE ===
+2026-04-04 16:25:11 | INFO     | __main__:run_backtest:37 - === STARTING BACKTEST ===
+2026-04-04 16:25:11 | INFO     | __main__:run_backtest:51 - Fetching 1m data from 2026-03-27 to 2026-04-04
+2026-04-04 16:25:11 | INFO     | src.exchange.data_fetcher:fetch_ohlcv:30 - Downloading ETH/USDT 1m data from 2026-03-27 to 2026-04-04
+2026-04-04 16:25:15 | INFO     | src.exchange.data_fetcher:fetch_ohlcv:70 - Saved 11521 candles to data/ETH_USDT_1m_2026-03-27_2026-04-04.csv
+2026-04-04 16:25:15 | INFO     | __main__:run_backtest:57 - Fetched 11521 1m candles
+2026-04-04 16:25:15 | INFO     | __main__:run_backtest:61 - Resampled: 3m=3841, 5m=2305, 15m=769
+2026-04-04 16:25:15 | INFO     | src.backtesting.engine:run:26 - Starting backtest: 11521 1m candles, capital=$1000
+2026-04-04 16:25:16 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: UNKNOWN -> RANGING (ADX=19.3)
+2026-04-04 16:25:16 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: RANGING -> TRANSITIONAL (ADX=20.8)
+2026-04-04 16:25:16 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRANSITIONAL -> TRENDING (ADX=26.5)
+2026-04-04 16:25:16 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRENDING -> TRANSITIONAL (ADX=24.9)
+2026-04-04 16:25:16 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRANSITIONAL -> RANGING (ADX=19.9)
+2026-04-04 16:25:16 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: RANGING -> TRANSITIONAL (ADX=21.2)
+2026-04-04 16:25:16 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRANSITIONAL -> TRENDING (ADX=26.1)
+2026-04-04 16:25:16 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRENDING -> TRANSITIONAL (ADX=23.8)
+2026-04-04 16:25:17 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRANSITIONAL -> RANGING (ADX=19.7)
+2026-04-04 16:25:17 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: RANGING -> TRANSITIONAL (ADX=21.7)
+2026-04-04 16:25:17 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRANSITIONAL -> TRENDING (ADX=26.8)
+2026-04-04 16:25:17 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRENDING -> TRANSITIONAL (ADX=24.9)
+2026-04-04 16:25:17 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRANSITIONAL -> TRENDING (ADX=26.2)
+2026-04-04 16:25:17 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRENDING -> TRANSITIONAL (ADX=24.1)
+2026-04-04 16:25:17 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRANSITIONAL -> RANGING (ADX=19.2)
+2026-04-04 16:25:18 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: RANGING -> TRANSITIONAL (ADX=20.9)
+2026-04-04 16:25:18 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRANSITIONAL -> RANGING (ADX=19.8)
+2026-04-04 16:25:18 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: RANGING -> TRANSITIONAL (ADX=21.1)
+2026-04-04 16:25:18 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRANSITIONAL -> TRENDING (ADX=25.6)
+2026-04-04 16:25:18 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRENDING -> TRANSITIONAL (ADX=24.6)
+2026-04-04 16:25:19 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRANSITIONAL -> TRENDING (ADX=26.0)
+2026-04-04 16:25:21 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRENDING -> TRANSITIONAL (ADX=24.3)
+2026-04-04 16:25:21 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRANSITIONAL -> RANGING (ADX=19.5)
+2026-04-04 16:25:21 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: RANGING -> TRANSITIONAL (ADX=20.3)
+2026-04-04 16:25:21 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRANSITIONAL -> TRENDING (ADX=25.5)
+2026-04-04 16:25:22 | INFO     | src.backtesting.engine:run:135 - No signal at candle 6000/11521, active_strat=mtf_momentum, positions=0
+2026-04-04 16:25:22 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRENDING -> TRANSITIONAL (ADX=25.0)
+2026-04-04 16:25:22 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRANSITIONAL -> RANGING (ADX=20.0)
+2026-04-04 16:25:22 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: RANGING -> TRANSITIONAL (ADX=20.8)
+2026-04-04 16:25:22 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRANSITIONAL -> TRENDING (ADX=26.9)
+2026-04-04 16:25:23 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRENDING -> TRANSITIONAL (ADX=24.7)
+2026-04-04 16:25:23 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRANSITIONAL -> TRENDING (ADX=26.5)
+2026-04-04 16:25:23 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRENDING -> TRANSITIONAL (ADX=25.0)
+2026-04-04 16:25:23 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRANSITIONAL -> RANGING (ADX=19.7)
+2026-04-04 16:25:23 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: RANGING -> TRANSITIONAL (ADX=21.2)
+2026-04-04 16:25:24 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRANSITIONAL -> TRENDING (ADX=25.2)
+2026-04-04 16:25:24 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRENDING -> TRANSITIONAL (ADX=24.8)
+2026-04-04 16:25:24 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRANSITIONAL -> RANGING (ADX=19.1)
+2026-04-04 16:25:25 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: RANGING -> TRANSITIONAL (ADX=20.2)
+2026-04-04 16:25:25 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRANSITIONAL -> TRENDING (ADX=26.1)
+2026-04-04 16:25:26 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRENDING -> TRANSITIONAL (ADX=24.6)
+2026-04-04 16:25:26 | INFO     | src.backtesting.engine:run:135 - No signal at candle 8000/11521, active_strat=transitional, positions=0
+2026-04-04 16:25:26 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRANSITIONAL -> RANGING (ADX=19.7)
+2026-04-04 16:25:26 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: RANGING -> TRANSITIONAL (ADX=20.0)
+2026-04-04 16:25:26 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRANSITIONAL -> RANGING (ADX=19.0)
+2026-04-04 16:25:28 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: RANGING -> TRANSITIONAL (ADX=22.1)
+2026-04-04 16:25:28 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRANSITIONAL -> TRENDING (ADX=26.6)
+2026-04-04 16:25:31 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRENDING -> TRANSITIONAL (ADX=23.9)
+2026-04-04 16:25:31 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRANSITIONAL -> RANGING (ADX=20.0)
+2026-04-04 16:25:31 | INFO     | src.backtesting.engine:run:135 - No signal at candle 10000/11521, active_strat=bollinger_scalp, positions=0
+2026-04-04 16:25:33 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: RANGING -> TRANSITIONAL (ADX=22.1)
+2026-04-04 16:25:33 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRANSITIONAL -> RANGING (ADX=20.0)
+2026-04-04 16:25:35 | INFO     | src.backtesting.report:generate:121 - 
+============================================================
+           BACKTEST REPORT
+============================================================
+
+Period: 2026-04-01 to 2026-04-04
+Starting Capital: $1,000.00
+Ending Capital:   $1,229.56
+Leverage:         12x
+
+--- Returns ---
+Total Return:     +22.96%
+Net Profit:       $+44.12
+
+--- Trades ---
+Total Trades:        12
+Win Rate:            41.7%
+Avg Win:             $25.78
+Avg Loss:            $-12.11
+Largest Win:         $44.92
+Largest Loss:        $-25.66
+Profit Factor:       1.52
+Expectancy:          $3.68/trade
+
+--- Risk ---
+Max Drawdown:        -8.71%
+Max Consec Losses:   4
+Sharpe Ratio:        8.85
+Sortino Ratio:       0.00
+
+--- Strategy Breakdown ---
+  mtf_momentum: 12 trades, 41.7% WR, $+44.12 PnL
+
+--- Exit Reasons ---
+  breakeven_stop: 3 trades, $-16.48
+  time_exit: 5 trades, $+47.76
+  stop_loss: 2 trades, $-50.75
+  take_profit: 1 trades, $+44.92
+  trailing_stop: 1 trades, $+18.68
+
+--- Fees ---
+Total Fees Paid:     $66.36
+Gross Profit:        $+110.48
+Net Profit:          $+44.12
+============================================================
+2026-04-04 16:25:36 | INFO     | src.backtesting.report:_plot_equity:167 - Equity chart saved
+2026-04-04 16:25:36 | INFO     | __main__:run_backtest:68 - === BACKTEST COMPLETE ===
+2026-04-04 16:26:11 | INFO     | __main__:run_backtest:37 - === STARTING BACKTEST ===
+2026-04-04 16:26:11 | INFO     | __main__:run_backtest:51 - Fetching 1m data from 2026-02-23 to 2026-03-31
+2026-04-04 16:26:11 | INFO     | src.exchange.data_fetcher:fetch_ohlcv:30 - Downloading ETH/USDT 1m data from 2026-02-23 to 2026-03-31
+2026-04-04 16:26:30 | INFO     | src.exchange.data_fetcher:fetch_ohlcv:70 - Saved 51841 candles to data/ETH_USDT_1m_2026-02-23_2026-03-31.csv
+2026-04-04 16:26:30 | INFO     | __main__:run_backtest:57 - Fetched 51841 1m candles
+2026-04-04 16:26:30 | INFO     | __main__:run_backtest:61 - Resampled: 3m=17281, 5m=10369, 15m=3457
+2026-04-04 16:26:30 | INFO     | src.backtesting.engine:run:26 - Starting backtest: 51841 1m candles, capital=$1000
+2026-04-04 16:26:30 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: UNKNOWN -> TRENDING (ADX=62.1)
+2026-04-04 16:26:32 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRENDING -> TRANSITIONAL (ADX=24.4)
+2026-04-04 16:26:32 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRANSITIONAL -> TRENDING (ADX=25.8)
+2026-04-04 16:26:34 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRENDING -> TRANSITIONAL (ADX=24.6)
+2026-04-04 16:26:34 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRANSITIONAL -> RANGING (ADX=19.3)
+2026-04-04 16:26:35 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: RANGING -> TRANSITIONAL (ADX=21.2)
+2026-04-04 16:26:35 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRANSITIONAL -> TRENDING (ADX=27.8)
+2026-04-04 16:26:35 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRENDING -> TRANSITIONAL (ADX=23.9)
+2026-04-04 16:26:35 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRANSITIONAL -> RANGING (ADX=19.0)
+2026-04-04 16:26:36 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: RANGING -> TRANSITIONAL (ADX=20.0)
+2026-04-04 16:26:36 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRANSITIONAL -> TRENDING (ADX=25.1)
+2026-04-04 16:26:37 | INFO     | src.backtesting.engine:run:135 - No signal at candle 4000/51841, active_strat=mtf_momentum, positions=0
+2026-04-04 16:26:38 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRENDING -> TRANSITIONAL (ADX=24.1)
+2026-04-04 16:26:38 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRANSITIONAL -> RANGING (ADX=19.9)
+2026-04-04 16:26:38 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: RANGING -> TRANSITIONAL (ADX=20.8)
+2026-04-04 16:26:38 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRANSITIONAL -> RANGING (ADX=19.2)
+2026-04-04 16:26:39 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: RANGING -> TRANSITIONAL (ADX=20.8)
+2026-04-04 16:26:39 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRANSITIONAL -> TRENDING (ADX=25.7)
+2026-04-04 16:26:40 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRENDING -> TRANSITIONAL (ADX=24.4)
+2026-04-04 16:26:40 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRANSITIONAL -> RANGING (ADX=18.8)
+2026-04-04 16:26:40 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: RANGING -> TRANSITIONAL (ADX=20.1)
+2026-04-04 16:26:40 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRANSITIONAL -> RANGING (ADX=19.5)
+2026-04-04 16:26:41 | INFO     | src.backtesting.engine:run:135 - No signal at candle 6000/51841, active_strat=bollinger_scalp, positions=0
+2026-04-04 16:26:41 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: RANGING -> TRANSITIONAL (ADX=20.1)
+2026-04-04 16:26:41 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRANSITIONAL -> RANGING (ADX=19.9)
+2026-04-04 16:26:41 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: RANGING -> TRANSITIONAL (ADX=20.3)
+2026-04-04 16:26:42 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRANSITIONAL -> TRENDING (ADX=27.2)
+2026-04-04 16:26:45 | INFO     | src.backtesting.engine:run:135 - No signal at candle 8000/51841, active_strat=mtf_momentum, positions=0
+2026-04-04 16:26:45 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRENDING -> TRANSITIONAL (ADX=24.7)
+2026-04-04 16:26:45 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRANSITIONAL -> TRENDING (ADX=25.7)
+2026-04-04 16:26:46 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRENDING -> TRANSITIONAL (ADX=24.5)
+2026-04-04 16:26:46 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRANSITIONAL -> TRENDING (ADX=25.4)
+2026-04-04 16:26:48 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRENDING -> TRANSITIONAL (ADX=24.7)
+2026-04-04 16:26:48 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRANSITIONAL -> TRENDING (ADX=25.6)
+2026-04-04 16:26:49 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRENDING -> TRANSITIONAL (ADX=24.3)
+2026-04-04 16:26:49 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRANSITIONAL -> TRENDING (ADX=25.7)
+2026-04-04 16:26:50 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRENDING -> TRANSITIONAL (ADX=24.5)
+2026-04-04 16:26:50 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRANSITIONAL -> TRENDING (ADX=25.0)
+2026-04-04 16:26:50 | INFO     | src.backtesting.engine:run:135 - No signal at candle 10000/51841, active_strat=mtf_momentum, positions=0
+2026-04-04 16:26:50 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRENDING -> TRANSITIONAL (ADX=24.5)
+2026-04-04 16:26:51 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRANSITIONAL -> TRENDING (ADX=26.3)
+2026-04-04 16:26:52 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRENDING -> TRANSITIONAL (ADX=24.9)
+2026-04-04 16:26:52 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRANSITIONAL -> TRENDING (ADX=25.0)
+2026-04-04 16:26:52 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRENDING -> TRANSITIONAL (ADX=24.8)
+2026-04-04 16:26:52 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRANSITIONAL -> TRENDING (ADX=25.6)
+2026-04-04 16:26:52 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRENDING -> TRANSITIONAL (ADX=23.4)
+2026-04-04 16:26:52 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRANSITIONAL -> RANGING (ADX=19.6)
+2026-04-04 16:26:53 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: RANGING -> TRANSITIONAL (ADX=20.8)
+2026-04-04 16:26:53 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRANSITIONAL -> TRENDING (ADX=25.9)
+2026-04-04 16:26:54 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRENDING -> TRANSITIONAL (ADX=23.9)
+2026-04-04 16:26:55 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRANSITIONAL -> RANGING (ADX=18.8)
+2026-04-04 16:26:55 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: RANGING -> TRANSITIONAL (ADX=20.7)
+2026-04-04 16:26:55 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRANSITIONAL -> RANGING (ADX=19.5)
+2026-04-04 16:26:55 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: RANGING -> TRANSITIONAL (ADX=20.3)
+2026-04-04 16:26:55 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRANSITIONAL -> RANGING (ADX=20.0)
+2026-04-04 16:26:56 | INFO     | src.backtesting.engine:run:135 - No signal at candle 12000/51841, active_strat=bollinger_scalp, positions=0
+2026-04-04 16:26:56 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: RANGING -> TRANSITIONAL (ADX=21.3)
+2026-04-04 16:26:56 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRANSITIONAL -> TRENDING (ADX=25.4)
+2026-04-04 16:26:57 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRENDING -> TRANSITIONAL (ADX=24.9)
+2026-04-04 16:26:57 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRANSITIONAL -> RANGING (ADX=19.4)
+2026-04-04 16:26:57 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: RANGING -> TRANSITIONAL (ADX=20.5)
+2026-04-04 16:26:57 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRANSITIONAL -> RANGING (ADX=19.4)
+2026-04-04 16:27:00 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: RANGING -> TRANSITIONAL (ADX=21.8)
+2026-04-04 16:27:00 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRANSITIONAL -> TRENDING (ADX=27.6)
+2026-04-04 16:27:02 | INFO     | src.backtesting.engine:run:135 - No signal at candle 14000/51841, active_strat=mtf_momentum, positions=0
+2026-04-04 16:27:04 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRENDING -> TRANSITIONAL (ADX=24.4)
+2026-04-04 16:27:04 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRANSITIONAL -> RANGING (ADX=19.7)
+2026-04-04 16:27:06 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: RANGING -> TRANSITIONAL (ADX=20.3)
+2026-04-04 16:27:06 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRANSITIONAL -> RANGING (ADX=19.9)
+2026-04-04 16:27:06 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: RANGING -> TRANSITIONAL (ADX=21.4)
+2026-04-04 16:27:07 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRANSITIONAL -> TRENDING (ADX=25.4)
+2026-04-04 16:27:07 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRENDING -> TRANSITIONAL (ADX=24.5)
+2026-04-04 16:27:08 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRANSITIONAL -> RANGING (ADX=18.8)
+2026-04-04 16:27:09 | INFO     | src.backtesting.engine:run:135 - No signal at candle 16000/51841, active_strat=bollinger_scalp, positions=0
+2026-04-04 16:27:09 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: RANGING -> TRANSITIONAL (ADX=20.6)
+2026-04-04 16:27:10 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRANSITIONAL -> RANGING (ADX=19.4)
+2026-04-04 16:27:10 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: RANGING -> TRANSITIONAL (ADX=22.0)
+2026-04-04 16:27:10 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRANSITIONAL -> TRENDING (ADX=25.2)
+2026-04-04 16:27:13 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRENDING -> TRANSITIONAL (ADX=24.4)
+2026-04-04 16:27:15 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRANSITIONAL -> RANGING (ADX=19.7)
+2026-04-04 16:27:16 | INFO     | src.backtesting.engine:run:135 - No signal at candle 18000/51841, active_strat=bollinger_scalp, positions=0
+2026-04-04 16:27:17 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: RANGING -> TRANSITIONAL (ADX=21.0)
+2026-04-04 16:27:18 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRANSITIONAL -> TRENDING (ADX=26.3)
+2026-04-04 16:27:19 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRENDING -> TRANSITIONAL (ADX=24.5)
+2026-04-04 16:27:19 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRANSITIONAL -> TRENDING (ADX=25.2)
+2026-04-04 16:27:23 | INFO     | src.backtesting.engine:run:135 - No signal at candle 20000/51841, active_strat=mtf_momentum, positions=0
+2026-04-04 16:27:24 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRENDING -> TRANSITIONAL (ADX=24.2)
+2026-04-04 16:27:24 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRANSITIONAL -> TRENDING (ADX=25.1)
+2026-04-04 16:27:24 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRENDING -> TRANSITIONAL (ADX=24.9)
+2026-04-04 16:27:24 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRANSITIONAL -> RANGING (ADX=19.5)
+2026-04-04 16:27:25 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: RANGING -> TRANSITIONAL (ADX=21.2)
+2026-04-04 16:27:25 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRANSITIONAL -> TRENDING (ADX=25.1)
+2026-04-04 16:27:26 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRENDING -> TRANSITIONAL (ADX=24.0)
+2026-04-04 16:27:27 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRANSITIONAL -> RANGING (ADX=19.7)
+2026-04-04 16:27:27 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: RANGING -> TRANSITIONAL (ADX=20.4)
+2026-04-04 16:27:27 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRANSITIONAL -> TRENDING (ADX=25.3)
+2026-04-04 16:27:28 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRENDING -> TRANSITIONAL (ADX=24.9)
+2026-04-04 16:27:29 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRANSITIONAL -> RANGING (ADX=19.3)
+2026-04-04 16:27:29 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: RANGING -> TRANSITIONAL (ADX=20.5)
+2026-04-04 16:27:29 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRANSITIONAL -> RANGING (ADX=19.3)
+2026-04-04 16:27:30 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: RANGING -> TRANSITIONAL (ADX=20.1)
+2026-04-04 16:27:30 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRANSITIONAL -> RANGING (ADX=19.6)
+2026-04-04 16:27:31 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: RANGING -> TRANSITIONAL (ADX=21.2)
+2026-04-04 16:27:32 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRANSITIONAL -> TRENDING (ADX=25.1)
+2026-04-04 16:27:32 | INFO     | src.backtesting.engine:run:135 - No signal at candle 22000/51841, active_strat=mtf_momentum, positions=0
+2026-04-04 16:27:33 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRENDING -> TRANSITIONAL (ADX=24.1)
+2026-04-04 16:27:33 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRANSITIONAL -> TRENDING (ADX=25.6)
+2026-04-04 16:27:34 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRENDING -> TRANSITIONAL (ADX=24.8)
+2026-04-04 16:27:35 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRANSITIONAL -> TRENDING (ADX=25.1)
+2026-04-04 16:27:35 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRENDING -> TRANSITIONAL (ADX=24.6)
+2026-04-04 16:27:36 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRANSITIONAL -> TRENDING (ADX=25.1)
+2026-04-04 16:27:36 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRENDING -> TRANSITIONAL (ADX=24.2)
+2026-04-04 16:27:37 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRANSITIONAL -> RANGING (ADX=19.8)
+2026-04-04 16:27:37 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: RANGING -> TRANSITIONAL (ADX=21.3)
+2026-04-04 16:27:37 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRANSITIONAL -> TRENDING (ADX=26.0)
+2026-04-04 16:27:37 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRENDING -> TRANSITIONAL (ADX=24.0)
+2026-04-04 16:27:38 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRANSITIONAL -> TRENDING (ADX=26.1)
+2026-04-04 16:27:39 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRENDING -> TRANSITIONAL (ADX=24.3)
+2026-04-04 16:27:39 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRANSITIONAL -> RANGING (ADX=19.9)
+2026-04-04 16:27:40 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: RANGING -> TRANSITIONAL (ADX=22.7)
+2026-04-04 16:27:40 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRANSITIONAL -> TRENDING (ADX=26.6)
+2026-04-04 16:27:40 | INFO     | src.backtesting.engine:run:135 - No signal at candle 24000/51841, active_strat=mtf_momentum, positions=0
+2026-04-04 16:27:41 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRENDING -> TRANSITIONAL (ADX=24.1)
+2026-04-04 16:27:42 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRANSITIONAL -> RANGING (ADX=19.4)
+2026-04-04 16:27:43 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: RANGING -> TRANSITIONAL (ADX=20.1)
+2026-04-04 16:27:43 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRANSITIONAL -> TRENDING (ADX=25.6)
+2026-04-04 16:27:47 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRENDING -> TRANSITIONAL (ADX=24.2)
+2026-04-04 16:27:47 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRANSITIONAL -> RANGING (ADX=19.5)
+2026-04-04 16:27:49 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: RANGING -> TRANSITIONAL (ADX=21.9)
+2026-04-04 16:27:49 | INFO     | src.backtesting.engine:run:135 - No signal at candle 26000/51841, active_strat=transitional, positions=0
+2026-04-04 16:27:49 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRANSITIONAL -> TRENDING (ADX=26.2)
+2026-04-04 16:27:50 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRENDING -> TRANSITIONAL (ADX=24.5)
+2026-04-04 16:27:50 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRANSITIONAL -> RANGING (ADX=19.4)
+2026-04-04 16:27:52 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: RANGING -> TRANSITIONAL (ADX=20.4)
+2026-04-04 16:27:52 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRANSITIONAL -> TRENDING (ADX=25.2)
+2026-04-04 16:27:57 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRENDING -> TRANSITIONAL (ADX=24.7)
+2026-04-04 16:27:58 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRANSITIONAL -> TRENDING (ADX=25.2)
+2026-04-04 16:27:59 | INFO     | src.backtesting.engine:run:135 - No signal at candle 28000/51841, active_strat=mtf_momentum, positions=0
+2026-04-04 16:28:01 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRENDING -> TRANSITIONAL (ADX=24.6)
+2026-04-04 16:28:02 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRANSITIONAL -> RANGING (ADX=19.2)
+2026-04-04 16:28:02 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: RANGING -> TRANSITIONAL (ADX=20.6)
+2026-04-04 16:28:03 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRANSITIONAL -> TRENDING (ADX=25.4)
+2026-04-04 16:28:03 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRENDING -> TRANSITIONAL (ADX=24.5)
+2026-04-04 16:28:03 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRANSITIONAL -> TRENDING (ADX=26.2)
+2026-04-04 16:28:03 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRENDING -> TRANSITIONAL (ADX=24.7)
+2026-04-04 16:28:04 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRANSITIONAL -> TRENDING (ADX=25.3)
+2026-04-04 16:28:09 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRENDING -> TRANSITIONAL (ADX=24.3)
+2026-04-04 16:28:09 | INFO     | src.backtesting.engine:run:135 - No signal at candle 30000/51841, active_strat=transitional, positions=0
+2026-04-04 16:28:10 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRANSITIONAL -> TRENDING (ADX=25.3)
+2026-04-04 16:28:20 | INFO     | src.backtesting.engine:run:135 - No signal at candle 32000/51841, active_strat=mtf_momentum, positions=0
+2026-04-04 16:28:20 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRENDING -> TRANSITIONAL (ADX=24.9)
+2026-04-04 16:28:20 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRANSITIONAL -> RANGING (ADX=19.5)
+2026-04-04 16:28:23 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: RANGING -> TRANSITIONAL (ADX=20.8)
+2026-04-04 16:28:23 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRANSITIONAL -> RANGING (ADX=19.7)
+2026-04-04 16:28:23 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: RANGING -> TRANSITIONAL (ADX=20.1)
+2026-04-04 16:28:24 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRANSITIONAL -> RANGING (ADX=18.9)
+2026-04-04 16:28:29 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: RANGING -> TRANSITIONAL (ADX=22.4)
+2026-04-04 16:28:29 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRANSITIONAL -> TRENDING (ADX=25.5)
+2026-04-04 16:28:30 | INFO     | src.backtesting.engine:run:135 - No signal at candle 34000/51841, active_strat=mtf_momentum, positions=0
+2026-04-04 16:28:33 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRENDING -> TRANSITIONAL (ADX=24.8)
+2026-04-04 16:28:34 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRANSITIONAL -> RANGING (ADX=19.9)
+2026-04-04 16:28:35 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: RANGING -> TRANSITIONAL (ADX=20.8)
+2026-04-04 16:28:36 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRANSITIONAL -> TRENDING (ADX=25.2)
+2026-04-04 16:28:36 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRENDING -> TRANSITIONAL (ADX=23.9)
+2026-04-04 16:28:36 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRANSITIONAL -> RANGING (ADX=19.6)
+2026-04-04 16:28:37 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: RANGING -> TRANSITIONAL (ADX=20.4)
+2026-04-04 16:28:37 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRANSITIONAL -> TRENDING (ADX=25.7)
+2026-04-04 16:28:39 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRENDING -> TRANSITIONAL (ADX=24.6)
+2026-04-04 16:28:39 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRANSITIONAL -> TRENDING (ADX=25.6)
+2026-04-04 16:28:40 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRENDING -> TRANSITIONAL (ADX=24.4)
+2026-04-04 16:28:40 | INFO     | src.backtesting.engine:run:135 - No signal at candle 36000/51841, active_strat=transitional, positions=0
+2026-04-04 16:28:40 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRANSITIONAL -> RANGING (ADX=19.9)
+2026-04-04 16:28:41 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: RANGING -> TRANSITIONAL (ADX=20.3)
+2026-04-04 16:28:41 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRANSITIONAL -> RANGING (ADX=19.7)
+2026-04-04 16:28:47 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: RANGING -> TRANSITIONAL (ADX=20.5)
+2026-04-04 16:28:48 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRANSITIONAL -> TRENDING (ADX=25.3)
+2026-04-04 16:28:51 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRENDING -> TRANSITIONAL (ADX=24.7)
+2026-04-04 16:28:51 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRANSITIONAL -> RANGING (ADX=19.8)
+2026-04-04 16:28:52 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: RANGING -> TRANSITIONAL (ADX=20.6)
+2026-04-04 16:28:52 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRANSITIONAL -> TRENDING (ADX=26.5)
+2026-04-04 16:28:53 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRENDING -> TRANSITIONAL (ADX=24.3)
+2026-04-04 16:28:53 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRANSITIONAL -> RANGING (ADX=20.0)
+2026-04-04 16:28:53 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: RANGING -> TRANSITIONAL (ADX=20.4)
+2026-04-04 16:28:54 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRANSITIONAL -> RANGING (ADX=19.7)
+2026-04-04 16:28:56 | INFO     | src.strategies.regime_filter:calculate_indicators:61 - Volatility override: HIGH_VOLATILITY (ATR ratio=3.44)
+2026-04-04 16:28:56 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: RANGING -> TRANSITIONAL (ADX=25.0)
+2026-04-04 16:28:56 | INFO     | src.strategies.regime_filter:calculate_indicators:61 - Volatility override: HIGH_VOLATILITY (ATR ratio=4.19)
+2026-04-04 16:28:56 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRANSITIONAL -> TRENDING (ADX=29.5)
+2026-04-04 16:28:56 | INFO     | src.strategies.regime_filter:calculate_indicators:61 - Volatility override: HIGH_VOLATILITY (ATR ratio=3.49)
+2026-04-04 16:28:58 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRENDING -> TRANSITIONAL (ADX=24.2)
+2026-04-04 16:28:58 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRANSITIONAL -> TRENDING (ADX=26.9)
+2026-04-04 16:29:01 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRENDING -> TRANSITIONAL (ADX=24.2)
+2026-04-04 16:29:01 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRANSITIONAL -> RANGING (ADX=19.9)
+2026-04-04 16:29:02 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: RANGING -> TRANSITIONAL (ADX=20.2)
+2026-04-04 16:29:02 | INFO     | src.backtesting.engine:run:135 - No signal at candle 40000/51841, active_strat=transitional, positions=0
+2026-04-04 16:29:02 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRANSITIONAL -> TRENDING (ADX=25.5)
+2026-04-04 16:29:05 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRENDING -> TRANSITIONAL (ADX=25.0)
+2026-04-04 16:29:05 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRANSITIONAL -> RANGING (ADX=19.8)
+2026-04-04 16:29:06 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: RANGING -> TRANSITIONAL (ADX=21.6)
+2026-04-04 16:29:07 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRANSITIONAL -> TRENDING (ADX=28.0)
+2026-04-04 16:29:09 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRENDING -> TRANSITIONAL (ADX=24.0)
+2026-04-04 16:29:11 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRANSITIONAL -> RANGING (ADX=19.3)
+2026-04-04 16:29:13 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: RANGING -> TRANSITIONAL (ADX=20.3)
+2026-04-04 16:29:13 | INFO     | src.backtesting.engine:run:135 - No signal at candle 42000/51841, active_strat=transitional, positions=0
+2026-04-04 16:29:13 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRANSITIONAL -> RANGING (ADX=19.1)
+2026-04-04 16:29:17 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: RANGING -> TRANSITIONAL (ADX=20.3)
+2026-04-04 16:29:17 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRANSITIONAL -> TRENDING (ADX=26.0)
+2026-04-04 16:29:21 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRENDING -> TRANSITIONAL (ADX=24.9)
+2026-04-04 16:29:21 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRANSITIONAL -> RANGING (ADX=20.0)
+2026-04-04 16:29:22 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: RANGING -> TRANSITIONAL (ADX=20.4)
+2026-04-04 16:29:23 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRANSITIONAL -> RANGING (ADX=19.6)
+2026-04-04 16:29:24 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: RANGING -> TRANSITIONAL (ADX=20.2)
+2026-04-04 16:29:24 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRANSITIONAL -> TRENDING (ADX=25.6)
+2026-04-04 16:29:25 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRENDING -> TRANSITIONAL (ADX=24.6)
+2026-04-04 16:29:25 | INFO     | src.backtesting.engine:run:135 - No signal at candle 44000/51841, active_strat=transitional, positions=0
+2026-04-04 16:29:26 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRANSITIONAL -> RANGING (ADX=19.0)
+2026-04-04 16:29:26 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: RANGING -> TRANSITIONAL (ADX=20.5)
+2026-04-04 16:29:26 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRANSITIONAL -> RANGING (ADX=19.1)
+2026-04-04 16:29:31 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: RANGING -> TRANSITIONAL (ADX=20.1)
+2026-04-04 16:29:31 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRANSITIONAL -> TRENDING (ADX=26.4)
+2026-04-04 16:29:37 | INFO     | src.backtesting.engine:run:135 - No signal at candle 46000/51841, active_strat=mtf_momentum, positions=0
+2026-04-04 16:29:38 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRENDING -> TRANSITIONAL (ADX=24.8)
+2026-04-04 16:29:38 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRANSITIONAL -> RANGING (ADX=19.7)
+2026-04-04 16:29:40 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: RANGING -> TRANSITIONAL (ADX=20.2)
+2026-04-04 16:29:40 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRANSITIONAL -> RANGING (ADX=19.5)
+2026-04-04 16:29:41 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: RANGING -> TRANSITIONAL (ADX=21.6)
+2026-04-04 16:29:42 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRANSITIONAL -> TRENDING (ADX=25.2)
+2026-04-04 16:29:46 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRENDING -> TRANSITIONAL (ADX=24.6)
+2026-04-04 16:29:46 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRANSITIONAL -> RANGING (ADX=19.7)
+2026-04-04 16:29:50 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: RANGING -> TRANSITIONAL (ADX=21.2)
+2026-04-04 16:29:50 | INFO     | src.backtesting.engine:run:135 - No signal at candle 48000/51841, active_strat=transitional, positions=0
+2026-04-04 16:29:50 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRANSITIONAL -> TRENDING (ADX=26.1)
+2026-04-04 16:29:50 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRENDING -> TRANSITIONAL (ADX=23.8)
+2026-04-04 16:29:51 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRANSITIONAL -> RANGING (ADX=19.7)
+2026-04-04 16:29:52 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: RANGING -> TRANSITIONAL (ADX=21.7)
+2026-04-04 16:29:52 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRANSITIONAL -> TRENDING (ADX=26.8)
+2026-04-04 16:29:55 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRENDING -> TRANSITIONAL (ADX=24.9)
+2026-04-04 16:29:56 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRANSITIONAL -> TRENDING (ADX=26.2)
+2026-04-04 16:29:57 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRENDING -> TRANSITIONAL (ADX=24.1)
+2026-04-04 16:29:58 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRANSITIONAL -> RANGING (ADX=19.2)
+2026-04-04 16:30:01 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: RANGING -> TRANSITIONAL (ADX=20.9)
+2026-04-04 16:30:02 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRANSITIONAL -> RANGING (ADX=19.8)
+2026-04-04 16:30:04 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: RANGING -> TRANSITIONAL (ADX=21.1)
+2026-04-04 16:30:05 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRANSITIONAL -> TRENDING (ADX=25.6)
+2026-04-04 16:30:06 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRENDING -> TRANSITIONAL (ADX=24.6)
+2026-04-04 16:30:07 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRANSITIONAL -> TRENDING (ADX=26.0)
+2026-04-04 16:30:14 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRENDING -> TRANSITIONAL (ADX=24.3)
+2026-04-04 16:30:15 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: TRANSITIONAL -> RANGING (ADX=19.5)
+2026-04-04 16:30:15 | INFO     | src.strategies.regime_filter:calculate_indicators:56 - Regime changed: RANGING -> TRANSITIONAL (ADX=20.3)
+2026-04-04 16:30:15 | INFO     | src.backtesting.report:generate:121 - 
+============================================================
+           BACKTEST REPORT
+============================================================
+
+Period: 2026-03-01 to 2026-03-31
+Starting Capital: $1,000.00
+Ending Capital:   $1,564.68
+Leverage:         12x
+
+--- Returns ---
+Total Return:     +56.47%
+Net Profit:       $+401.75
+
+--- Trades ---
+Total Trades:        141
+Win Rate:            33.3%
+Avg Win:             $38.82
+Avg Loss:            $-15.14
+Largest Win:         $114.87
+Largest Loss:        $-48.29
+Profit Factor:       1.28
+Expectancy:          $2.85/trade
+
+--- Risk ---
+Max Drawdown:        -21.27%
+Max Consec Losses:   7
+Sharpe Ratio:        5.83
+Sortino Ratio:       10.90
+
+--- Strategy Breakdown ---
+  mtf_momentum: 141 trades, 33.3% WR, $+401.75 PnL
+
+--- Exit Reasons ---
+  take_profit: 16 trades, $+969.73
+  stop_loss: 27 trades, $-934.66
+  breakeven_stop: 51 trades, $-342.13
+  trailing_stop: 17 trades, $+543.51
+  time_exit: 30 trades, $+165.30
+
+--- Fees ---
+Total Fees Paid:     $935.04
+Gross Profit:        $+1,336.79
+Net Profit:          $+401.75
+============================================================
+2026-04-04 16:30:17 | INFO     | src.backtesting.report:_plot_equity:167 - Equity chart saved
+2026-04-04 16:30:17 | INFO     | __main__:run_backtest:68 - === BACKTEST COMPLETE ===

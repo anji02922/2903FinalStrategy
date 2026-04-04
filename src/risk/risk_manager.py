@@ -1,4 +1,4 @@
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 from loguru import logger
 
 
@@ -48,10 +48,12 @@ class RiskManager:
             self.trades_this_hour = 0
 
     def reset_week(self, dt):
-        week = dt.isocalendar()[1] if hasattr(dt, "isocalendar") else None
-        if week and self.current_week != week:
-            self.current_week = week
-            self.weekly_pnl = 0.0
+        iso = dt.isocalendar() if hasattr(dt, "isocalendar") else None
+        if iso:
+            yw = (iso[0], iso[1])  # (year, week) — avoids cross-year collision
+            if self.current_week != yw:
+                self.current_week = yw
+                self.weekly_pnl = 0.0
 
     def calculate_position_size(self, capital: float, sl_pct: float) -> float:
         if sl_pct <= 0:
@@ -118,6 +120,73 @@ class RiskManager:
                     logger.warning(f"{self.consecutive_losses} consecutive losses — pausing until {self.pause_until}")
         else:
             self.consecutive_losses = 0
+
+    def restore_from_trades(self, trades: list):
+        """Reconstruct weekly/daily PnL from trade history (SQLite rows).
+
+        Called on live bot startup so risk limits survive restarts.
+        Each trade dict must have 'timestamp' (ISO str) and 'net_pnl' (float).
+        """
+        now = datetime.now(timezone.utc)
+        today = now.date()
+        current_hour = (today, now.hour)
+        iso_now = now.isocalendar()
+        current_yw = (iso_now[0], iso_now[1])
+
+        weekly_pnl = 0.0
+        daily_pnl = 0.0
+        trades_today = 0
+        trades_this_hour = 0
+        consecutive_losses = 0
+
+        sorted_trades = sorted(trades, key=lambda t: t["timestamp"])
+
+        for t in sorted_trades:
+            ts_str = t.get("timestamp", "")
+            net_pnl = t.get("net_pnl", 0.0)
+            try:
+                ts = datetime.fromisoformat(ts_str)
+                if ts.tzinfo is None:
+                    ts = ts.replace(tzinfo=timezone.utc)
+            except (ValueError, TypeError):
+                continue
+
+            iso_t = ts.isocalendar()
+            t_yw = (iso_t[0], iso_t[1])
+
+            if t_yw == current_yw:
+                weekly_pnl += net_pnl
+            if ts.date() == today:
+                daily_pnl += net_pnl
+                trades_today += 1
+                if (ts.date(), ts.hour) == current_hour:
+                    trades_this_hour += 1
+
+        # Consecutive losses: walk from newest trade backwards
+        for t in reversed(sorted_trades):
+            if t.get("net_pnl", 0) < 0:
+                consecutive_losses += 1
+            else:
+                break
+
+        self.weekly_pnl = weekly_pnl
+        self.daily_pnl = daily_pnl
+        self.trades_today = trades_today
+        self.trades_this_hour = trades_this_hour
+        self.consecutive_losses = consecutive_losses
+        self.current_week = current_yw
+        self.current_day = today
+        self.current_hour = current_hour
+
+        # Adjust capital for all-time PnL
+        total_pnl = sum(t.get("net_pnl", 0) for t in trades)
+        self.current_capital = self.starting_capital + total_pnl
+
+        logger.info(
+            f"Risk state restored: weekly_pnl=${weekly_pnl:+.2f}, daily_pnl=${daily_pnl:+.2f}, "
+            f"trades_today={trades_today}, consecutive_losses={consecutive_losses}, "
+            f"capital=${self.current_capital:.2f}"
+        )
 
     def get_fee_cost(self, position_value: float, is_maker: bool = False) -> float:
         fee_rate = self.fees["maker"] if is_maker else self.fees["taker"]

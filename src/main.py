@@ -41,7 +41,12 @@ def run_backtest(config: dict):
     end = config["backtest"]["end_date"]
 
     from datetime import datetime as _dt, timedelta as _td
-    warmup_start = (_dt.strptime(start, "%Y-%m-%d") - _td(days=5)).strftime("%Y-%m-%d")
+    # Warmup: go back to the earlier of 5 days or the ISO-week Monday
+    # so the backtest risk manager accumulates weekly PnL from same-week trades.
+    start_dt = _dt.strptime(start, "%Y-%m-%d")
+    iso = start_dt.isocalendar()
+    week_monday = _dt.fromisocalendar(iso[0], iso[1], 1)
+    warmup_start = min(start_dt - _td(days=5), week_monday).strftime("%Y-%m-%d")
 
     _log.info(f"Fetching 1m data from {warmup_start} to {end}")
     df_1m = fetcher.fetch_ohlcv("1m", warmup_start, end)
@@ -102,6 +107,11 @@ class LiveTrader:
         self.regime_filter = RegimeFilter(config)
         self.risk_manager = RiskManager(config)
 
+        # Restore risk state from trade history so limits survive restarts
+        past_trades = self.trade_store.get_all_trades()
+        if past_trades:
+            self.risk_manager.restore_from_trades(past_trades)
+
         # Config values
         self.leverage = config["trading"]["leverage"]
         self.fee_maker = config["fees"]["maker"] / 100
@@ -110,8 +120,9 @@ class LiveTrader:
         self.cooldown_sec = 2700  # 45 minutes — matches backtest
 
         # Warmup: how many 5m candles we need for indicators
-        self.warmup_candles_5m = 60
-        self.warmup_candles_15m = 30
+        # 200 5m = ~16h → EMA(50) fully converged; matches backtest which uses full history
+        self.warmup_candles_5m = 200
+        self.warmup_candles_15m = 100
 
         # Regime tracking
         self.last_regime_check = None

@@ -28,6 +28,12 @@ class BacktestEngine:
         # Determine actual backtest start date (skip warmup)
         bt_start = pd.Timestamp(self.config["backtest"]["start_date"], tz="UTC")
 
+        # Risk-warmup: start trading from the Monday of bt_start's ISO week
+        # so weekly_pnl accumulates correctly (matches live behaviour).
+        iso = bt_start.isocalendar()
+        week_monday = pd.Timestamp.fromisocalendar(iso[0], iso[1], 1).tz_localize("UTC")
+        risk_warmup_start = min(week_monday, bt_start)
+
         # Calculate indicators on each timeframe
         if self.mtf_enabled:
             df_5m = self.mtf_strategy.calculate_indicators(df_5m)  # MTF uses 5m
@@ -42,6 +48,7 @@ class BacktestEngine:
         regime_log = []
         last_regime_check = None
         in_backtest_period = False
+        in_risk_warmup = False  # True during ISO-week warmup before bt_start
         last_bb_entry_idx = -10  # Track last BB entry 3m candle to avoid duplicates
         last_entry_ts = None  # Cooldown tracking
 
@@ -49,9 +56,14 @@ class BacktestEngine:
             row = df_1m.iloc[i]
             ts = row["timestamp"]
 
+            # Risk warmup: trade from the Monday of bt_start's ISO week
+            if ts >= risk_warmup_start and not in_risk_warmup and not in_backtest_period:
+                in_risk_warmup = True
+
             # Only trade during actual backtest period
             if ts >= bt_start:
                 in_backtest_period = True
+                in_risk_warmup = False
 
             # Reset daily counters
             self.risk_manager.reset_day(ts)
@@ -75,8 +87,8 @@ class BacktestEngine:
                     if in_backtest_period:
                         regime_log.append({"timestamp": ts, **regime_info})
 
-            # Skip actual trading during warmup period
-            if not in_backtest_period:
+            # Skip actual trading during indicator warmup period
+            if not in_backtest_period and not in_risk_warmup:
                 continue
 
             active_strat = self.regime_filter.get_active_strategy(regime_info, ts)
@@ -95,7 +107,8 @@ class BacktestEngine:
                 capital += trade["net_pnl"]
                 self.risk_manager.record_trade(trade["net_pnl"], ts)
                 self.risk_manager.open_positions = len(positions)
-                closed_trades.append(trade)
+                if in_backtest_period:
+                    closed_trades.append(trade)
 
             # --- Check entries (both strategies, BB gated by regime) ---
             can_enter = len(positions) < self.risk_manager.max_open_positions
