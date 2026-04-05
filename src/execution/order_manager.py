@@ -1,4 +1,5 @@
 import time
+import ccxt
 from loguru import logger
 
 
@@ -44,11 +45,17 @@ class OrderManager:
     def update_stop_loss(self, old_sl_order_id: str, side: str, amount: float,
                          new_stop_price: float, tp_price: float = None):
         """Cancel ALL open orders, then re-place SL (and TP if provided).
-        This avoids stale order ID issues and -4130 closePosition conflicts."""
+        This avoids stale order ID issues and -4130 closePosition conflicts.
+        Returns (new_sl, new_tp). If SL would immediately trigger, returns (None, None)
+        — caller should close at market."""
         # Nuclear cancel — clear ALL orders reliably
         self._cancel_all_verified()
         # Place new SL
-        new_sl = self.place_stop_loss(side, amount, new_stop_price)
+        try:
+            new_sl = self.place_stop_loss(side, amount, new_stop_price)
+        except ccxt.OrderImmediatelyFillable:
+            logger.warning(f"SL @ {new_stop_price:.2f} would immediately trigger — price crossed back")
+            return None, None
         # Re-place TP (since cancel_all removed it too)
         new_tp = None
         if tp_price is not None:
@@ -93,10 +100,11 @@ class OrderManager:
         return result
 
     def close_position_market(self, side: str, amount: float):
-        """Emergency close — market order opposite side."""
+        """Close position — market order opposite side with reduceOnly."""
         close_side = "sell" if side == "long" else "buy"
-        logger.warning(f"MARKET CLOSE {close_side.upper()} {amount:.4f}")
-        return self.place_market_order(close_side, amount)
+        logger.warning(f"MARKET CLOSE {close_side.upper()} {amount:.4f} (reduceOnly)")
+        params = {"reduceOnly": True}
+        return self.client.create_order(close_side, amount, "market", None, params)
 
     def _track(self, order):
         if order and "id" in order:

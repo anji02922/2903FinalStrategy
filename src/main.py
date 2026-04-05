@@ -112,6 +112,17 @@ class LiveTrader:
         if past_trades:
             self.risk_manager.restore_from_trades(past_trades)
 
+        # Override starting_capital with actual live balance on first startup
+        try:
+            live_balance = self.client.get_balance()
+            if live_balance > 0:
+                self.risk_manager.starting_capital = live_balance - sum(
+                    t.get("net_pnl", 0) for t in past_trades
+                ) if past_trades else live_balance
+                self.risk_manager.current_capital = live_balance
+        except Exception:
+            pass  # Will be set on first candle cycle
+
         # Config values
         self.leverage = config["trading"]["leverage"]
         self.fee_maker = config["fees"]["maker"] / 100
@@ -265,13 +276,15 @@ class LiveTrader:
         rsi = row.get("rsi")
         cross_up = prev.get("ema_fast", 0) <= prev.get("ema_slow", 0) and ema_f is not None and ema_s is not None and ema_f > ema_s
         cross_dn = prev.get("ema_fast", 0) >= prev.get("ema_slow", 0) and ema_f is not None and ema_s is not None and ema_f < ema_s
-        trend = self.mtf_strategy._get_trend(df_15m, row["timestamp"])
+        trend = self.mtf_strategy._get_trend_by_idx(df_15m, len(df_15m) - 1)
         self.log.info(
             f"5m candle: EMA_f={ema_f:.2f} EMA_s={ema_s:.2f} RSI={rsi:.1f} | "
             f"cross_up={cross_up} cross_dn={cross_dn} trend={trend}"
         )
 
-        signal = self.mtf_strategy.check_entry(idx, df_5m, df_15m)
+        # Pass higher_tf_idx for O(1) lookup — matches backtest's _get_trend_by_idx
+        higher_tf_idx = len(df_15m) - 1
+        signal = self.mtf_strategy.check_entry(idx, df_5m, df_15m, higher_tf_idx=higher_tf_idx)
         if signal is None:
             return
 
@@ -347,6 +360,7 @@ class LiveTrader:
                 trailing_distance=signal.get("trailing_distance"),
                 max_duration=signal.get("max_duration"),
             )
+            self.risk_manager.open_positions = 1  # mirrors backtest
 
             self.log.info(
                 f"ENTRY {signal['side'].upper()} @ {fill_price:.2f} | "
@@ -367,11 +381,38 @@ class LiveTrader:
 
         except Exception as e:
             self.log.error(f"Entry execution failed: {e}")
+            self.notifier.notify_error(f"Entry execution failed: {e}")
             # Cancel any partial orders
             try:
                 self.order_mgr.cancel_all()
             except Exception:
                 pass
+            # Check if market order already filled (orphan position)
+            try:
+                exchange_pos = self.client.fetch_positions()
+                if exchange_pos:
+                    self.log.error(
+                        "Entry partially succeeded — position exists on exchange. "
+                        "Closing orphan position with market order."
+                    )
+                    p = exchange_pos[0]
+                    orphan_side = "long" if float(p.get("contracts", 0)) > 0 else "short"
+                    orphan_size = abs(float(p.get("contracts", 0)))
+                    self.order_mgr.close_position_market(orphan_side, orphan_size)
+                    self.notifier.notify_position_risk(
+                        orphan_side, 0, 0,
+                        "Orphan Position Detected & Closed",
+                        f"Entry partially failed. Orphan {orphan_side} {orphan_size} contracts "
+                        f"closed at market. Verify on exchange."
+                    )
+            except Exception as e2:
+                self.log.error(f"Orphan position cleanup failed: {e2}")
+                self.notifier.notify_position_risk(
+                    "unknown", 0, 0,
+                    "CRITICAL: Orphan Position May Exist",
+                    f"Entry failed, orphan cleanup also failed: {e2}. "
+                    f"CHECK EXCHANGE IMMEDIATELY and close manually if needed."
+                )
 
     # ---- Position Monitoring (every 10s cycle) ----
 
@@ -392,6 +433,17 @@ class LiveTrader:
                     pos["sl_order_id"], pos["side"], pos["size_contracts"],
                     pos["entry_price"], tp_price=pos["tp_price"]
                 )
+                if new_sl is None:
+                    # SL would immediately trigger — price crossed back past entry
+                    self.log.warning("Breakeven SL rejected — closing at market")
+                    self.notifier.notify_position_risk(
+                        pos["side"], pos["entry_price"], current_price,
+                        "Breakeven SL Rejected",
+                        "Price crossed back below entry. SL would trigger immediately. "
+                        "Closing position at market."
+                    )
+                    self._close_position_live("breakeven_sl_rejected", current_price)
+                    return
                 if new_sl:
                     self.tracker.position["sl_order_id"] = new_sl.get("id", "")
                     self.tracker.position["sl_price"] = pos["entry_price"]
@@ -399,6 +451,11 @@ class LiveTrader:
                     self.tracker.position["tp_order_id"] = new_tp.get("id", "")
                 self.tracker._save_state()
                 self.log.info(f"SL moved to breakeven: {pos['entry_price']:.2f}")
+                self.notifier.notify_warning(
+                    "SL Moved to Breakeven",
+                    f"{pos['side'].upper()} @ ${pos['entry_price']:,.2f} — "
+                    f"SL now at entry. Current price: ${current_price:,.2f}",
+                )
 
             # 2. Check trailing stop
             if self.tracker.check_trailing_stop(current_price):
@@ -436,19 +493,31 @@ class LiveTrader:
                     except Exception:
                         pass
 
-                # Determine exit reason based on price vs SL/TP
+                # Determine exit reason and use the actual SL/TP price (not ticker)
+                sl_price = pos.get("sl_price", 0)
+                tp_price = pos.get("tp_price", 0)
                 if pos["side"] == "long":
-                    if current_price <= pos.get("sl_price", 0) * 1.001:
+                    if current_price <= sl_price * 1.005:
                         reason = "breakeven_stop" if pos.get("breakeven_activated") else "stop_loss"
+                        exit_price = sl_price
                     else:
                         reason = "take_profit"
+                        exit_price = tp_price
                 else:
-                    if current_price >= pos.get("sl_price", float("inf")) * 0.999:
+                    if current_price >= sl_price * 0.995:
                         reason = "breakeven_stop" if pos.get("breakeven_activated") else "stop_loss"
+                        exit_price = sl_price
                     else:
                         reason = "take_profit"
+                        exit_price = tp_price
 
-                trade = self.tracker.close_position(current_price, reason)
+                self.notifier.notify_warning(
+                    f"Exchange Closed Position — {reason.upper()}",
+                    f"{pos['side'].upper()} @ ${pos['entry_price']:,.2f} → "
+                    f"${exit_price:,.2f} | Reason: {reason}",
+                )
+
+                trade = self.tracker.close_position(exit_price, reason)
                 if trade:
                     self._record_trade(trade)
 
@@ -469,6 +538,12 @@ class LiveTrader:
             self.order_mgr.close_position_market(pos["side"], pos["size_contracts"])
         except Exception as e:
             self.log.error(f"Close execution error: {e}")
+            self.notifier.notify_position_risk(
+                pos["side"], pos["entry_price"], current_price,
+                "Close Execution Failed",
+                f"Failed to close {pos['side']} position: {e}. "
+                f"Position may still be open on exchange!"
+            )
 
         trade = self.tracker.close_position(current_price, reason)
         if trade:
@@ -486,30 +561,10 @@ class LiveTrader:
 
         # Risk manager — same as backtest engine's record_trade call
         self.risk_manager.record_trade(net_pnl, datetime.now(timezone.utc))
+        self.risk_manager.open_positions = 0  # mirrors backtest
 
         # Persist to SQLite
-        self.trade_store.log_trade({
-            "timestamp": trade.get("exit_ts", datetime.now(timezone.utc).isoformat()),
-            "strategy": trade["strategy"],
-            "side": trade["side"],
-            "entry_price": trade["entry_price"],
-            "exit_price": trade["exit_price"],
-            "size": trade.get("size_value", 0),
-            "pnl": raw_pnl,
-            "fees": fees,
-            "net_pnl": net_pnl,
-            "duration_minutes": 0,
-            "exit_reason": trade["exit_reason"],
-            "regime": self.last_regime_info.get("regime", ""),
-        })
-        self.log.info(f"Trade recorded: net_pnl=${net_pnl:+.2f} | reason={trade['exit_reason']}")
-
-        # Telegram notification — trade closed
-        try:
-            current_balance = self.client.get_balance()
-        except Exception:
-            current_balance = self.risk_manager.current_capital + net_pnl
-        # Calculate duration
+        # Calculate duration for DB storage
         entry_ts = trade.get("entry_ts")
         duration_min = 0.0
         if entry_ts:
@@ -523,6 +578,28 @@ class LiveTrader:
                 duration_min = (datetime.now(timezone.utc) - entry_dt).total_seconds() / 60
             except Exception:
                 pass
+
+        self.trade_store.log_trade({
+            "timestamp": trade.get("exit_ts", datetime.now(timezone.utc).isoformat()),
+            "strategy": trade["strategy"],
+            "side": trade["side"],
+            "entry_price": trade["entry_price"],
+            "exit_price": trade["exit_price"],
+            "size": trade.get("size_value", 0),
+            "pnl": raw_pnl,
+            "fees": fees,
+            "net_pnl": net_pnl,
+            "duration_minutes": duration_min,
+            "exit_reason": trade["exit_reason"],
+            "regime": self.last_regime_info.get("regime", ""),
+        })
+        self.log.info(f"Trade recorded: net_pnl=${net_pnl:+.2f} | reason={trade['exit_reason']}")
+
+        # Telegram notification — trade closed
+        try:
+            current_balance = self.client.get_balance()
+        except Exception:
+            current_balance = self.risk_manager.current_capital + net_pnl
         self.notifier.notify_exit(
             side=trade["side"],
             entry_price=trade["entry_price"],
@@ -568,14 +645,30 @@ class LiveTrader:
             if positions and not self.tracker.has_position:
                 p = positions[0]
                 side = "long" if float(p.get("contracts", 0)) > 0 else "short"
+                contracts = abs(float(p.get('contracts', 0)))
+                entry_price = float(p.get('entryPrice', 0))
+                unrealized_pnl = float(p.get('unrealizedPnl', 0))
                 self.log.warning(
-                    f"Found orphan exchange position: {side} {abs(float(p.get('contracts', 0)))} contracts. "
+                    f"Found orphan exchange position: {side} {contracts} contracts. "
                     f"Tracker has no record — manual intervention may be needed."
+                )
+                self.notifier.notify_position_risk(
+                    side, entry_price, entry_price,
+                    "Orphan Position on Startup",
+                    f"{side.upper()} {contracts} contracts @ ${entry_price:,.2f} "
+                    f"(uPnL: ${unrealized_pnl:+,.2f}). "
+                    f"Bot has no record of this position. Close manually if unintended."
                 )
 
             elif self.tracker.has_position and not positions:
+                pos = self.tracker.position
                 self.log.warning(
                     "Tracker has position but exchange does not — position was closed while offline."
+                )
+                self.notifier.notify_warning(
+                    "Position Closed While Offline",
+                    f"{pos['side'].upper()} @ ${pos['entry_price']:,.2f} was closed "
+                    f"while bot was offline. Recording as offline_close.",
                 )
                 # Close tracker position
                 ticker = self.client.fetch_ticker()
@@ -584,6 +677,7 @@ class LiveTrader:
                     self._record_trade(trade)
         except Exception as e:
             self.log.error(f"Position sync error: {e}")
+            self.notifier.notify_error(f"Position sync on startup failed: {e}")
 
 
 # ---------------------------------------------------------------------------

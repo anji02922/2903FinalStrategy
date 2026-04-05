@@ -84,14 +84,39 @@ class BinanceClient:
         return self._retry(self.exchange.cancel_order, order_id, self.symbol)
 
     def cancel_all_orders(self):
+        """Cancel ALL orders: regular + algo/conditional (STOP_MARKET, TP_MARKET)."""
         try:
-            return self._retry(self.exchange.cancel_all_orders, self.symbol)
+            self._retry(self.exchange.cancel_all_orders, self.symbol)
         except Exception as e:
-            logger.warning(f"Cancel all orders: {e}")
-            return None
+            logger.warning(f"Cancel regular orders: {e}")
+        # Also cancel algo/conditional orders (SL / TP placed as algo)
+        try:
+            symbol_id = self.symbol.replace("/", "")
+            self.exchange.fapiPrivateDeleteAlgoOpenOrders({"symbol": symbol_id})
+        except Exception as e:
+            logger.debug(f"Cancel algo orders: {e}")
 
     def fetch_open_orders(self):
-        return self._retry(self.exchange.fetch_open_orders, self.symbol)
+        """Fetch both regular AND algo/conditional open orders."""
+        regular = self._retry(self.exchange.fetch_open_orders, self.symbol)
+        try:
+            symbol_id = self.symbol.replace("/", "")
+            resp = self.exchange.fapiPrivateGetOpenAlgoOrders({"symbol": symbol_id})
+            algo_list = resp if isinstance(resp, list) else resp.get("orders", [])
+            for ao in algo_list:
+                if ao.get("algoStatus") == "NEW":
+                    regular.append({
+                        "id": ao.get("algoId"),
+                        "type": ao.get("orderType", "").lower(),
+                        "side": ao.get("side", "").lower(),
+                        "amount": float(ao.get("quantity", 0)),
+                        "stopPrice": float(ao.get("triggerPrice", 0)),
+                        "status": "open",
+                        "info": ao,
+                    })
+        except Exception as e:
+            logger.warning(f"Fetch algo orders: {e}")
+        return regular
 
     def fetch_positions(self):
         positions = self._retry(self.exchange.fetch_positions, [self.symbol])
@@ -100,6 +125,6 @@ class BinanceClient:
 
     def get_balance(self):
         balance = self._retry(self.exchange.fetch_balance)
-        return float(balance.get("USDT", {}).get("free", 0))
+        return float(balance.get("USDT", {}).get("total", 0))
 
 

@@ -50,8 +50,11 @@ class PositionTracker:
             if isinstance(pos_copy.get("entry_ts"), datetime):
                 pos_copy["entry_ts"] = pos_copy["entry_ts"].isoformat()
             state["position"] = pos_copy
-        with open(STATE_FILE, "w") as f:
+        # Atomic write: write to temp file, then replace
+        tmp_file = STATE_FILE + ".tmp"
+        with open(tmp_file, "w") as f:
             json.dump(state, f, indent=2, default=str)
+        os.replace(tmp_file, STATE_FILE)
 
     # ---- Position Lifecycle ----
 
@@ -149,7 +152,9 @@ class PositionTracker:
                     f"current={pnl_pct:.2f}% drawback={drawback:.2f}%"
                 )
                 return True
-        self._save_state()
+        # Only save if highest_pnl_pct actually changed (avoid I/O every tick)
+        if pnl_pct >= self.position["highest_pnl_pct"]:
+            self._save_state()
         return False
 
     def check_time_exit(self) -> bool:

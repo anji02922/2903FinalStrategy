@@ -110,6 +110,47 @@ class TelegramNotifier:
         )
         return self._send(text)
 
+    def notify_warning(self, title: str, detail: str, action: str = ""):
+        """Urgent warning — bot handled it but user should check exchange."""
+        action_line = f"\n🔧  <b>Action:</b> {action}\n" if action else ""
+        text = (
+            f"🟡🟡🟡🟡🟡🟡🟡🟡🟡🟡\n"
+            f"⚠️ <b>{title}</b> ⚠️\n"
+            f"🟡🟡🟡🟡🟡🟡🟡🟡🟡🟡\n"
+            f"\n"
+            f"<code>{str(detail)[:400]}</code>\n"
+            f"{action_line}\n"
+            f"<i>🕐  {self._ts()}</i>"
+        )
+        return self._send(text)
+
+    def notify_position_risk(self, side: str, entry: float, current: float,
+                             reason: str, detail: str):
+        """CRITICAL — position may need manual closure."""
+        direction = "⬆️ LONG" if side == "long" else "⬇️ SHORT"
+        pnl_pct = ((current - entry) / entry * 100) if side == "long" else ((entry - current) / entry * 100)
+        pnl_icon = "🟢" if pnl_pct >= 0 else "🔴"
+        text = (
+            f"🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴\n"
+            f"🚨 <b>POSITION AT RISK</b> 🚨\n"
+            f"🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴\n"
+            f"\n"
+            f"📌  Side       │  <b>{direction}</b>\n"
+            f"🏷  Entry      │  <code>${entry:,.2f}</code>\n"
+            f"💲  Current    │  <code>${current:,.2f}</code>\n"
+            f"{pnl_icon}  PnL        │  <code>{pnl_pct:+.2f}%</code>\n"
+            f"\n"
+            f"{'─' * 28}\n"
+            f"❗  <b>Reason:</b> {reason}\n"
+            f"📝  <b>Detail:</b> {detail}\n"
+            f"{'─' * 28}\n"
+            f"\n"
+            f"👉 <b>CHECK EXCHANGE IMMEDIATELY</b>\n"
+            f"\n"
+            f"<i>🕐  {self._ts()}</i>"
+        )
+        return self._send(text)
+
     def notify_status(self, uptime_min: int, balance: float = None, in_position: bool = False):
         days = uptime_min // 1440
         hours = (uptime_min % 1440) // 60
