@@ -11,7 +11,11 @@ class DataFetcher:
         self.config = config
         self.data_dir = config["backtest"]["data_directory"]
         os.makedirs(self.data_dir, exist_ok=True)
-        self.exchange = ccxt.binanceusdm({"enableRateLimit": True, "options": {"defaultType": "future"}})
+        market_type = config["exchange"].get("market_type", "future")
+        if market_type == "spot":
+            self.exchange = ccxt.binance({"enableRateLimit": True})
+        else:
+            self.exchange = ccxt.binanceusdm({"enableRateLimit": True, "options": {"defaultType": "future"}})
         self.symbol = config["exchange"]["symbol"]
 
     def _ts(self, date_str: str) -> int:

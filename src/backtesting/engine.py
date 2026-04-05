@@ -1,4 +1,6 @@
+import numpy as np
 import pandas as pd
+import ta as ta_lib
 from loguru import logger
 from ..strategies.mtf_momentum import MTFMomentumStrategy
 from ..strategies.bollinger_scalp import BollingerScalpStrategy
@@ -22,7 +24,7 @@ class BacktestEngine:
         self.regime_filter = RegimeFilter(config)
         self.risk_manager = RiskManager(config)
 
-    def run(self, df_1m: pd.DataFrame, df_3m: pd.DataFrame, df_5m: pd.DataFrame, df_15m: pd.DataFrame) -> dict:
+    def run(self, df_1m: pd.DataFrame, df_3m: pd.DataFrame, df_5m: pd.DataFrame, df_15m: pd.DataFrame, progress_cb=None) -> dict:
         logger.info(f"Starting backtest: {len(df_1m)} 1m candles, capital=${self.initial_capital}")
 
         # Determine actual backtest start date (skip warmup)
@@ -41,7 +43,29 @@ class BacktestEngine:
         if self.bb_enabled:
             df_3m = self.bb_strategy.calculate_indicators(df_3m)
 
+        # ── Pre-compute O(1) index mappings (searchsorted) ──────────────
+        ts_1m_int = df_1m["timestamp"].values.astype("int64")
+        ts_3m_int = df_3m["timestamp"].values.astype("int64")
+        ts_5m_int = df_5m["timestamp"].values.astype("int64")
+        ts_15m_int = df_15m["timestamp"].values.astype("int64")
+
+        idx_map_3m = np.searchsorted(ts_3m_int, ts_1m_int, side="right") - 1
+        idx_map_5m = np.searchsorted(ts_5m_int, ts_1m_int, side="right") - 1
+        idx_map_15m = np.searchsorted(ts_15m_int, ts_1m_int, side="right") - 1
+
+        # Store for use in _check_position_exit
+        self._idx_map_3m = idx_map_3m
+        self._idx_map_5m = idx_map_5m
+
+        # ── Pre-compute regime indicators on full dataframes ────────────
+        adx_ind = ta_lib.trend.ADXIndicator(df_15m["high"], df_15m["low"], df_15m["close"], window=14)
+        pre_adx = adx_ind.adx().values
+        atr_raw = ta_lib.volatility.average_true_range(df_5m["high"], df_5m["low"], df_5m["close"], window=14)
+        atr_sma = atr_raw.rolling(50).mean()
+        pre_atr_ratio = (atr_raw / atr_sma).values
+
         capital = float(self.initial_capital)
+        capital_at_bt_start = None  # Track capital when real period starts
         positions = []  # open positions
         closed_trades = []
         equity_curve = []
@@ -51,10 +75,15 @@ class BacktestEngine:
         in_risk_warmup = False  # True during ISO-week warmup before bt_start
         last_bb_entry_idx = -10  # Track last BB entry 3m candle to avoid duplicates
         last_entry_ts = None  # Cooldown tracking
+        n_candles = len(df_1m)
 
-        for i in range(1, len(df_1m)):
+        for i in range(1, n_candles):
             row = df_1m.iloc[i]
             ts = row["timestamp"]
+
+            # Progress callback
+            if progress_cb and i % 50000 == 0:
+                progress_cb(i, n_candles)
 
             # Risk warmup: trade from the Monday of bt_start's ISO week
             if ts >= risk_warmup_start and not in_risk_warmup and not in_backtest_period:
@@ -62,6 +91,8 @@ class BacktestEngine:
 
             # Only trade during actual backtest period
             if ts >= bt_start:
+                if not in_backtest_period:
+                    capital_at_bt_start = capital
                 in_backtest_period = True
                 in_risk_warmup = False
 
@@ -79,13 +110,15 @@ class BacktestEngine:
 
             regime_info = {"regime": self.regime_filter.current_regime, "override": None}
             if do_regime:
-                avail_15m = df_15m[df_15m["timestamp"] <= ts]
-                avail_5m = df_5m[df_5m["timestamp"] <= ts]
-                if len(avail_15m) >= 20 and len(avail_5m) >= 60:
-                    regime_info = self.regime_filter.calculate_indicators(avail_15m, avail_5m)
-                    last_regime_check = ts
-                    if in_backtest_period:
-                        regime_log.append({"timestamp": ts, **regime_info})
+                i15 = idx_map_15m[i]
+                i5 = idx_map_5m[i]
+                if i15 >= 19 and i5 >= 59:
+                    adx_val = float(pre_adx[i15])
+                    atr_ratio_val = float(pre_atr_ratio[i5])
+                    regime_info = self.regime_filter.check_regime_fast(adx_val, atr_ratio_val, ts)
+                last_regime_check = ts
+                if in_backtest_period:
+                    regime_log.append({"timestamp": ts, **regime_info})
 
             # Skip actual trading during indicator warmup period
             if not in_backtest_period and not in_risk_warmup:
@@ -117,22 +150,23 @@ class BacktestEngine:
 
                 # MTF momentum on 5m candles (trend-following)
                 if self.mtf_enabled:
-                    mtf_idx = self._find_tf_idx(df_5m, ts)
-                    if mtf_idx is not None and mtf_idx >= 2:
+                    mtf_idx = idx_map_5m[i]
+                    if mtf_idx >= 2:
                         # MTF cooldown: at least 45 min between entries
                         if last_entry_ts is None or (ts - last_entry_ts).total_seconds() > 2700:
-                            signal = self.mtf_strategy.check_entry(mtf_idx, df_5m, df_15m)
+                            htf_idx = idx_map_15m[i]
+                            signal = self.mtf_strategy.check_entry(mtf_idx, df_5m, df_15m, higher_tf_idx=htf_idx)
 
                 # BB scalp on 3m candles — ONLY in ranging/transitional regimes
                 if signal is None and self.bb_enabled and active_strat in ("bollinger_scalp", "transitional"):
-                    bb_idx = self._find_tf_idx(df_3m, ts)
-                    if bb_idx is not None and bb_idx > last_bb_entry_idx + 3:
+                    bb_idx = idx_map_3m[i]
+                    if bb_idx >= 0 and bb_idx > last_bb_entry_idx + 3:
                         # Cooldown: skip if we entered within the last 10 minutes
                         if last_entry_ts is None or (ts - last_entry_ts).total_seconds() > 600:
                             signal = self.bb_strategy.check_entry(bb_idx, df_3m)
 
                 if signal is None and i % 2000 == 0:
-                    logger.info(f"No signal at candle {i}/{len(df_1m)}, active_strat={active_strat}, positions={len(positions)}")
+                    logger.info(f"No signal at candle {i}/{n_candles}, active_strat={active_strat}, positions={len(positions)}")
 
                 if signal:
                     sl_pct = signal["sl_pct"]
@@ -144,7 +178,7 @@ class BacktestEngine:
                         logger.debug(f"Trade rejected: {reason}")
                     if can_trade:
                         # Execute at next candle's open
-                        if i + 1 < len(df_1m):
+                        if i + 1 < n_candles:
                             exec_price = df_1m.iloc[i + 1]["open"]
                             size_value = self.risk_manager.calculate_position_size(capital, sl_pct)
 
@@ -178,13 +212,12 @@ class BacktestEngine:
                             last_entry_ts = ts
                             # Track BB entry index to avoid duplicates
                             if signal.get("strategy") == "bollinger_scalp":
-                                bb_idx = self._find_tf_idx(df_3m, ts)
-                                if bb_idx is not None:
-                                    last_bb_entry_idx = bb_idx
+                                last_bb_entry_idx = idx_map_3m[i]
 
-            # Track equity
-            unrealized = sum(self._unrealized_pnl(p, row) for p in positions)
-            equity_curve.append({"timestamp": ts, "equity": capital + unrealized})
+            # Track equity (only during actual backtest period)
+            if in_backtest_period:
+                unrealized = sum(self._unrealized_pnl(p, row) for p in positions)
+                equity_curve.append({"timestamp": ts, "equity": capital + unrealized})
 
         # Force close remaining positions at last candle
         last_row = df_1m.iloc[-1]
@@ -200,6 +233,7 @@ class BacktestEngine:
             "regime_log": regime_log,
             "final_capital": capital,
             "initial_capital": self.initial_capital,
+            "bt_start_capital": capital_at_bt_start if capital_at_bt_start is not None else float(self.initial_capital),
         }
 
     def _check_position_exit(self, pos: dict, row, df_1m, df_3m, df_5m, df_15m, idx) -> dict | None:
@@ -208,14 +242,13 @@ class BacktestEngine:
         candle_high = row["high"]
         candle_low = row["low"]
 
-        # Breakeven stop: once price moved 0.3% in favor, move SL to entry
-        current_pnl_pct = self._pnl_pct(pos, row["close"])
-        if not pos.get("breakeven_activated") and current_pnl_pct >= 0.3:
-            pos["breakeven_activated"] = True
-            pos["original_sl_pct"] = pos["sl_pct"]
+        # Breakeven: use PRIOR state for this candle's SL check, then update
+        # flag at the end. Activating and applying in the same candle is
+        # look-ahead bias — the close isn't known when the low/high occurs.
+        was_breakeven = pos.get("breakeven_activated", False)
 
-        # Calculate SL/TP prices (use breakeven if activated)
-        if pos.get("breakeven_activated"):
+        # Calculate SL/TP prices (use breakeven only if active BEFORE this candle)
+        if was_breakeven:
             sl_price = entry_price  # breakeven
         elif side == "long":
             sl_price = entry_price * (1 - pos["sl_pct"] / 100)
@@ -235,7 +268,7 @@ class BacktestEngine:
             sl_hit = True
 
         if sl_hit:
-            reason = "breakeven_stop" if pos.get("breakeven_activated") else "stop_loss"
+            reason = "breakeven_stop" if was_breakeven else "stop_loss"
             return {"reason": reason, "exit_price": sl_price}
 
         # Check TP hit
@@ -261,17 +294,24 @@ class BacktestEngine:
 
         # Strategy-specific exits
         if pos["strategy"] == "mtf_momentum":
-            mtf_idx = self._find_tf_idx(df_5m, row["timestamp"])
-            if mtf_idx is not None:
+            mtf_idx = self._idx_map_5m[idx]
+            if mtf_idx >= 0:
                 exit_info = self.mtf_strategy.check_exit(pos, mtf_idx, df_5m, df_15m)
                 if exit_info:
                     return exit_info
         elif pos["strategy"] == "bollinger_scalp":
-            bb_idx = self._find_tf_idx(df_3m, row["timestamp"])
-            if bb_idx is not None:
+            bb_idx = self._idx_map_3m[idx]
+            if bb_idx >= 0:
                 exit_info = self.bb_strategy.check_exit(pos, bb_idx, df_3m)
                 if exit_info:
                     return exit_info
+
+        # Activate breakeven AFTER all exit checks so it takes effect next candle
+        if not was_breakeven:
+            current_pnl_pct = self._pnl_pct(pos, row["close"])
+            if current_pnl_pct >= 0.3:
+                pos["breakeven_activated"] = True
+                pos["original_sl_pct"] = pos["sl_pct"]
 
         return None
 

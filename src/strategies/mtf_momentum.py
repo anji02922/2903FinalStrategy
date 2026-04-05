@@ -52,7 +52,22 @@ class MTFMomentumStrategy(BaseStrategy):
             return "down"
         return None
 
-    def check_entry(self, idx: int, df: pd.DataFrame, higher_tf_df: pd.DataFrame = None) -> dict | None:
+    def _get_trend_by_idx(self, higher_tf_df: pd.DataFrame, idx: int) -> str | None:
+        """O(1) trend lookup using pre-computed index (backtest only)."""
+        if idx < 3:
+            return None
+        latest = higher_tf_df.iloc[idx]
+        ema_val = latest.get("ema_higher")
+        if pd.isna(ema_val):
+            return None
+        price = latest["close"]
+        if price > ema_val * 1.001:
+            return "up"
+        elif price < ema_val * 0.999:
+            return "down"
+        return None
+
+    def check_entry(self, idx: int, df: pd.DataFrame, higher_tf_df: pd.DataFrame = None, higher_tf_idx: int = None) -> dict | None:
         """Check for entry on 5m candles using EMA crossover."""
         if idx < 2 or higher_tf_df is None:
             return None
@@ -63,7 +78,10 @@ class MTFMomentumStrategy(BaseStrategy):
             if pd.isna(row.get(col, float("nan"))) or pd.isna(prev.get(col, float("nan"))):
                 return None
 
-        trend = self._get_trend(higher_tf_df, row["timestamp"])
+        if higher_tf_idx is not None:
+            trend = self._get_trend_by_idx(higher_tf_df, higher_tf_idx)
+        else:
+            trend = self._get_trend(higher_tf_df, row["timestamp"])
         if trend is None:
             return None
 

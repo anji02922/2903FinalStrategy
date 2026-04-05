@@ -62,8 +62,8 @@ regime:
 
 # Risk Management
 risk:
-  risk_per_trade_pct: 1.0
-  max_position_size_pct: 3.0
+  risk_per_trade_pct: 3.0
+  max_position_size_pct: 36.0
   max_open_positions: 1
   max_trades_per_hour: 10
   max_trades_per_day: 40
@@ -81,8 +81,8 @@ fees:
 
 # Backtesting
 backtest:
-  start_date: "2026-04-01"
-  end_date: "2026-04-04"
+  start_date: "2026-04-03"
+  end_date: "2026-04-05"
   initial_capital: 1000
   data_directory: "data/"
   report_directory: "reports/"

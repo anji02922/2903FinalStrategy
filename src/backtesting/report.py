@@ -12,6 +12,7 @@ class BacktestReport:
         self.trades = results["closed_trades"]
         self.equity_curve = results["equity_curve"]
         self.initial_capital = results["initial_capital"]
+        self.bt_start_capital = results.get("bt_start_capital", results["initial_capital"])
         self.final_capital = results["final_capital"]
         self.report_dir = config["backtest"]["report_directory"]
         os.makedirs(self.report_dir, exist_ok=True)
@@ -34,11 +35,11 @@ class BacktestReport:
         losers = df[df["net_pnl"] <= 0]
         win_rate = len(winners) / total_trades * 100
 
-        total_return = (self.final_capital - self.initial_capital) / self.initial_capital * 100
-        gross_profit = winners["net_pnl"].sum() if len(winners) else 0
-        gross_loss = abs(losers["net_pnl"].sum()) if len(losers) else 0
         total_fees = df["fees"].sum()
         net_profit = df["net_pnl"].sum()
+        total_return = net_profit / self.bt_start_capital * 100
+        gross_profit = winners["net_pnl"].sum() if len(winners) else 0
+        gross_loss = abs(losers["net_pnl"].sum()) if len(losers) else 0
 
         profit_factor = gross_profit / gross_loss if gross_loss > 0 else float("inf")
         expectancy = df["net_pnl"].mean()
@@ -73,7 +74,9 @@ class BacktestReport:
 
         lines.append(f"\nPeriod: {self.config['backtest']['start_date']} to {self.config['backtest']['end_date']}")
         lines.append(f"Starting Capital: ${self.initial_capital:,.2f}")
-        lines.append(f"Ending Capital:   ${self.final_capital:,.2f}")
+        if abs(self.bt_start_capital - self.initial_capital) > 0.01:
+            lines.append(f"Capital at period start: ${self.bt_start_capital:,.2f}  (after warmup)")
+        lines.append(f"Ending Capital:   ${self.bt_start_capital + net_profit:,.2f}")
         lines.append(f"Leverage:         {self.config['trading']['leverage']}x")
 
         lines.append(f"\n--- Returns ---")
@@ -146,7 +149,7 @@ class BacktestReport:
             # Equity curve
             ax1 = axes[0]
             ax1.plot(self.equity_curve["timestamp"], self.equity_curve["equity"], linewidth=1, color="blue")
-            ax1.axhline(y=self.initial_capital, color="gray", linestyle="--", alpha=0.5)
+            ax1.axhline(y=self.bt_start_capital, color="gray", linestyle="--", alpha=0.5)
             ax1.set_title("Equity Curve")
             ax1.set_ylabel("Capital ($)")
             ax1.grid(True, alpha=0.3)

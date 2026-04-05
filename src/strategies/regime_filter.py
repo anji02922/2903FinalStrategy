@@ -62,6 +62,35 @@ class RegimeFilter:
 
         return result
 
+    def check_regime_fast(self, adx_val: float, atr_ratio: float, current_ts=None) -> dict:
+        """Use pre-computed ADX and ATR ratio for fast regime detection (backtest only)."""
+        result = {"regime": "UNKNOWN", "override": None, "adx": 0, "atr_ratio": 0}
+
+        if not pd.isna(adx_val):
+            result["adx"] = adx_val
+        if not pd.isna(atr_ratio):
+            result["atr_ratio"] = atr_ratio
+            if atr_ratio > self.atr_high_vol:
+                result["override"] = "HIGH_VOLATILITY"
+            elif atr_ratio < self.atr_dead:
+                result["override"] = "DEAD_MARKET"
+
+        adx = result["adx"]
+        if adx > self.adx_trending:
+            result["regime"] = "TRENDING"
+        elif adx < self.adx_ranging:
+            result["regime"] = "RANGING"
+        else:
+            result["regime"] = "TRANSITIONAL"
+
+        if result["regime"] != self.current_regime:
+            self.current_regime = result["regime"]
+
+        if result["override"]:
+            self.volatility_override = result["override"]
+
+        return result
+
     def get_active_strategy(self, regime_info: dict, current_ts: pd.Timestamp = None) -> str | None:
         if self.pause_until and current_ts and current_ts < self.pause_until:
             return None

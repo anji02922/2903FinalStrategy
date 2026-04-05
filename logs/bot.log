@@ -34650,3 +34650,347 @@ Net Profit:          $+401.75
 ============================================================
 2026-04-04 16:30:17 | INFO     | src.backtesting.report:_plot_equity:167 - Equity chart saved
 2026-04-04 16:30:17 | INFO     | __main__:run_backtest:68 - === BACKTEST COMPLETE ===
+2026-04-05 15:05:21 | INFO     | src.main:run_backtest:37 - === STARTING BACKTEST ===
+2026-04-05 15:05:21 | INFO     | src.main:run_backtest:51 - Fetching 1m data from 2026-03-29 to 2026-04-05
+2026-04-05 15:05:21 | INFO     | src.exchange.data_fetcher:fetch_ohlcv:34 - Downloading ETH/USDT 1m data from 2026-03-29 to 2026-04-05
+2026-04-05 15:05:26 | INFO     | src.exchange.data_fetcher:fetch_ohlcv:74 - Saved 10081 candles to data/ETH_USDT_1m_2026-03-29_2026-04-05.csv
+2026-04-05 15:05:26 | INFO     | src.main:run_backtest:57 - Fetched 10081 1m candles
+2026-04-05 15:05:26 | INFO     | src.main:run_backtest:61 - Resampled: 3m=3361, 5m=2017, 15m=673
+2026-04-05 15:05:26 | INFO     | src.backtesting.engine:run:28 - Starting backtest: 10081 1m candles, capital=$1000
+2026-04-05 15:05:27 | INFO     | src.backtesting.engine:run:166 - No signal at candle 2000/10081, active_strat=mtf_momentum, positions=0
+2026-04-05 15:05:28 | INFO     | src.backtesting.engine:run:166 - No signal at candle 4000/10081, active_strat=mtf_momentum, positions=0
+2026-04-05 15:05:29 | INFO     | src.backtesting.engine:run:166 - No signal at candle 6000/10081, active_strat=mtf_momentum, positions=0
+2026-04-05 15:05:31 | INFO     | src.backtesting.engine:run:166 - No signal at candle 10000/10081, active_strat=mtf_momentum, positions=0
+2026-04-05 15:05:31 | INFO     | src.backtesting.report:generate:121 - 
+============================================================
+           BACKTEST REPORT
+============================================================
+
+Period: 2026-04-03 to 2026-04-05
+Starting Capital: $1,000.00
+Ending Capital:   $1,435.49
+Leverage:         12x
+
+--- Returns ---
+Total Return:     +43.55%
+Net Profit:       $+435.49
+
+--- Trades ---
+Total Trades:        27
+Win Rate:            48.1%
+Avg Win:             $45.65
+Avg Loss:            $-11.28
+Largest Win:         $103.31
+Largest Loss:        $-27.20
+Profit Factor:       3.76
+Expectancy:          $16.13/trade
+
+--- Risk ---
+Max Drawdown:        -8.71%
+Max Consec Losses:   5
+Sharpe Ratio:        13.21
+Sortino Ratio:       0.00
+
+--- Strategy Breakdown ---
+  mtf_momentum: 27 trades, 48.1% WR, $+435.49 PnL
+
+--- Exit Reasons ---
+  trailing_stop: 3 trades, $+92.12
+  take_profit: 7 trades, $+429.51
+  breakeven_stop: 8 trades, $-44.88
+  stop_loss: 3 trades, $-80.15
+  time_exit: 6 trades, $+38.89
+
+--- Fees ---
+Total Fees Paid:     $155.49
+Gross Profit:        $+590.98
+Net Profit:          $+435.49
+============================================================
+2026-04-05 15:05:34 | INFO     | src.backtesting.report:_plot_equity:167 - Equity chart saved
+2026-04-05 15:05:34 | INFO     | src.main:run_backtest:68 - === BACKTEST COMPLETE ===
+2026-04-05 15:30:03 | INFO     | src.main:run_backtest:37 - === STARTING BACKTEST ===
+2026-04-05 15:30:03 | INFO     | src.main:run_backtest:51 - Fetching 1m data from 2026-03-29 to 2026-04-05
+2026-04-05 15:30:03 | INFO     | src.exchange.data_fetcher:fetch_ohlcv:30 - Loading cached data from data/ETH_USDT_1m_2026-03-29_2026-04-05.csv
+2026-04-05 15:30:03 | INFO     | src.main:run_backtest:57 - Fetched 10081 1m candles
+2026-04-05 15:30:03 | INFO     | src.main:run_backtest:61 - Resampled: 3m=3361, 5m=2017, 15m=673
+2026-04-05 15:30:03 | INFO     | src.backtesting.engine:run:28 - Starting backtest: 10081 1m candles, capital=$1000
+2026-04-05 15:30:03 | INFO     | src.backtesting.engine:run:170 - No signal at candle 2000/10081, active_strat=mtf_momentum, positions=0
+2026-04-05 15:30:04 | INFO     | src.backtesting.engine:run:170 - No signal at candle 4000/10081, active_strat=transitional, positions=0
+2026-04-05 15:30:04 | WARNING  | src.risk.risk_manager:record_trade:122 - 8 consecutive losses — pausing until 2026-04-01 12:51:00+00:00
+2026-04-05 15:30:05 | WARNING  | src.risk.risk_manager:record_trade:122 - 9 consecutive losses — pausing until 2026-04-02 01:15:00+00:00
+2026-04-05 15:30:05 | INFO     | src.backtesting.engine:run:170 - No signal at candle 6000/10081, active_strat=mtf_momentum, positions=0
+2026-04-05 15:30:05 | WARNING  | src.risk.risk_manager:record_trade:122 - 10 consecutive losses — pausing until 2026-04-02 09:41:00+00:00
+2026-04-05 15:30:05 | WARNING  | src.risk.risk_manager:record_trade:122 - 11 consecutive losses — pausing until 2026-04-02 14:43:00+00:00
+2026-04-05 15:30:05 | INFO     | src.backtesting.engine:run:170 - No signal at candle 8000/10081, active_strat=bollinger_scalp, positions=0
+2026-04-05 15:30:06 | INFO     | src.backtesting.engine:run:170 - No signal at candle 10000/10081, active_strat=mtf_momentum, positions=0
+2026-04-05 15:30:06 | INFO     | src.backtesting.report:generate:121 - 
+============================================================
+           BACKTEST REPORT
+============================================================
+
+Period: 2026-04-03 to 2026-04-05
+Starting Capital: $1,000.00
+Ending Capital:   $908.47
+Leverage:         12x
+
+--- Returns ---
+Total Return:     -9.15%
+Net Profit:       $-91.53
+
+--- Trades ---
+Total Trades:        13
+Win Rate:            15.4%
+Avg Win:             $39.19
+Avg Loss:            $-15.45
+Largest Win:         $39.93
+Largest Loss:        $-34.66
+Profit Factor:       0.46
+Expectancy:          $-7.04/trade
+
+--- Risk ---
+Max Drawdown:        -15.87%
+Max Consec Losses:   11
+Sharpe Ratio:        -14.60
+Sortino Ratio:       -16.87
+
+--- Strategy Breakdown ---
+  mtf_momentum: 13 trades, 15.4% WR, $-91.53 PnL
+
+--- Exit Reasons ---
+  take_profit: 2 trades, $+78.37
+  stop_loss: 6 trades, $-146.84
+  breakeven_stop: 5 trades, $-23.07
+
+--- Fees ---
+Total Fees Paid:     $61.45
+Gross Profit:        $-30.08
+Net Profit:          $-91.53
+============================================================
+2026-04-05 15:30:07 | INFO     | src.backtesting.report:_plot_equity:167 - Equity chart saved
+2026-04-05 15:30:07 | INFO     | src.main:run_backtest:68 - === BACKTEST COMPLETE ===
+2026-04-05 19:01:00 | INFO     | src.main:run_backtest:37 - === STARTING BACKTEST ===
+2026-04-05 19:01:00 | INFO     | src.main:run_backtest:51 - Fetching 1m data from 2026-03-29 to 2026-04-05
+2026-04-05 19:01:00 | INFO     | src.exchange.data_fetcher:fetch_ohlcv:30 - Loading cached data from data/ETH_USDT_1m_2026-03-29_2026-04-05.csv
+2026-04-05 19:01:00 | INFO     | src.main:run_backtest:57 - Fetched 10081 1m candles
+2026-04-05 19:01:00 | INFO     | src.main:run_backtest:61 - Resampled: 3m=3361, 5m=2017, 15m=673
+2026-04-05 19:01:00 | INFO     | src.backtesting.engine:run:28 - Starting backtest: 10081 1m candles, capital=$1000
+2026-04-05 19:01:00 | INFO     | src.backtesting.engine:run:166 - No signal at candle 2000/10081, active_strat=mtf_momentum, positions=0
+2026-04-05 19:01:01 | INFO     | src.backtesting.engine:run:166 - No signal at candle 4000/10081, active_strat=mtf_momentum, positions=0
+2026-04-05 19:01:01 | INFO     | src.backtesting.engine:run:166 - No signal at candle 6000/10081, active_strat=mtf_momentum, positions=0
+2026-04-05 19:01:02 | INFO     | src.backtesting.engine:run:166 - No signal at candle 10000/10081, active_strat=mtf_momentum, positions=0
+2026-04-05 19:01:02 | INFO     | src.backtesting.report:generate:121 - 
+============================================================
+           BACKTEST REPORT
+============================================================
+
+Period: 2026-04-03 to 2026-04-05
+Starting Capital: $1,000.00
+Ending Capital:   $1,435.49
+Leverage:         12x
+
+--- Returns ---
+Total Return:     +43.55%
+Net Profit:       $+435.49
+
+--- Trades ---
+Total Trades:        27
+Win Rate:            48.1%
+Avg Win:             $45.65
+Avg Loss:            $-11.28
+Largest Win:         $103.31
+Largest Loss:        $-27.20
+Profit Factor:       3.76
+Expectancy:          $16.13/trade
+
+--- Risk ---
+Max Drawdown:        -8.71%
+Max Consec Losses:   5
+Sharpe Ratio:        13.21
+Sortino Ratio:       0.00
+
+--- Strategy Breakdown ---
+  mtf_momentum: 27 trades, 48.1% WR, $+435.49 PnL
+
+--- Exit Reasons ---
+  trailing_stop: 3 trades, $+92.12
+  take_profit: 7 trades, $+429.51
+  breakeven_stop: 8 trades, $-44.88
+  stop_loss: 3 trades, $-80.15
+  time_exit: 6 trades, $+38.89
+
+--- Fees ---
+Total Fees Paid:     $155.49
+Gross Profit:        $+590.98
+Net Profit:          $+435.49
+============================================================
+2026-04-05 19:01:04 | INFO     | src.backtesting.report:_plot_equity:167 - Equity chart saved
+2026-04-05 19:01:04 | INFO     | src.main:run_backtest:68 - === BACKTEST COMPLETE ===
+2026-04-05 19:11:05 | INFO     | src.main:run_backtest:37 - === STARTING BACKTEST ===
+2026-04-05 19:11:05 | INFO     | src.main:run_backtest:51 - Fetching 1m data from 2026-03-29 to 2026-04-05
+2026-04-05 19:11:05 | INFO     | src.exchange.data_fetcher:fetch_ohlcv:30 - Loading cached data from data/ETH_USDT_1m_2026-03-29_2026-04-05.csv
+2026-04-05 19:11:05 | INFO     | src.main:run_backtest:57 - Fetched 10081 1m candles
+2026-04-05 19:11:05 | INFO     | src.main:run_backtest:61 - Resampled: 3m=3361, 5m=2017, 15m=673
+2026-04-05 19:11:05 | INFO     | src.backtesting.engine:run:28 - Starting backtest: 10081 1m candles, capital=$1000
+2026-04-05 19:11:05 | INFO     | src.backtesting.engine:run:166 - No signal at candle 2000/10081, active_strat=mtf_momentum, positions=0
+2026-04-05 19:11:05 | INFO     | src.backtesting.engine:run:166 - No signal at candle 4000/10081, active_strat=mtf_momentum, positions=0
+2026-04-05 19:11:06 | INFO     | src.backtesting.engine:run:166 - No signal at candle 6000/10081, active_strat=mtf_momentum, positions=0
+2026-04-05 19:11:06 | INFO     | src.backtesting.engine:run:166 - No signal at candle 10000/10081, active_strat=mtf_momentum, positions=0
+2026-04-05 19:11:06 | INFO     | src.backtesting.report:generate:121 - 
+============================================================
+           BACKTEST REPORT
+============================================================
+
+Period: 2026-04-03 to 2026-04-05
+Starting Capital: $1,000.00
+Ending Capital:   $1,435.49
+Leverage:         12x
+
+--- Returns ---
+Total Return:     +43.55%
+Net Profit:       $+435.49
+
+--- Trades ---
+Total Trades:        27
+Win Rate:            48.1%
+Avg Win:             $45.65
+Avg Loss:            $-11.28
+Largest Win:         $103.31
+Largest Loss:        $-27.20
+Profit Factor:       3.76
+Expectancy:          $16.13/trade
+
+--- Risk ---
+Max Drawdown:        -8.71%
+Max Consec Losses:   5
+Sharpe Ratio:        13.21
+Sortino Ratio:       0.00
+
+--- Strategy Breakdown ---
+  mtf_momentum: 27 trades, 48.1% WR, $+435.49 PnL
+
+--- Exit Reasons ---
+  trailing_stop: 3 trades, $+92.12
+  take_profit: 7 trades, $+429.51
+  breakeven_stop: 8 trades, $-44.88
+  stop_loss: 3 trades, $-80.15
+  time_exit: 6 trades, $+38.89
+
+--- Fees ---
+Total Fees Paid:     $155.49
+Gross Profit:        $+590.98
+Net Profit:          $+435.49
+============================================================
+2026-04-05 19:11:07 | INFO     | src.backtesting.report:_plot_equity:167 - Equity chart saved
+2026-04-05 19:11:07 | INFO     | src.main:run_backtest:68 - === BACKTEST COMPLETE ===
+2026-04-05 19:19:50 | INFO     | src.main:run_backtest:37 - === STARTING BACKTEST ===
+2026-04-05 19:19:50 | INFO     | src.main:run_backtest:51 - Fetching 1m data from 2026-03-29 to 2026-04-05
+2026-04-05 19:19:50 | INFO     | src.exchange.data_fetcher:fetch_ohlcv:30 - Loading cached data from data/ETH_USDT_1m_2026-03-29_2026-04-05.csv
+2026-04-05 19:19:50 | INFO     | src.main:run_backtest:57 - Fetched 10081 1m candles
+2026-04-05 19:19:50 | INFO     | src.main:run_backtest:61 - Resampled: 3m=3361, 5m=2017, 15m=673
+2026-04-05 19:19:50 | INFO     | src.backtesting.engine:run:28 - Starting backtest: 10081 1m candles, capital=$1000
+2026-04-05 19:19:50 | INFO     | src.backtesting.engine:run:169 - No signal at candle 2000/10081, active_strat=mtf_momentum, positions=0
+2026-04-05 19:19:50 | INFO     | src.backtesting.engine:run:169 - No signal at candle 4000/10081, active_strat=mtf_momentum, positions=0
+2026-04-05 19:19:51 | INFO     | src.backtesting.engine:run:169 - No signal at candle 6000/10081, active_strat=mtf_momentum, positions=0
+2026-04-05 19:19:51 | INFO     | src.backtesting.engine:run:169 - No signal at candle 10000/10081, active_strat=mtf_momentum, positions=0
+2026-04-05 19:19:51 | INFO     | src.backtesting.report:generate:124 - 
+============================================================
+           BACKTEST REPORT
+============================================================
+
+Period: 2026-04-03 to 2026-04-05
+Starting Capital: $1,000.00
+Capital at period start: $1,307.95  (after warmup)
+Ending Capital:   $1,435.49
+Leverage:         12x
+
+--- Returns ---
+Total Return:     +9.75%
+Net Profit:       $+127.54
+
+--- Trades ---
+Total Trades:        6
+Win Rate:            66.7%
+Avg Win:             $36.10
+Avg Loss:            $-8.43
+Largest Win:         $53.15
+Largest Loss:        $-14.19
+Profit Factor:       8.57
+Expectancy:          $21.26/trade
+
+--- Risk ---
+Max Drawdown:        -3.10%
+Max Consec Losses:   2
+Sharpe Ratio:        13.51
+Sortino Ratio:       0.00
+
+--- Strategy Breakdown ---
+  mtf_momentum: 6 trades, 66.7% WR, $+127.54 PnL
+
+--- Exit Reasons ---
+  time_exit: 3 trades, $+2.16
+  take_profit: 2 trades, $+104.17
+  trailing_stop: 1 trades, $+21.22
+
+--- Fees ---
+Total Fees Paid:     $38.92
+Gross Profit:        $+166.46
+Net Profit:          $+127.54
+============================================================
+2026-04-05 19:19:52 | INFO     | src.backtesting.report:_plot_equity:170 - Equity chart saved
+2026-04-05 19:19:52 | INFO     | src.main:run_backtest:68 - === BACKTEST COMPLETE ===
+2026-04-05 19:19:53 | INFO     | src.main:run_backtest:37 - === STARTING BACKTEST ===
+2026-04-05 19:19:53 | INFO     | src.main:run_backtest:51 - Fetching 1m data from 2026-03-29 to 2026-04-05
+2026-04-05 19:19:53 | INFO     | src.exchange.data_fetcher:fetch_ohlcv:30 - Loading cached data from data/ETH_USDT_1m_2026-03-29_2026-04-05.csv
+2026-04-05 19:19:53 | INFO     | src.main:run_backtest:57 - Fetched 10081 1m candles
+2026-04-05 19:19:53 | INFO     | src.main:run_backtest:61 - Resampled: 3m=3361, 5m=2017, 15m=673
+2026-04-05 19:19:53 | INFO     | src.backtesting.engine:run:28 - Starting backtest: 10081 1m candles, capital=$1000
+2026-04-05 19:19:53 | INFO     | src.backtesting.engine:run:169 - No signal at candle 2000/10081, active_strat=mtf_momentum, positions=0
+2026-04-05 19:19:54 | INFO     | src.backtesting.engine:run:169 - No signal at candle 4000/10081, active_strat=mtf_momentum, positions=0
+2026-04-05 19:19:54 | INFO     | src.backtesting.engine:run:169 - No signal at candle 6000/10081, active_strat=mtf_momentum, positions=0
+2026-04-05 19:19:55 | INFO     | src.backtesting.engine:run:169 - No signal at candle 10000/10081, active_strat=mtf_momentum, positions=0
+2026-04-05 19:19:55 | INFO     | src.backtesting.report:generate:124 - 
+============================================================
+           BACKTEST REPORT
+============================================================
+
+Period: 2026-04-03 to 2026-04-05
+Starting Capital: $1,000.00
+Capital at period start: $1,307.95  (after warmup)
+Ending Capital:   $1,435.49
+Leverage:         12x
+
+--- Returns ---
+Total Return:     +9.75%
+Net Profit:       $+127.54
+
+--- Trades ---
+Total Trades:        6
+Win Rate:            66.7%
+Avg Win:             $36.10
+Avg Loss:            $-8.43
+Largest Win:         $53.15
+Largest Loss:        $-14.19
+Profit Factor:       8.57
+Expectancy:          $21.26/trade
+
+--- Risk ---
+Max Drawdown:        -3.10%
+Max Consec Losses:   2
+Sharpe Ratio:        13.51
+Sortino Ratio:       0.00
+
+--- Strategy Breakdown ---
+  mtf_momentum: 6 trades, 66.7% WR, $+127.54 PnL
+
+--- Exit Reasons ---
+  time_exit: 3 trades, $+2.16
+  take_profit: 2 trades, $+104.17
+  trailing_stop: 1 trades, $+21.22
+
+--- Fees ---
+Total Fees Paid:     $38.92
+Gross Profit:        $+166.46
+Net Profit:          $+127.54
+============================================================
+2026-04-05 19:19:55 | INFO     | src.backtesting.report:_plot_equity:170 - Equity chart saved
+2026-04-05 19:19:55 | INFO     | src.main:run_backtest:68 - === BACKTEST COMPLETE ===

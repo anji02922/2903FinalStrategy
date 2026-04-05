@@ -56,12 +56,14 @@ class RiskManager:
                 self.weekly_pnl = 0.0
 
     def calculate_position_size(self, capital: float, sl_pct: float) -> float:
+        """Return margin value. Callers multiply by leverage for notional."""
         if sl_pct <= 0:
             return 0
         risk_amount = capital * self.risk_per_trade
-        position_value = risk_amount / (sl_pct / 100)
-        max_allowed = capital * self.max_position_size * self.leverage
-        return min(position_value, max_allowed)
+        # margin where: sl_pct% × margin × leverage = risk_amount
+        position_margin = risk_amount / (sl_pct / 100 * self.leverage)
+        max_margin = capital * self.max_position_size
+        return min(position_margin, max_margin)
 
     def can_trade(self, capital: float, sl_pct: float, tp_pct: float, current_ts=None) -> tuple[bool, str]:
         if current_ts:

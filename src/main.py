@@ -212,7 +212,7 @@ class LiveTrader:
         try:
             # Fetch enough 5m candles for indicator warmup
             df_5m = self._fetch_candles("5m", self.warmup_candles_5m)
-            df_15m = self._fetch_candles("15m", self.warmup_candles_15m)
+            df_15m = self._fetch_candles("15m", self.warmup_candles_15m, drop_last=False)
 
             if df_5m is None or len(df_5m) < 30 or df_15m is None or len(df_15m) < 10:
                 self.log.warning("Insufficient candle data, skipping cycle")
@@ -414,7 +414,7 @@ class LiveTrader:
             if pos.get("strategy") == "mtf_momentum":
                 try:
                     df_5m = self._fetch_candles("5m", 10)
-                    df_15m = self._fetch_candles("15m", 5)
+                    df_15m = self._fetch_candles("15m", 5, drop_last=False)
                     if df_5m is not None and len(df_5m) > 2:
                         strat_exit = self.mtf_strategy.check_exit(pos, len(df_5m) - 1, df_5m, df_15m)
                         if strat_exit:
@@ -537,18 +537,22 @@ class LiveTrader:
 
     # ---- Data Fetching ----
 
-    def _fetch_candles(self, timeframe: str, count: int) -> pd.DataFrame:
+    def _fetch_candles(self, timeframe: str, count: int, drop_last: bool = True) -> pd.DataFrame:
         """Fetch recent candles from exchange for live indicator calculation.
-        Drops the last (incomplete/current) candle to match backtest behavior."""
+        
+        Args:
+            drop_last: If True, drops the last (incomplete) candle. Use True for
+                       the entry timeframe (5m) so signals use closed candles.
+                       Use False for higher timeframes (15m) so trend detection
+                       uses current market data (matches backtest behaviour).
+        """
         try:
-            raw = self.client.fetch_ohlcv(timeframe, limit=count + 1)  # +1 because we drop last
+            raw = self.client.fetch_ohlcv(timeframe, limit=count + (1 if drop_last else 0))
             if not raw:
                 return None
             df = pd.DataFrame(raw, columns=["timestamp", "open", "high", "low", "close", "volume"])
             df["timestamp"] = pd.to_datetime(df["timestamp"], unit="ms", utc=True)
-            # Drop the last candle — it's the current incomplete candle
-            # Backtest only ever uses completed candles
-            if len(df) > 1:
+            if drop_last and len(df) > 1:
                 df = df.iloc[:-1].reset_index(drop=True)
             return df
         except Exception as e:
