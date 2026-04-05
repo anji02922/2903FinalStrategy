@@ -20,6 +20,9 @@ class MTFMomentumStrategy(BaseStrategy):
         self.max_duration = c["max_trade_duration_minutes"]
         self.atr_sl_mult = c.get("atr_sl_multiplier", 1.5)
         self.atr_tp_mult = c.get("atr_tp_multiplier", 3.0)
+        # Trend threshold: price must be this % away from 15m EMA to confirm trend.
+        # Old hardcoded 0.1% blocked trades in ranging markets.
+        self.trend_threshold = c.get("trend_threshold_pct", 0.03) / 100
 
     def calculate_indicators(self, df: pd.DataFrame) -> pd.DataFrame:
         """Calculate indicators on 5m dataframe."""
@@ -45,15 +48,15 @@ class MTFMomentumStrategy(BaseStrategy):
         if pd.isna(ema_val):
             return None
         price = latest["close"]
-        # Trend = price vs 15m EMA(50)
-        if price > ema_val * 1.001:
+        t = self.trend_threshold
+        if price > ema_val * (1 + t):
             return "up"
-        elif price < ema_val * 0.999:
+        elif price < ema_val * (1 - t):
             return "down"
         return None
 
     def _get_trend_by_idx(self, higher_tf_df: pd.DataFrame, idx: int) -> str | None:
-        """O(1) trend lookup using pre-computed index (backtest only)."""
+        """O(1) trend lookup using pre-computed index."""
         if idx < 3:
             return None
         latest = higher_tf_df.iloc[idx]
@@ -61,9 +64,10 @@ class MTFMomentumStrategy(BaseStrategy):
         if pd.isna(ema_val):
             return None
         price = latest["close"]
-        if price > ema_val * 1.001:
+        t = self.trend_threshold
+        if price > ema_val * (1 + t):
             return "up"
-        elif price < ema_val * 0.999:
+        elif price < ema_val * (1 - t):
             return "down"
         return None
 

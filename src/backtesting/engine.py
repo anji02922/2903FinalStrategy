@@ -44,14 +44,20 @@ class BacktestEngine:
             df_3m = self.bb_strategy.calculate_indicators(df_3m)
 
         # ── Pre-compute O(1) index mappings (searchsorted) ──────────────
+        #
+        # "side='left' - 1" maps each 1m candle to the last COMPLETED
+        # higher-TF candle (the one whose close is already finalised).
+        # The old "side='right' - 1" returned the CURRENT (still-open)
+        # candle, which is look-ahead bias — its close/high/low aren't
+        # known yet in real-time.
         ts_1m_int = df_1m["timestamp"].values.astype("int64")
         ts_3m_int = df_3m["timestamp"].values.astype("int64")
         ts_5m_int = df_5m["timestamp"].values.astype("int64")
         ts_15m_int = df_15m["timestamp"].values.astype("int64")
 
-        idx_map_3m = np.searchsorted(ts_3m_int, ts_1m_int, side="right") - 1
-        idx_map_5m = np.searchsorted(ts_5m_int, ts_1m_int, side="right") - 1
-        idx_map_15m = np.searchsorted(ts_15m_int, ts_1m_int, side="right") - 1
+        idx_map_3m = np.searchsorted(ts_3m_int, ts_1m_int, side="left") - 1
+        idx_map_5m = np.searchsorted(ts_5m_int, ts_1m_int, side="left") - 1
+        idx_map_15m = np.searchsorted(ts_15m_int, ts_1m_int, side="left") - 1
 
         # Store for use in _check_position_exit
         self._idx_map_3m = idx_map_3m
@@ -76,6 +82,8 @@ class BacktestEngine:
         last_bb_entry_idx = -10  # Track last BB entry 3m candle to avoid duplicates
         last_entry_ts = None  # Cooldown tracking
         n_candles = len(df_1m)
+        prev_5m_idx = idx_map_5m[0] if n_candles > 0 else -1  # boundary detection
+        prev_3m_idx = idx_map_3m[0] if n_candles > 0 else -1
 
         for i in range(1, n_candles):
             row = df_1m.iloc[i]
@@ -110,8 +118,11 @@ class BacktestEngine:
 
             regime_info = {"regime": self.regime_filter.current_regime, "override": None}
             if do_regime:
-                i15 = idx_map_15m[i]
-                i5 = idx_map_5m[i]
+                # Use completed candles: idx_map gives the candle whose
+                # open_time <= ts, which may still be open. Subtract 1 to
+                # guarantee we only read finalised data.
+                i15 = max(idx_map_15m[i] - 1, 0)
+                i5 = max(idx_map_5m[i] - 1, 0)
                 if i15 >= 19 and i5 >= 59:
                     adx_val = float(pre_adx[i15])
                     atr_ratio_val = float(pre_atr_ratio[i5])
@@ -143,23 +154,41 @@ class BacktestEngine:
                 if in_backtest_period:
                     closed_trades.append(trade)
 
+            # --- Detect higher-TF candle boundaries ---
+            # side="left" - 1 maps to the candle whose open_time <= ts.
+            # When idx increments, a NEW candle just opened, meaning the
+            # PREVIOUS candle (curr_idx - 1) just completed.  We read
+            # indicators from that completed candle — no look-ahead.
+            curr_5m_idx = idx_map_5m[i]
+            curr_3m_idx = idx_map_3m[i]
+            is_5m_boundary = curr_5m_idx > prev_5m_idx
+            is_3m_boundary = curr_3m_idx > prev_3m_idx
+            prev_5m_idx = curr_5m_idx
+            prev_3m_idx = curr_3m_idx
+
             # --- Check entries (both strategies, BB gated by regime) ---
+            # Only check on timeframe boundaries — matches live which checks
+            # once per 5m/3m candle close.
             can_enter = len(positions) < self.risk_manager.max_open_positions
             if can_enter and active_strat:
                 signal = None
 
                 # MTF momentum on 5m candles (trend-following)
-                if self.mtf_enabled:
-                    mtf_idx = idx_map_5m[i]
+                if self.mtf_enabled and is_5m_boundary:
+                    # curr_5m_idx points to the candle that just OPENED;
+                    # the one that just CLOSED is curr_5m_idx - 1.
+                    mtf_idx = curr_5m_idx - 1
                     if mtf_idx >= 2:
                         # MTF cooldown: at least 45 min between entries
                         if last_entry_ts is None or (ts - last_entry_ts).total_seconds() > 2700:
+                            # 15m: use current candle (matches live which uses
+                            # drop_last=False for 15m trend detection)
                             htf_idx = idx_map_15m[i]
                             signal = self.mtf_strategy.check_entry(mtf_idx, df_5m, df_15m, higher_tf_idx=htf_idx)
 
                 # BB scalp on 3m candles — ONLY in ranging/transitional regimes
-                if signal is None and self.bb_enabled and active_strat in ("bollinger_scalp", "transitional"):
-                    bb_idx = idx_map_3m[i]
+                if signal is None and self.bb_enabled and is_3m_boundary and active_strat in ("bollinger_scalp", "transitional"):
+                    bb_idx = curr_3m_idx - 1
                     if bb_idx >= 0 and bb_idx > last_bb_entry_idx + 3:
                         # Cooldown: skip if we entered within the last 10 minutes
                         if last_entry_ts is None or (ts - last_entry_ts).total_seconds() > 600:
@@ -298,12 +327,16 @@ class BacktestEngine:
             if mtf_idx >= 0:
                 exit_info = self.mtf_strategy.check_exit(pos, mtf_idx, df_5m, df_15m)
                 if exit_info:
+                    # Use 1m close as exit price (not 5m close which may be
+                    # from an open candle). Matches live which uses ticker price.
+                    exit_info["exit_price"] = row["close"]
                     return exit_info
         elif pos["strategy"] == "bollinger_scalp":
             bb_idx = self._idx_map_3m[idx]
             if bb_idx >= 0:
                 exit_info = self.bb_strategy.check_exit(pos, bb_idx, df_3m)
                 if exit_info:
+                    exit_info["exit_price"] = row["close"]
                     return exit_info
 
         # Activate breakeven AFTER all exit checks so it takes effect next candle

@@ -28,6 +28,7 @@ mtf_momentum:
   rsi_short_min: 30
   rsi_short_max: 60
   volume_multiplier: 0.5
+  trend_threshold_pct: 0.3
   take_profit_pct: 1.0
   stop_loss_pct: 0.4
   atr_sl_multiplier: 1.5
