@@ -177,6 +177,15 @@ class LiveTrader:
                 # ---- Position monitoring (every cycle) ----
                 if self.tracker.has_position:
                     self._monitor_position()
+                # ---- Stale order cleanup (no position, check every 5 min) ----
+                elif cycle_count % 100 == 0:  # ~every 5 min (100 × 3s)
+                    try:
+                        stale = self.client.fetch_open_orders()
+                        if stale:
+                            self.log.warning(f"Found {len(stale)} stale orders with no position — cleaning up")
+                            self.order_mgr._cancel_all_verified()
+                    except Exception:
+                        pass
 
                 # ---- Signal check on 5m candle close ----
                 # A 5m candle closes at :00, :05, :10, ... minutes
@@ -485,13 +494,8 @@ class LiveTrader:
             if not exchange_positions:
                 # Position was closed by exchange (SL or TP hit)
                 self.log.info("Position closed by exchange (SL/TP triggered)")
-                open_orders = self.client.fetch_open_orders()
-                # Cancel remaining SL or TP order
-                for order in open_orders:
-                    try:
-                        self.order_mgr.cancel_order(order["id"])
-                    except Exception:
-                        pass
+                # Cancel remaining SL or TP — verified retry for demo API
+                self.order_mgr._cancel_all_verified()
 
                 # Determine exit reason and use the actual SL/TP price (not ticker)
                 sl_price = pos.get("sl_price", 0)
@@ -532,8 +536,8 @@ class LiveTrader:
             return
 
         try:
-            # Cancel all open SL/TP orders
-            self.order_mgr.cancel_all()
+            # Cancel all open SL/TP orders — verified retry for demo API
+            self.order_mgr._cancel_all_verified()
             # Market close
             self.order_mgr.close_position_market(pos["side"], pos["size_contracts"])
         except Exception as e:
