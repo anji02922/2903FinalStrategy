@@ -177,8 +177,8 @@ class LiveTrader:
                 # ---- Position monitoring (every cycle) ----
                 if self.tracker.has_position:
                     self._monitor_position()
-                # ---- Stale order cleanup (no position, check every 5 min) ----
-                elif cycle_count % 100 == 0:  # ~every 5 min (100 × 3s)
+                # ---- Stale order cleanup (no position, check every ~30s) ----
+                elif cycle_count % 10 == 0:
                     try:
                         stale = self.client.fetch_open_orders()
                         if stale:

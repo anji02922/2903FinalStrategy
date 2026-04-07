@@ -73,9 +73,18 @@ class OrderManager:
                 remaining = self.client.fetch_open_orders()
                 if not remaining:
                     return  # All clear
+                logger.warning(f"Cancel attempt {attempt + 1}: {len(remaining)} orders still open, cancelling individually")
                 for order in remaining:
                     try:
                         self.client.cancel_order(order["id"])
+                    except Exception:
+                        pass
+                    # Also try algo cancel for conditional orders
+                    try:
+                        algo_id = order.get("id") or (order.get("info", {}).get("algoId"))
+                        if algo_id:
+                            symbol_id = self.client.symbol.replace("/", "")
+                            self.client.exchange.fapiPrivateDeleteAlgoOpenOrders({"symbol": symbol_id})
                     except Exception:
                         pass
                 time.sleep(0.5)
