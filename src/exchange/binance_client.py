@@ -34,6 +34,18 @@ class BinanceClient:
         self.symbol = exchange_cfg["symbol"]
         self.leverage = config["trading"]["leverage"]
         self.max_retries = 3
+
+        # Separate mainnet client for OHLCV data so indicators match backtest
+        # (demo API has slightly different prices due to separate order book)
+        if self.is_demo:
+            self.mainnet_exchange = ccxt.binanceusdm({
+                "enableRateLimit": True,
+                "options": {"defaultType": "future", "fetchCurrencies": False},
+            })
+            logger.info("Mainnet OHLCV client created for indicator data")
+        else:
+            self.mainnet_exchange = None
+
         logger.info(f"BinanceClient initialized for {self.symbol} | demo={self.is_demo}")
 
     def _retry(self, func, *args, **kwargs):
@@ -65,7 +77,9 @@ class BinanceClient:
             logger.debug(f"Margin mode note: {e}")
 
     def fetch_ohlcv(self, timeframe="1m", since=None, limit=1500):
-        return self._retry(self.exchange.fetch_ohlcv, self.symbol, timeframe, since, limit)
+        """Fetch OHLCV from mainnet (if demo) so indicators match backtest data."""
+        ex = self.mainnet_exchange if self.mainnet_exchange else self.exchange
+        return self._retry(ex.fetch_ohlcv, self.symbol, timeframe, since, limit)
 
     def fetch_ticker(self):
         return self._retry(self.exchange.fetch_ticker, self.symbol)
