@@ -96,7 +96,8 @@ class LiveTrader:
         # Exchange connection
         self.client = BinanceClient(config)
         self.order_mgr = OrderManager(self.client)
-        self.tracker = PositionTracker()
+        be_threshold = config.get("mtf_momentum", {}).get("breakeven_threshold_pct", 0.3)
+        self.tracker = PositionTracker(breakeven_threshold_pct=be_threshold)
         self.trade_store = TradeStore()
 
         # Telegram notifications

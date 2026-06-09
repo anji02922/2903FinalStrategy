@@ -23,6 +23,7 @@ class BacktestEngine:
         self.bb_strategy = BollingerScalpStrategy(config) if self.bb_enabled else None
         self.regime_filter = RegimeFilter(config)
         self.risk_manager = RiskManager(config)
+        self.breakeven_threshold = config.get("mtf_momentum", {}).get("breakeven_threshold_pct", 0.3)
 
     def run(self, df_1m: pd.DataFrame, df_3m: pd.DataFrame, df_5m: pd.DataFrame, df_15m: pd.DataFrame, progress_cb=None) -> dict:
         logger.info(f"Starting backtest: {len(df_1m)} 1m candles, capital=${self.initial_capital}")
@@ -312,14 +313,20 @@ class BacktestEngine:
         if tp_hit:
             return {"reason": "take_profit", "exit_price": tp_price, "exit_ts": ts}
 
-        # Trailing stop logic for MTF Momentum
+        # Adaptive trailing stop: distance tightens as profit grows.
+        # At activation (0.8%), use full distance (0.35%).
+        # At 2x activation, distance shrinks to 60% of original.
+        # This lets early winners run but locks in profit on extended moves.
         if pos.get("trailing_activation") is not None:
             current_pnl_pct = self._pnl_pct(pos, row["close"])
             pos["highest_pnl_pct"] = max(pos["highest_pnl_pct"], current_pnl_pct)
 
             if pos["highest_pnl_pct"] >= pos["trailing_activation"]:
+                profit_ratio = pos["highest_pnl_pct"] / pos["trailing_activation"]
+                tightening = min(0.4, (profit_ratio - 1) * 0.2)
+                adaptive_distance = pos["trailing_distance"] * (1 - tightening)
                 drawback = pos["highest_pnl_pct"] - current_pnl_pct
-                if drawback >= pos["trailing_distance"]:
+                if drawback >= adaptive_distance:
                     trail_price = row["close"]
                     return {"reason": "trailing_stop", "exit_price": trail_price, "exit_ts": ts}
 
@@ -344,7 +351,7 @@ class BacktestEngine:
         # Activate breakeven AFTER all exit checks so it takes effect next candle
         if not was_breakeven:
             current_pnl_pct = self._pnl_pct(pos, row["close"])
-            if current_pnl_pct >= 0.3:
+            if current_pnl_pct >= self.breakeven_threshold:
                 pos["breakeven_activated"] = True
                 pos["original_sl_pct"] = pos["sl_pct"]
 

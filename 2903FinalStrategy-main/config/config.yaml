@@ -36,6 +36,8 @@ mtf_momentum:
   trailing_stop_activation: 0.8
   trailing_stop_distance: 0.35
   max_trade_duration_minutes: 90
+  breakeven_threshold_pct: 0.3
+  macd_confirmation: false
 
 # Strategy #2: Bollinger Band Scalp
 bollinger_scalp:

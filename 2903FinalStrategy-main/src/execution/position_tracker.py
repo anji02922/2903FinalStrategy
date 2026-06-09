@@ -16,9 +16,10 @@ class PositionTracker:
     - Time-based exit (max_duration)
     """
 
-    def __init__(self):
+    def __init__(self, breakeven_threshold_pct: float = 0.3):
         self.position = None  # single position (max_open_positions=1)
         self.last_entry_ts = None  # for cooldown tracking
+        self.breakeven_threshold = breakeven_threshold_pct
         self._load_state()
 
     # ---- State Persistence ----
@@ -126,11 +127,11 @@ class PositionTracker:
     # ---- Exit Checks (mirrors backtest engine exactly) ----
 
     def check_breakeven(self, current_price: float) -> bool:
-        """Check if we should move SL to breakeven (+0.3% threshold)."""
+        """Check if we should move SL to breakeven (configurable threshold)."""
         if not self.position or self.position["breakeven_activated"]:
             return False
         pnl_pct = self._pnl_pct(current_price)
-        if pnl_pct >= 0.3:
+        if pnl_pct >= self.breakeven_threshold:
             self.position["breakeven_activated"] = True
             self.position["sl_price"] = self.position["entry_price"]
             self._save_state()
@@ -139,7 +140,7 @@ class PositionTracker:
         return False
 
     def check_trailing_stop(self, current_price: float) -> bool:
-        """Check if trailing stop should trigger. Returns True if should exit."""
+        """Adaptive trailing stop: distance tightens as profit grows."""
         if not self.position or self.position.get("trailing_activation") is None:
             return False
         pnl_pct = self._pnl_pct(current_price)
@@ -147,14 +148,17 @@ class PositionTracker:
         self.position["highest_pnl_pct"] = max(old_highest, pnl_pct)
 
         if self.position["highest_pnl_pct"] >= self.position["trailing_activation"]:
+            profit_ratio = self.position["highest_pnl_pct"] / self.position["trailing_activation"]
+            tightening = min(0.4, (profit_ratio - 1) * 0.2)
+            adaptive_distance = self.position["trailing_distance"] * (1 - tightening)
             drawback = self.position["highest_pnl_pct"] - pnl_pct
-            if drawback >= self.position["trailing_distance"]:
+            if drawback >= adaptive_distance:
                 logger.info(
                     f"Trailing stop triggered: highest={self.position['highest_pnl_pct']:.2f}% "
-                    f"current={pnl_pct:.2f}% drawback={drawback:.2f}%"
+                    f"current={pnl_pct:.2f}% drawback={drawback:.2f}% "
+                    f"adaptive_dist={adaptive_distance:.3f}%"
                 )
                 return True
-        # Persist whenever highest_pnl_pct changed so trailing state survives crashes
         if self.position["highest_pnl_pct"] > old_highest:
             self._save_state()
         return False

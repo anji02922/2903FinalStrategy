@@ -25,6 +25,7 @@ class MTFMomentumStrategy(BaseStrategy):
         self.rsi_long_max = c.get("rsi_long_max", 70)
         self.rsi_short_min = c.get("rsi_short_min", 30)
         self.rsi_short_max = c.get("rsi_short_max", 60)
+        self.macd_confirmation = c.get("macd_confirmation", False)
 
     def calculate_indicators(self, df: pd.DataFrame) -> pd.DataFrame:
         """Calculate indicators on 5m dataframe."""
@@ -33,6 +34,9 @@ class MTFMomentumStrategy(BaseStrategy):
         df["ema_slow"] = ta_lib.trend.ema_indicator(df["close"], window=self.ema_slow_period)
         df["rsi"] = ta_lib.momentum.rsi(df["close"], window=self.rsi_period)
         df["atr"] = ta_lib.volatility.average_true_range(df["high"], df["low"], df["close"], window=14)
+        if self.macd_confirmation:
+            macd = ta_lib.trend.MACD(df["close"], window_slow=26, window_fast=12, window_sign=9)
+            df["macd_hist"] = macd.macd_diff()
         return df
 
     def calculate_higher_tf_indicators(self, df: pd.DataFrame) -> pd.DataFrame:
@@ -80,7 +84,10 @@ class MTFMomentumStrategy(BaseStrategy):
         row = df.iloc[idx]
         prev = df.iloc[idx - 1]
 
-        for col in ["ema_fast", "ema_slow", "rsi", "atr"]:
+        required_cols = ["ema_fast", "ema_slow", "rsi", "atr"]
+        if self.macd_confirmation:
+            required_cols.append("macd_hist")
+        for col in required_cols:
             if pd.isna(row.get(col, float("nan"))) or pd.isna(prev.get(col, float("nan"))):
                 return None
 
@@ -104,10 +111,11 @@ class MTFMomentumStrategy(BaseStrategy):
             sl_pct = self.sl_pct
             tp_pct = self.tp_pct
 
-        # LONG: 15m trend up + EMA cross up with RSI confirmation
+        # LONG: 15m trend up + EMA cross up with RSI + MACD confirmation
         if trend == "up" and cross_up:
             rsi_ok = self.rsi_long_min < row["rsi"] < self.rsi_long_max
-            if rsi_ok:
+            macd_ok = (not self.macd_confirmation) or row.get("macd_hist", 1) > 0
+            if rsi_ok and macd_ok:
                 return {
                     "side": "long",
                     "strategy": "mtf_momentum",
@@ -118,10 +126,11 @@ class MTFMomentumStrategy(BaseStrategy):
                     "max_duration": self.max_duration,
                 }
 
-        # SHORT: 15m trend down + EMA cross down with RSI confirmation
+        # SHORT: 15m trend down + EMA cross down with RSI + MACD confirmation
         if trend == "down" and cross_down:
             rsi_ok = self.rsi_short_min < row["rsi"] < self.rsi_short_max
-            if rsi_ok:
+            macd_ok = (not self.macd_confirmation) or row.get("macd_hist", -1) < 0
+            if rsi_ok and macd_ok:
                 return {
                     "side": "short",
                     "strategy": "mtf_momentum",
@@ -139,7 +148,6 @@ class MTFMomentumStrategy(BaseStrategy):
         row = df.iloc[idx]
         entry_ts = position["entry_ts"]
 
-        # Normalise entry_ts to pd.Timestamp for consistent subtraction
         if isinstance(entry_ts, str):
             entry_ts = pd.Timestamp(entry_ts)
         elif not isinstance(entry_ts, pd.Timestamp):
@@ -151,4 +159,21 @@ class MTFMomentumStrategy(BaseStrategy):
         if (row["timestamp"] - entry_ts).total_seconds() / 60 >= self.max_duration:
             return {"reason": "time_exit", "exit_price": row["close"]}
 
-        return None  # SL/TP/trailing handled by engine
+        # Reverse-crossover exit: if EMA crosses back against our position
+        # and we're past the minimum hold period (15 min), exit early.
+        # This catches trend reversals faster than waiting for SL.
+        if idx >= 2:
+            elapsed_min = (row["timestamp"] - entry_ts).total_seconds() / 60
+            if elapsed_min >= 15:
+                ema_f = row.get("ema_fast")
+                ema_s = row.get("ema_slow")
+                prev = df.iloc[idx - 1]
+                prev_f = prev.get("ema_fast")
+                prev_s = prev.get("ema_slow")
+                if not any(pd.isna(v) for v in [ema_f, ema_s, prev_f, prev_s]):
+                    if position["side"] == "long" and prev_f >= prev_s and ema_f < ema_s:
+                        return {"reason": "reverse_cross", "exit_price": row["close"]}
+                    if position["side"] == "short" and prev_f <= prev_s and ema_f > ema_s:
+                        return {"reason": "reverse_cross", "exit_price": row["close"]}
+
+        return None
