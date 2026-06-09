@@ -38,6 +38,7 @@ mtf_momentum:
   max_trade_duration_minutes: 90
   breakeven_threshold_pct: 0.3
   macd_confirmation: false
+  skip_hours_utc: []
 
 # Strategy #2: Bollinger Band Scalp
 bollinger_scalp:

@@ -26,6 +26,7 @@ class MTFMomentumStrategy(BaseStrategy):
         self.rsi_short_min = c.get("rsi_short_min", 30)
         self.rsi_short_max = c.get("rsi_short_max", 60)
         self.macd_confirmation = c.get("macd_confirmation", False)
+        self.skip_hours = set(c.get("skip_hours_utc", []))
 
     def calculate_indicators(self, df: pd.DataFrame) -> pd.DataFrame:
         """Calculate indicators on 5m dataframe."""
@@ -89,6 +90,11 @@ class MTFMomentumStrategy(BaseStrategy):
             required_cols.append("macd_hist")
         for col in required_cols:
             if pd.isna(row.get(col, float("nan"))) or pd.isna(prev.get(col, float("nan"))):
+                return None
+
+        # Hour-of-day filter: skip entries during historically unprofitable hours
+        if self.skip_hours and hasattr(row.get("timestamp", None), "hour"):
+            if row["timestamp"].hour in self.skip_hours:
                 return None
 
         if higher_tf_idx is not None:
@@ -159,21 +165,17 @@ class MTFMomentumStrategy(BaseStrategy):
         if (row["timestamp"] - entry_ts).total_seconds() / 60 >= self.max_duration:
             return {"reason": "time_exit", "exit_price": row["close"]}
 
-        # Reverse-crossover exit: if EMA crosses back against our position
-        # and we're past the minimum hold period (15 min), exit early.
-        # This catches trend reversals faster than waiting for SL.
-        if idx >= 2:
+        # Momentum decay exit: RSI losing steam after 25 min, cut before full SL.
+        # Catches trades where momentum has clearly reversed but price hasn't
+        # hit SL yet — reduces avg stop loss size.
+        if idx >= 1:
             elapsed_min = (row["timestamp"] - entry_ts).total_seconds() / 60
-            if elapsed_min >= 15:
-                ema_f = row.get("ema_fast")
-                ema_s = row.get("ema_slow")
-                prev = df.iloc[idx - 1]
-                prev_f = prev.get("ema_fast")
-                prev_s = prev.get("ema_slow")
-                if not any(pd.isna(v) for v in [ema_f, ema_s, prev_f, prev_s]):
-                    if position["side"] == "long" and prev_f >= prev_s and ema_f < ema_s:
-                        return {"reason": "reverse_cross", "exit_price": row["close"]}
-                    if position["side"] == "short" and prev_f <= prev_s and ema_f > ema_s:
-                        return {"reason": "reverse_cross", "exit_price": row["close"]}
+            if elapsed_min >= 25:
+                rsi = row.get("rsi")
+                if rsi is not None and not pd.isna(rsi):
+                    if position["side"] == "long" and rsi < 45:
+                        return {"reason": "momentum_decay", "exit_price": row["close"]}
+                    if position["side"] == "short" and rsi > 55:
+                        return {"reason": "momentum_decay", "exit_price": row["close"]}
 
         return None
