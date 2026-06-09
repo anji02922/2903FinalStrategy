@@ -60,7 +60,6 @@ class RiskManager:
         if sl_pct <= 0:
             return 0
         risk_amount = capital * self.risk_per_trade
-        # margin where: sl_pct% × margin × leverage = risk_amount
         position_margin = risk_amount / (sl_pct / 100 * self.leverage)
         max_margin = capital * self.max_position_size
         return min(position_margin, max_margin)
