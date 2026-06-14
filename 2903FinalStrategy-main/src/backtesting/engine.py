@@ -72,6 +72,7 @@ class BacktestEngine:
         pre_atr_ratio = (atr_raw / atr_sma).values
 
         capital = float(self.initial_capital)
+        sizing_capital = float(self.initial_capital)  # constant capital for position sizing
         capital_at_bt_start = None  # Track capital when real period starts
         positions = []  # open positions
         closed_trades = []
@@ -210,7 +211,7 @@ class BacktestEngine:
                         # Execute at next candle's open
                         if i + 1 < n_candles:
                             exec_price = df_1m.iloc[i + 1]["open"]
-                            size_value = self.risk_manager.calculate_position_size(capital, sl_pct)
+                            size_value = self.risk_manager.calculate_position_size(sizing_capital, sl_pct)
 
                             size_contracts = (size_value * self.leverage) / exec_price
                             entry_fee = self._calc_entry_fee(size_value * self.leverage)
